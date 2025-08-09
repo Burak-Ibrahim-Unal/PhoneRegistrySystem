@@ -28,7 +28,8 @@ public class DeletePersonCommandHandler : IRequestHandler<DeletePersonCommand>
             throw new ArgumentException(Messages.Person.NotFoundForDeletion.Replace("{PersonId}", command.PersonId.ToString()));
         }
 
-        await _unitOfWork.Persons.DeleteAsync(person, cancellationToken);
+        // Soft delete instead of hard delete
+        person.SoftDelete();
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         _logger.LogInformation(Messages.Person.DeletedSuccessfully, command.PersonId);

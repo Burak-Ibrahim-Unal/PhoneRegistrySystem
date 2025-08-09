@@ -52,9 +52,22 @@ public class Person : BaseEntity
         if (contactInfo != null)
         {
             _contactInfos.Remove(contactInfo);
-            UpdatedAt = DateTime.UtcNow;
+        }
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void SoftDelete()
+    {
+        IsDeleted = true;
+        UpdatedAt = DateTime.UtcNow;
+        
+        // Contact info'ları da soft delete yap
+        foreach (var contactInfo in _contactInfos)
+        {
+            contactInfo.SoftDelete();
         }
     }
+
 
     public string GetFullName() => $"{FirstName} {LastName}";
 }

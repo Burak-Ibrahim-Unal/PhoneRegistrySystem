@@ -60,4 +60,10 @@ public class ContactInfo : BaseEntity
         if (location.Length < 2)
             throw new ArgumentException("Location must be at least 2 characters");
     }
+
+    public void SoftDelete()
+    {
+        IsDeleted = true;
+        UpdatedAt = DateTime.UtcNow;
+    }
 }

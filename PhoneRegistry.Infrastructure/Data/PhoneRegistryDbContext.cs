@@ -50,5 +50,10 @@ public class PhoneRegistryDbContext : DbContext
             entity.HasKey(e => e.Id);
             entity.Property(e => e.Location).IsRequired().HasMaxLength(200);
         });
+
+        // Global query filters for soft delete
+        modelBuilder.Entity<Person>().HasQueryFilter(p => !p.IsDeleted);
+        modelBuilder.Entity<ContactInfo>().HasQueryFilter(c => !c.IsDeleted);
+        modelBuilder.Entity<Report>().HasQueryFilter(r => !r.IsDeleted);
     }
 }
