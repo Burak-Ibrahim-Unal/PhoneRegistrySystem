@@ -1,0 +1,81 @@
+<div class="person-list-container fade-in">
+  <div class="header-section">
+    <h1 class="page-title">
+      <mat-icon class="title-icon">people</mat-icon>
+      Kişiler
+    </h1>
+    <button mat-raised-button color="primary" routerLink="/persons/create" class="create-btn">
+      <mat-icon>person_add</mat-icon>
+      Yeni Kişi Ekle
+    </button>
+  </div>
+
+  <!-- Search Section -->
+  <div class="search-section">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Kişi Ara</mat-label>
+      <input matInput [(ngModel)]="searchTerm" (input)="onSearchChange()">
+      <mat-hint>Ad, soyad veya şirket adı ile arama yapın</mat-hint>
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Kişiler yükleniyor...</p>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && filteredPersons.length === 0" class="empty-state">
+    <mat-icon class="empty-icon">people_outline</mat-icon>
+    <h2>Henüz kişi bulunmuyor</h2>
+    <p>İlk kişinizi eklemek için "Yeni Kişi Ekle" butonuna tıklayın.</p>
+    <button mat-raised-button color="primary" routerLink="/persons/create">
+      <mat-icon>person_add</mat-icon>
+      Kişi Ekle
+    </button>
+  </div>
+
+  <!-- Person Grid -->
+  <div *ngIf="!loading && filteredPersons.length > 0" class="persons-grid">
+    <mat-card *ngFor="let person of paginatedPersons" class="person-card custom-card">
+      <mat-card-header>
+        <div mat-card-avatar class="person-avatar">
+          <mat-icon>person</mat-icon>
+        </div>
+        <mat-card-title>{{person.firstName}} {{person.lastName}}</mat-card-title>
+        <mat-card-subtitle *ngIf="person.company">{{person.company}}</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="contact-info">
+          <mat-icon class="info-icon">contact_phone</mat-icon>
+          <span>{{person.contactInfoCount}} iletişim bilgisi</span>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions align="end">
+        <button mat-button color="primary" [routerLink]="['/persons', person.id]">
+          <mat-icon>visibility</mat-icon>
+          Görüntüle
+        </button>
+        <button mat-button color="warn" (click)="deletePerson(person)">
+          <mat-icon>delete</mat-icon>
+          Sil
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <!-- Pagination -->
+  <mat-paginator 
+    *ngIf="!loading && filteredPersons.length > 0"
+    [length]="filteredPersons.length"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="[6, 12, 24, 48]"
+    (page)="onPageChange($event)"
+    showFirstLastButtons
+    class="paginator">
+  </mat-paginator>
+</div>

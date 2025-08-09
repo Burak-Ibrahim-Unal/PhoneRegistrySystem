@@ -71,7 +71,7 @@ import { MatListModule } from '@angular/material/list';
       height: 100vh;
       display: flex;
       flex-direction: column;
-      background: var(--background-gradient);
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     }
 
     .app-toolbar {
@@ -80,10 +80,11 @@ import { MatListModule } from '@angular/material/list';
       left: 0;
       right: 0;
       z-index: 1000;
-      background: rgba(255, 255, 255, 0.95) !important;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
       backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border-color);
-      box-shadow: var(--shadow-medium);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+      color: white;
     }
 
     .app-title {
@@ -111,10 +112,10 @@ import { MatListModule } from '@angular/material/list';
 
     .sidenav {
       width: 250px;
-      background: rgba(255, 255, 255, 0.95);
+      background: rgba(255, 255, 255, 0.85);
       backdrop-filter: blur(20px);
-      border-right: 1px solid var(--border-color);
-      box-shadow: var(--shadow-light);
+      border-right: 1px solid rgba(102, 126, 234, 0.1);
+      box-shadow: 2px 0 20px rgba(0, 0, 0, 0.05);
     }
 
     .main-content {
@@ -127,11 +128,11 @@ import { MatListModule } from '@angular/material/list';
     }
 
     .active-link {
-      background: linear-gradient(135deg, var(--primary-color), var(--primary-light)) !important;
+      background: linear-gradient(135deg, #667eea, #764ba2) !important;
       color: white !important;
       border-radius: 12px !important;
       margin: 4px 8px !important;
-      box-shadow: var(--shadow-medium) !important;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3) !important;
     }
 
     .active-link mat-icon {
@@ -145,7 +146,7 @@ import { MatListModule } from '@angular/material/list';
     }
 
     .mat-mdc-list-item:hover {
-      background: rgba(var(--primary-color), 0.1) !important;
+      background: rgba(102, 126, 234, 0.1) !important;
       transform: translateX(4px) !important;
     }
 
