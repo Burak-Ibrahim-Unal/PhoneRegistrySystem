@@ -2,6 +2,7 @@ using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using PhoneRegistry.Application.Common.Constants;
 using PhoneRegistry.Application.Common.DTOs;
 using PhoneRegistry.Domain.Entities;
 using PhoneRegistry.Domain.Repositories;
@@ -29,7 +30,7 @@ public class CreatePersonCommandHandler : IRequestHandler<CreatePersonCommand, P
 
     public async Task<PersonDto> Handle(CreatePersonCommand command, CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Creating person: {FirstName} {LastName}", command.FirstName, command.LastName);
+        _logger.LogInformation(Messages.Person.Creating, command.FirstName, command.LastName);
 
         var validationResult = await _validator.ValidateAsync(command, cancellationToken);
         if (!validationResult.IsValid)
@@ -42,7 +43,7 @@ public class CreatePersonCommandHandler : IRequestHandler<CreatePersonCommand, P
         await _unitOfWork.Persons.AddAsync(person, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        _logger.LogInformation("Person created successfully with ID: {PersonId}", person.Id);
+        _logger.LogInformation(Messages.Person.CreatedSuccessfully);
 
         return _mapper.Map<PersonDto>(person);
     }

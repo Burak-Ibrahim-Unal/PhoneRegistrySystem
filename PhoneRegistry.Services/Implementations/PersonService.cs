@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
+using PhoneRegistry.Application.Common.Constants;
 using PhoneRegistry.Application.Common.DTOs;
 using PhoneRegistry.Application.Features.Persons.Commands.CreatePerson;
 using PhoneRegistry.Application.Features.Persons.Commands.DeletePerson;
@@ -24,7 +25,7 @@ public class PersonService : IPersonService
 
     public async Task<PersonDto> CreatePersonAsync(string firstName, string lastName, string? company = null, CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Creating person: {FirstName} {LastName}", firstName, lastName);
+        _logger.LogInformation(Messages.Person.Creating, firstName, lastName);
 
         var command = new CreatePersonCommand
         {
@@ -35,20 +36,20 @@ public class PersonService : IPersonService
 
         var result = await _mediator.Send(command, cancellationToken);
         
-        _logger.LogInformation("Person created successfully");
+        _logger.LogInformation(Messages.Person.CreatedSuccessfully);
         return result;
     }
 
     public async Task<PersonDto?> GetPersonByIdAsync(Guid personId, CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Getting person by ID: {PersonId}", personId);
+        _logger.LogInformation(Messages.Person.GettingById, personId);
 
         var query = new GetPersonByIdQuery { PersonId = personId };
         var result = await _mediator.Send(query, cancellationToken);
 
         if (result == null)
         {
-            _logger.LogWarning("Person not found: {PersonId}", personId);
+            _logger.LogWarning(Messages.Person.NotFound, personId);
         }
 
         return result;
@@ -56,28 +57,28 @@ public class PersonService : IPersonService
 
     public async Task<List<PersonSummaryDto>> GetAllPersonsAsync(int skip = 0, int take = 50, CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Getting all persons with skip: {Skip}, take: {Take}", skip, take);
+        _logger.LogInformation(Messages.Person.GettingAll, skip, take);
 
         var query = new GetAllPersonsQuery { Skip = skip, Take = take };
         var result = await _mediator.Send(query, cancellationToken);
 
-        _logger.LogInformation("Retrieved persons successfully");
+        _logger.LogInformation(Messages.Person.RetrievedSuccessfully);
         return result;
     }
 
     public async Task DeletePersonAsync(Guid personId, CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Deleting person: {PersonId}", personId);
+        _logger.LogInformation(Messages.Person.Deleting, personId);
 
         var command = new DeletePersonCommand { PersonId = personId };
         await _mediator.Send(command, cancellationToken);
 
-        _logger.LogInformation("Person deleted successfully: {PersonId}", personId);
+        _logger.LogInformation(Messages.Person.DeletedSuccessfully, personId);
     }
 
     public async Task<ContactInfoDto> AddContactInfoAsync(Guid personId, int contactType, string content, CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Adding contact info for person: {PersonId}, type: {ContactType}", personId, contactType);
+        _logger.LogInformation(Messages.ContactInfo.Adding, personId, contactType);
 
         var command = new AddContactInfoCommand
         {
@@ -88,7 +89,7 @@ public class PersonService : IPersonService
 
         var result = await _mediator.Send(command, cancellationToken);
         
-        _logger.LogInformation("Contact info added successfully");
+        _logger.LogInformation(Messages.ContactInfo.AddedSuccessfully);
         return result;
     }
 }

@@ -1,6 +1,7 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using PhoneRegistry.Application.Common.Constants;
 using PhoneRegistry.Application.Common.DTOs;
 using PhoneRegistry.Domain.Entities;
 using PhoneRegistry.Domain.Repositories;
@@ -25,14 +26,14 @@ public class RequestReportCommandHandler : IRequestHandler<RequestReportCommand,
 
     public async Task<ReportDto> Handle(RequestReportCommand command, CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Requesting new report");
+        _logger.LogInformation(Messages.Report.Requesting);
 
         var report = new Report();
         
         await _unitOfWork.Reports.AddAsync(report, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        _logger.LogInformation("Report requested successfully with ID: {ReportId}", report.Id);
+        _logger.LogInformation(Messages.Report.Created, report.Id);
 
         // TODO: Publish message to queue for async processing
 

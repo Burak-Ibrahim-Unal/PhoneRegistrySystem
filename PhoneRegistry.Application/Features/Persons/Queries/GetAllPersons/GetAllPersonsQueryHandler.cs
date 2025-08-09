@@ -1,6 +1,7 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using PhoneRegistry.Application.Common.Constants;
 using PhoneRegistry.Application.Common.DTOs;
 using PhoneRegistry.Domain.Repositories;
 
@@ -24,7 +25,7 @@ public class GetAllPersonsQueryHandler : IRequestHandler<GetAllPersonsQuery, Lis
 
     public async Task<List<PersonSummaryDto>> Handle(GetAllPersonsQuery query, CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Getting all persons with skip: {Skip}, take: {Take}", query.Skip, query.Take);
+        _logger.LogInformation(Messages.Person.GettingAll, query.Skip, query.Take);
 
         var persons = await _unitOfWork.Persons.GetAllWithContactInfosAsync(query.Skip, query.Take, cancellationToken);
         

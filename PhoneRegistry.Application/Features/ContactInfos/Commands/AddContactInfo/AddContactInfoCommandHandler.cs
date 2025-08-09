@@ -1,6 +1,7 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using PhoneRegistry.Application.Common.Constants;
 using PhoneRegistry.Application.Common.DTOs;
 using PhoneRegistry.Domain.Repositories;
 
@@ -24,19 +25,19 @@ public class AddContactInfoCommandHandler : IRequestHandler<AddContactInfoComman
 
     public async Task<ContactInfoDto> Handle(AddContactInfoCommand command, CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Adding contact info for person: {PersonId}", command.PersonId);
+        _logger.LogInformation(Messages.ContactInfo.Adding, command.PersonId, command.Type);
 
         var person = await _unitOfWork.Persons.GetByIdAsync(command.PersonId, cancellationToken);
         if (person == null)
         {
-            throw new ArgumentException($"Person with ID {command.PersonId} not found");
+            throw new ArgumentException(Messages.ContactInfo.PersonNotFound.Replace("{PersonId}", command.PersonId.ToString()));
         }
 
         var contactInfo = person.AddContactInfo(command.Type, command.Content);
         
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        _logger.LogInformation("Contact info added successfully: {ContactInfoId}", contactInfo.Id);
+        _logger.LogInformation(Messages.ContactInfo.AddedSuccessfully);
 
         return _mapper.Map<ContactInfoDto>(contactInfo);
     }

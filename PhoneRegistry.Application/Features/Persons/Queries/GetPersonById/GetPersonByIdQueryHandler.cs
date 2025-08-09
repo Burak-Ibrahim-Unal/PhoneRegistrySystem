@@ -1,6 +1,7 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using PhoneRegistry.Application.Common.Constants;
 using PhoneRegistry.Application.Common.DTOs;
 using PhoneRegistry.Domain.Repositories;
 
@@ -24,13 +25,13 @@ public class GetPersonByIdQueryHandler : IRequestHandler<GetPersonByIdQuery, Per
 
     public async Task<PersonDto?> Handle(GetPersonByIdQuery query, CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Getting person by ID: {PersonId}", query.PersonId);
+        _logger.LogInformation(Messages.Person.GettingById, query.PersonId);
 
         var person = await _unitOfWork.Persons.GetByIdWithContactInfosAsync(query.PersonId, cancellationToken);
         
         if (person == null)
         {
-            _logger.LogWarning("Person not found: {PersonId}", query.PersonId);
+            _logger.LogWarning(Messages.Person.NotFound, query.PersonId);
             return null;
         }
 
