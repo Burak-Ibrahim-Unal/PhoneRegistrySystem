@@ -11,7 +11,8 @@ git clone <repo-url> && cd PhoneRegistrySystem
 # 2. Docker ile başlat (tek komut!)
 docker-compose up -d
 
-# 3. API'ları test et
+# 3. Uygulamayı aç
+# http://localhost:4200 (Angular Frontend)
 # http://localhost:5000/swagger (Contact API)
 # http://localhost:5001/swagger (Report API)
 ```
@@ -28,6 +29,7 @@ docker-compose up -d
 
 ## 🚀 Teknolojiler
 
+### Backend
 - **.NET 8.0** - Web API
 - **PostgreSQL** - Ana veritabanı
 - **Redis** - Cache
@@ -36,7 +38,17 @@ docker-compose up -d
 - **AutoMapper** - Object mapping
 - **FluentValidation** - Input validation
 - **Serilog** - Structured logging
+
+### Frontend
+- **Angular 17** - Modern SPA framework
+- **Angular Material** - UI component library
+- **Bootstrap 5** - CSS framework
+- **TypeScript** - Type-safe development
+- **RxJS** - Reactive programming
+
+### DevOps
 - **Docker & Docker Compose**
+- **Nginx** - Web server
 
 ## 📋 Gereksinimler
 

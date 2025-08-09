@@ -153,3 +153,44 @@ html, body {
   background: #1976d2;
 }
 
+/* Snackbar Styles */
+.success-snackbar {
+  background-color: var(--success-color) !important;
+  color: white !important;
+}
+
+.error-snackbar {
+  background-color: var(--warn-color) !important;
+  color: white !important;
+}
+
+.info-snackbar {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+}
+
+/* Table Styles */
+.mat-mdc-table {
+  background: transparent;
+}
+
+.mat-mdc-header-row {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.mat-mdc-row:hover {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+/* Chip Styles */
+.mat-mdc-chip {
+  border-radius: 16px;
+  font-size: 0.8rem;
+}
+
+/* Progress Bar Styles */
+.mat-mdc-progress-bar {
+  border-radius: 4px;
+  height: 6px;
+}
+
