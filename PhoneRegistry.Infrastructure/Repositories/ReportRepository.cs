@@ -24,4 +24,13 @@ public class ReportRepository : Repository<Report>, IReportRepository
             .Include(r => r.LocationStatistics)
             .ToListAsync(cancellationToken);
     }
+
+    public async Task<IEnumerable<Report>> GetAllAsync(int skip = 0, int take = 50, CancellationToken cancellationToken = default)
+    {
+        return await _dbSet
+            .OrderByDescending(r => r.RequestedAt)
+            .Skip(skip)
+            .Take(take)
+            .ToListAsync(cancellationToken);
+    }
 }
