@@ -71,6 +71,7 @@ import { MatListModule } from '@angular/material/list';
       height: 100vh;
       display: flex;
       flex-direction: column;
+      background: var(--background-gradient);
     }
 
     .app-toolbar {
@@ -79,7 +80,10 @@ import { MatListModule } from '@angular/material/list';
       left: 0;
       right: 0;
       z-index: 1000;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      background: rgba(255, 255, 255, 0.95) !important;
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-color);
+      box-shadow: var(--shadow-medium);
     }
 
     .app-title {
@@ -107,12 +111,14 @@ import { MatListModule } from '@angular/material/list';
 
     .sidenav {
       width: 250px;
-      background: #fafafa;
-      border-right: 1px solid #e0e0e0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-right: 1px solid var(--border-color);
+      box-shadow: var(--shadow-light);
     }
 
     .main-content {
-      background: #f5f7fa;
+      background: transparent;
     }
 
     .content-wrapper {
@@ -121,12 +127,26 @@ import { MatListModule } from '@angular/material/list';
     }
 
     .active-link {
-      background: rgba(63, 81, 181, 0.1) !important;
-      color: #3f51b5 !important;
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-light)) !important;
+      color: white !important;
+      border-radius: 12px !important;
+      margin: 4px 8px !important;
+      box-shadow: var(--shadow-medium) !important;
     }
 
     .active-link mat-icon {
-      color: #3f51b5 !important;
+      color: white !important;
+    }
+
+    .mat-mdc-list-item {
+      border-radius: 12px !important;
+      margin: 4px 8px !important;
+      transition: all 0.3s ease !important;
+    }
+
+    .mat-mdc-list-item:hover {
+      background: rgba(var(--primary-color), 0.1) !important;
+      transform: translateX(4px) !important;
     }
 
     @media (max-width: 768px) {

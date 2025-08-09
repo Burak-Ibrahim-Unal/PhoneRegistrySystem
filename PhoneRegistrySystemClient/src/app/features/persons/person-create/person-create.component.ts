@@ -55,7 +55,7 @@ import { CreatePersonRequest } from '../../../core/models/person.model';
               <div class="form-row">
                 <mat-form-field appearance="outline" class="form-field">
                   <mat-label>Ad *</mat-label>
-                  <input matInput formControlName="firstName" placeholder="Adınızı girin">
+                  <input matInput formControlName="firstName">
                   <mat-icon matSuffix>person</mat-icon>
                   <mat-error *ngIf="personForm.get('firstName')?.hasError('required')">
                     Ad alanı zorunludur
@@ -67,7 +67,7 @@ import { CreatePersonRequest } from '../../../core/models/person.model';
 
                 <mat-form-field appearance="outline" class="form-field">
                   <mat-label>Soyad *</mat-label>
-                  <input matInput formControlName="lastName" placeholder="Soyadınızı girin">
+                  <input matInput formControlName="lastName">
                   <mat-icon matSuffix>person</mat-icon>
                   <mat-error *ngIf="personForm.get('lastName')?.hasError('required')">
                     Soyad alanı zorunludur
@@ -80,7 +80,7 @@ import { CreatePersonRequest } from '../../../core/models/person.model';
 
               <mat-form-field appearance="outline" class="form-field full-width">
                 <mat-label>Şirket</mat-label>
-                <input matInput formControlName="company" placeholder="Şirket adını girin (opsiyonel)">
+                <input matInput formControlName="company">
                 <mat-icon matSuffix>business</mat-icon>
               </mat-form-field>
 

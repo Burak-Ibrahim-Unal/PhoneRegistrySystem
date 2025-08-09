@@ -50,7 +50,8 @@ import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialo
       <div class="search-section">
         <mat-form-field appearance="outline" class="search-field">
           <mat-label>Kişi Ara</mat-label>
-          <input matInput [(ngModel)]="searchTerm" (input)="onSearchChange()" placeholder="Ad, soyad veya şirket...">
+          <input matInput [(ngModel)]="searchTerm" (input)="onSearchChange()">
+          <mat-hint>Ad, soyad veya şirket adı ile arama yapın</mat-hint>
           <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
       </div>
@@ -212,11 +213,12 @@ import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialo
     }
 
     .person-avatar {
-      background: linear-gradient(45deg, var(--primary-color), #1976d2);
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
       color: white;
       display: flex;
       align-items: center;
       justify-content: center;
+      box-shadow: var(--shadow-medium);
     }
 
     .contact-info {

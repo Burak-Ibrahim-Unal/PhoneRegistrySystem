@@ -285,19 +285,19 @@ import { Report, ReportStatus, ReportStatusLabels, ReportStatusColors, ReportSta
     }
 
     .stat-icon.preparing {
-      background: linear-gradient(45deg, #ff9800, #f57c00);
+      background: linear-gradient(135deg, var(--accent-color), #fbbf24);
     }
 
     .stat-icon.completed {
-      background: linear-gradient(45deg, #4caf50, #388e3c);
+      background: linear-gradient(135deg, var(--success-color), #059669);
     }
 
     .stat-icon.failed {
-      background: linear-gradient(45deg, #f44336, #d32f2f);
+      background: linear-gradient(135deg, var(--warn-color), #dc2626);
     }
 
     .stat-icon.total {
-      background: linear-gradient(45deg, var(--primary-color), #1976d2);
+      background: linear-gradient(135deg, var(--info-color), var(--primary-color));
     }
 
     .stat-content {
@@ -372,15 +372,15 @@ import { Report, ReportStatus, ReportStatusLabels, ReportStatusColors, ReportSta
     }
 
     .report-avatar.preparing {
-      background: linear-gradient(45deg, #ff9800, #f57c00);
+      background: linear-gradient(135deg, var(--accent-color), #fbbf24);
     }
 
     .report-avatar.completed {
-      background: linear-gradient(45deg, #4caf50, #388e3c);
+      background: linear-gradient(135deg, var(--success-color), #059669);
     }
 
     .report-avatar.failed {
-      background: linear-gradient(45deg, #f44336, #d32f2f);
+      background: linear-gradient(135deg, var(--warn-color), #dc2626);
     }
 
     .report-title {

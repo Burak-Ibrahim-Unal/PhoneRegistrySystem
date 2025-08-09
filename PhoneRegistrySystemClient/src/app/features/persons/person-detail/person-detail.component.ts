@@ -168,7 +168,8 @@ import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialo
 
                   <mat-form-field appearance="outline" class="content-field">
                     <mat-label>İçerik</mat-label>
-                    <input matInput formControlName="content" [placeholder]="getPlaceholder()">
+                    <input matInput formControlName="content">
+                    <mat-hint>{{getPlaceholder()}}</mat-hint>
                     <mat-error *ngIf="contactForm.get('content')?.hasError('required')">
                       Bu alan zorunludur
                     </mat-error>

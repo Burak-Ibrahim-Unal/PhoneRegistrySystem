@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "PhoneRegistry.ReportApi\\PhoneRegistry.ReportApi.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "PhoneRegistry.ContactApi\\PhoneRegistry.ContactApi.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
