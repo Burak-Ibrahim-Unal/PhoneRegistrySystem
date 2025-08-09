@@ -7,6 +7,7 @@ using PhoneRegistry.Application.Features.Persons.Commands.DeletePerson;
 using PhoneRegistry.Application.Features.Persons.Queries.GetPersonById;
 using PhoneRegistry.Application.Features.Persons.Queries.GetAllPersons;
 using PhoneRegistry.Application.Features.ContactInfos.Commands.AddContactInfo;
+using PhoneRegistry.Application.Features.ContactInfos.Commands.RemoveContactInfo;
 using PhoneRegistry.Domain.ValueObjects;
 using PhoneRegistry.Services.Interfaces;
 
@@ -91,5 +92,20 @@ public class PersonService : IPersonService
         
         _logger.LogInformation(Messages.ContactInfo.AddedSuccessfully);
         return result;
+    }
+
+    public async Task RemoveContactInfoAsync(Guid personId, Guid contactInfoId, CancellationToken cancellationToken = default)
+    {
+        _logger.LogInformation(Messages.ContactInfo.Removing, contactInfoId, personId);
+
+        var command = new RemoveContactInfoCommand
+        {
+            PersonId = personId,
+            ContactInfoId = contactInfoId
+        };
+
+        await _mediator.Send(command, cancellationToken);
+        
+        _logger.LogInformation(Messages.ContactInfo.RemovedSuccessfully, contactInfoId);
     }
 }

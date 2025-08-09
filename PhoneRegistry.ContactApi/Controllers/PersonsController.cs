@@ -52,6 +52,13 @@ public class PersonsController : ControllerBase
         var result = await _personService.AddContactInfoAsync(id, request.Type, request.Content);
         return Ok(result);
     }
+
+    [HttpDelete("{personId}/contact-infos/{contactInfoId}")]
+    public async Task<IActionResult> RemoveContactInfo(Guid personId, Guid contactInfoId)
+    {
+        await _personService.RemoveContactInfoAsync(personId, contactInfoId);
+        return NoContent();
+    }
 }
 
 // Request DTOs

@@ -23,6 +23,9 @@ public static class Messages
         public const string AddedSuccessfully = "Contact info added successfully";
         public const string PersonNotFound = "Person with ID {PersonId} not found for contact info";
         public const string CreatedForPerson = "Contact info created for person: {PersonId}";
+        public const string Removing = "Removing contact info: {ContactInfoId} from person: {PersonId}";
+        public const string RemovedSuccessfully = "Contact info removed successfully: {ContactInfoId}";
+        public const string NotFound = "Contact info with ID {ContactInfoId} not found";
     }
 
     // Report Operations

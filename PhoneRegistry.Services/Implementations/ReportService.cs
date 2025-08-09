@@ -3,6 +3,8 @@ using Microsoft.Extensions.Logging;
 using PhoneRegistry.Application.Common.Constants;
 using PhoneRegistry.Application.Common.DTOs;
 using PhoneRegistry.Application.Features.Reports.Commands.RequestReport;
+using PhoneRegistry.Application.Features.Reports.Queries.GetAllReports;
+using PhoneRegistry.Application.Features.Reports.Queries.GetReportById;
 using PhoneRegistry.Services.Interfaces;
 
 namespace PhoneRegistry.Services.Implementations;
@@ -33,17 +35,25 @@ public class ReportService : IReportService
     {
         _logger.LogInformation(Messages.Report.GettingAll);
 
-        // TODO: Implement GetAllReportsQuery when needed
-        await Task.CompletedTask;
-        return new List<ReportDto>();
+        var query = new GetAllReportsQuery();
+        var result = await _mediator.Send(query, cancellationToken);
+        
+        _logger.LogInformation("Retrieved {Count} reports", result.Count);
+        return result;
     }
 
     public async Task<ReportDto?> GetReportByIdAsync(Guid reportId, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation(Messages.Report.GettingById, reportId);
 
-        // TODO: Implement GetReportByIdQuery when needed
-        await Task.CompletedTask;
-        return null;
+        var query = new GetReportByIdQuery { ReportId = reportId };
+        var result = await _mediator.Send(query, cancellationToken);
+        
+        if (result == null)
+        {
+            _logger.LogWarning("Report not found: {ReportId}", reportId);
+        }
+        
+        return result;
     }
 }
