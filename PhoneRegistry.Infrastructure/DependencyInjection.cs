@@ -4,6 +4,8 @@ using Microsoft.Extensions.DependencyInjection;
 using PhoneRegistry.Domain.Repositories;
 using PhoneRegistry.Infrastructure.Data;
 using PhoneRegistry.Infrastructure.Repositories;
+using PhoneRegistry.Infrastructure.Messaging.Interfaces;
+using PhoneRegistry.Infrastructure.Messaging.Services;
 using StackExchange.Redis;
 
 namespace PhoneRegistry.Infrastructure;
@@ -28,6 +30,10 @@ public static class DependencyInjection
             var connectionString = configuration.GetConnectionString("Redis");
             return ConnectionMultiplexer.Connect(connectionString!);
         });
+
+        // RabbitMQ
+        services.AddSingleton<RabbitMQConnectionService>();
+        services.AddScoped<IMessagePublisher, RabbitMQPublisher>();
 
         return services;
     }

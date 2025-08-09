@@ -3,6 +3,8 @@ using PhoneRegistry.Application.Common.Constants;
 using PhoneRegistry.Application.Common.Interfaces;
 using PhoneRegistry.Domain.Entities;
 using PhoneRegistry.Domain.Repositories;
+using PhoneRegistry.Infrastructure.Messaging.Interfaces;
+using PhoneRegistry.Infrastructure.Messaging.Models;
 
 namespace PhoneRegistry.Application.Features.Reports.Commands.RequestReport;
 
@@ -10,13 +12,16 @@ public class RequestReportCommandHandler : ICommandHandler<RequestReportCommand,
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<RequestReportCommandHandler> _logger;
+    private readonly IMessagePublisher _messagePublisher;
 
     public RequestReportCommandHandler(
         IUnitOfWork unitOfWork,
-        ILogger<RequestReportCommandHandler> logger)
+        ILogger<RequestReportCommandHandler> logger,
+        IMessagePublisher messagePublisher)
     {
         _unitOfWork = unitOfWork;
         _logger = logger;
+        _messagePublisher = messagePublisher;
     }
 
     public async Task<Report> Handle(RequestReportCommand command, CancellationToken cancellationToken = default)
@@ -30,7 +35,11 @@ public class RequestReportCommandHandler : ICommandHandler<RequestReportCommand,
 
         _logger.LogInformation(Messages.Report.Created, report.Id);
 
-        // TODO: Publish message to queue for async processing
+        // Publish message to RabbitMQ for async processing
+        var message = new ReportRequestMessage(report.Id, report.RequestedAt);
+        await _messagePublisher.PublishAsync(message, "report-processing-queue", cancellationToken);
+        
+        _logger.LogInformation("Report request message published to queue for Report {ReportId}", report.Id);
 
         return report;
     }
