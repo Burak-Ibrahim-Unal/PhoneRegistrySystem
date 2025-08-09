@@ -24,3 +24,4 @@ export class ReportService {
     return this.http.post<Report>(this.baseUrl, {});
   }
 }
+

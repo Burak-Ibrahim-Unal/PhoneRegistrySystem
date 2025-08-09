@@ -36,3 +36,4 @@ export const ReportStatusIcons = {
   [ReportStatus.Completed]: 'check_circle',
   [ReportStatus.Failed]: 'error'
 };
+

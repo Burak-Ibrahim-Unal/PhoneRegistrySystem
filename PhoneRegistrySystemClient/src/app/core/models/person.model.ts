@@ -51,3 +51,4 @@ export const ContactTypeIcons = {
   [ContactType.EmailAddress]: 'email',
   [ContactType.Location]: 'location_on'
 };
+

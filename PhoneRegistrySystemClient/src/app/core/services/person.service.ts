@@ -40,3 +40,4 @@ export class PersonService {
     return this.http.delete<void>(`${this.baseUrl}/${personId}/contact-infos/${contactInfoId}`);
   }
 }
+
