@@ -149,7 +149,7 @@ import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialo
               <h3 class="section-title">Yeni İletişim Bilgisi Ekle</h3>
               <form [formGroup]="contactForm" (ngSubmit)="addContactInfo()" class="contact-form">
                 <div class="form-row">
-                  <mat-form-field appearance="outline" class="type-field">
+                  <mat-form-field appearance="fill" class="type-field">
                     <mat-label>Tür</mat-label>
                     <mat-select formControlName="type">
                       <mat-option [value]="ContactType.PhoneNumber">
@@ -167,10 +167,9 @@ import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialo
                     </mat-select>
                   </mat-form-field>
 
-                  <mat-form-field appearance="outline" class="content-field">
+                  <mat-form-field appearance="fill" class="content-field">
                     <mat-label>İçerik</mat-label>
-                    <input matInput formControlName="content">
-                    <mat-hint>{{getPlaceholder()}}</mat-hint>
+                    <input matInput formControlName="content" [placeholder]="getPlaceholder()">
                     <mat-error *ngIf="contactForm.get('content')?.hasError('required')">
                       Bu alan zorunludur
                     </mat-error>

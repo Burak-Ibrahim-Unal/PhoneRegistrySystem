@@ -5,31 +5,39 @@
 html, body { 
   height: 100%; 
   margin: 0; 
-  font-family: 'Roboto', sans-serif;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  font-family: 'Inter', 'Roboto', sans-serif;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
   min-height: 100vh;
+  color: var(--text-primary);
 }
 
-/* Custom Material Theme Colors */
+/* Modern Color Palette - Ocean Blue Theme */
 :root {
-  --primary-color: #6366f1;
-  --primary-light: #8b5cf6;
-  --primary-dark: #4f46e5;
-  --accent-color: #f59e0b;
-  --warn-color: #ef4444;
-  --success-color: #10b981;
-  --info-color: #3b82f6;
-  --background-color: #f8fafc;
-  --background-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --surface-color: #ffffff;
-  --surface-dark: #f1f5f9;
-  --text-primary: #1e293b;
-  --text-secondary: #64748b;
-  --text-light: #94a3b8;
-  --border-color: #e2e8f0;
-  --shadow-light: 0 1px 3px rgba(0, 0, 0, 0.1);
-  --shadow-medium: 0 4px 6px rgba(0, 0, 0, 0.1);
-  --shadow-heavy: 0 10px 25px rgba(0, 0, 0, 0.15);
+  --primary-color: #3b82f6;      /* Blue 500 - Ana mavi */
+  --primary-light: #60a5fa;      /* Blue 400 - Açık mavi */
+  --primary-dark: #1e40af;       /* Blue 800 - Koyu mavi */
+  --secondary-color: #6366f1;    /* Indigo 500 - İndigo */
+  --accent-color: #8b5cf6;       /* Violet 500 - Mor */
+  --warn-color: #f59e0b;         /* Amber 500 - Turuncu */
+  --success-color: #10b981;      /* Emerald 500 - Yeşil */
+  --error-color: #ef4444;        /* Red 500 - Kırmızı */
+  
+  --background-color: #f8fafc;   /* Slate 50 */
+  --surface-color: #ffffff;      /* Beyaz */
+  --surface-dark: #f1f5f9;       /* Slate 100 */
+  --text-primary: #0f172a;       /* Slate 900 - Ana metin */
+  --text-secondary: #475569;     /* Slate 600 - İkincil metin */
+  --text-muted: #94a3b8;         /* Slate 400 - Soluk metin */
+  --border-color: #e2e8f0;       /* Slate 200 - Kenarlık */
+  
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-medium: 0 4px 6px rgba(0, 0, 0, 0.07);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
+  
+  --gradient-primary: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+  --gradient-accent: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  --gradient-surface: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
 }
 
 /* Card Styles */
@@ -42,6 +50,7 @@ html, body {
   backdrop-filter: blur(10px);
   position: relative;
   overflow: hidden;
+  color: var(--text-primary);
 }
 
 .custom-card::before {
@@ -113,9 +122,65 @@ html, body {
   box-shadow: 0 0 0 0.2rem rgba(33, 150, 243, 0.25);
 }
 
-/* Material Form Field Styles */
+/* INPUT DESIGN - BAŞTAN YAZILDI */
 .mat-mdc-form-field {
-  width: 100%;
+  width: 100% !important;
+  margin-bottom: 16px !important;
+}
+
+/* BASİT INPUT STİLLERİ */
+.mat-mdc-form-field .mdc-text-field {
+  background-color: #f8fafc !important;
+  border-radius: 8px 8px 0 0 !important;
+  border: none !important;
+  border-bottom: 2px solid #e2e8f0 !important;
+}
+
+.mat-mdc-form-field .mdc-text-field:hover {
+  background-color: #f1f5f9 !important;
+  border-bottom-color: #9ca3af !important;
+}
+
+.mat-mdc-form-field .mdc-text-field.mdc-text-field--focused {
+  background-color: #ffffff !important;
+  border-bottom-color: #3b82f6 !important;
+}
+
+/* INPUT TEXT */
+.mat-mdc-form-field input,
+.mat-mdc-form-field textarea {
+  color: #000000 !important;
+  font-size: 16px !important;
+  padding: 16px !important;
+}
+
+.mat-mdc-form-field input::placeholder {
+  color: #6b7280 !important;
+  opacity: 1 !important;
+}
+
+/* LABEL GİZLE */
+.mat-mdc-form-field .mdc-floating-label {
+  display: none !important;
+}
+
+/* MATERİAL BORDER KALDIR */
+.mat-mdc-form-field .mdc-line-ripple,
+.mat-mdc-form-field .mdc-notched-outline {
+  display: none !important;
+}
+
+
+/* Modern Label Animation */
+.mat-mdc-form-field-appearance-outline {
+  .mdc-floating-label {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+  
+  &.mat-focused .mdc-floating-label,
+  &.mat-mdc-form-field-has-value .mdc-floating-label {
+    transform: translateY(-50%) scale(0.75) !important;
+  }
 }
 
 .mat-mdc-form-field .mat-mdc-form-field-hint-wrapper,
@@ -168,6 +233,101 @@ html, body {
   .custom-card {
     margin-bottom: 20px;
   }
+}
+
+/* Person List Page Override */
+app-person-list {
+  h1, h2, h3, h4, h5, h6 {
+    color: #0f172a !important;
+  }
+  
+  .page-title {
+    color: #0f172a !important;
+  }
+  
+  .title-icon {
+    color: #3b82f6 !important;
+  }
+  
+  // Form fields now use global styles
+  
+  .mat-mdc-card-title {
+    color: #0f172a !important;
+  }
+  
+  .mat-mdc-card-subtitle {
+    color: #475569 !important;
+  }
+  
+  .contact-info {
+    color: #0f172a !important;
+  }
+  
+  // Delete button colors
+  .mat-mdc-button.mat-warn {
+    color: #ef4444 !important; // red-500
+    
+    mat-icon {
+      color: #ef4444 !important;
+    }
+    
+    &:hover {
+      background-color: rgba(239, 68, 68, 0.1) !important;
+    }
+  }
+  
+  button[color="warn"] {
+    color: #ef4444 !important;
+    
+    mat-icon {
+      color: #ef4444 !important;
+    }
+  }
+}
+
+// Person Create specific overrides
+app-person-create {
+  .mat-mdc-card-title {
+    color: #0f172a !important;
+  }
+  
+  .title-icon {
+    color: #3b82f6 !important;
+  }
+  
+  // Form fields now use global styles
+  
+  .mat-mdc-button.mat-primary {
+    background-color: #3b82f6 !important;
+    color: white !important;
+  }
+}
+
+/* Material Design Text Colors */
+.mat-mdc-card {
+  color: var(--text-primary) !important;
+}
+
+.mat-mdc-card-title {
+  color: var(--text-primary) !important;
+  font-weight: 600 !important;
+  font-size: 1.1rem !important;
+}
+
+.mat-mdc-card-subtitle {
+  color: var(--text-secondary) !important;
+}
+
+.mat-mdc-card-content {
+  color: var(--text-primary) !important;
+}
+
+.mat-toolbar {
+  color: white !important;
+}
+
+.mat-toolbar button {
+  color: white !important;
 }
 
 /* Dark mode support */
@@ -307,5 +467,38 @@ html, body {
 .mat-mdc-icon-button:hover {
   background: rgba(var(--primary-color), 0.1) !important;
   transform: scale(1.1) !important;
+}
+
+/* ESKİ HALİNE GERİ - FILLED APPEARANCE */
+body .mat-mdc-form-field .mdc-text-field {
+  border-radius: 12px 12px 0 0 !important;
+  background-color: #f8fafc !important;
+  border-bottom: 2px solid #e2e8f0 !important;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+}
+
+body .mat-mdc-form-field .mdc-text-field:hover {
+  background-color: #f1f5f9 !important;
+  border-bottom-color: #64748b !important;
+}
+
+body .mat-mdc-form-field .mdc-text-field.mdc-text-field--focused {
+  background-color: #ffffff !important;
+  border-bottom: 2px solid #3b82f6 !important;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.15) !important;
+}
+
+/* Material Design border elementlerini tamamen kaldır */
+body .mat-mdc-form-field .mdc-line-ripple,
+body .mat-mdc-form-field .mdc-notched-outline,
+body .mat-mdc-form-field .mdc-notched-outline__leading,
+body .mat-mdc-form-field .mdc-notched-outline__notch,
+body .mat-mdc-form-field .mdc-notched-outline__trailing,
+body .mat-mdc-form-field .mdc-text-field__ripple {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
 }
 

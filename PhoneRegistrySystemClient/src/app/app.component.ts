@@ -71,7 +71,7 @@ import { MatListModule } from '@angular/material/list';
       height: 100vh;
       display: flex;
       flex-direction: column;
-      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
     }
 
     .app-toolbar {
@@ -80,10 +80,10 @@ import { MatListModule } from '@angular/material/list';
       left: 0;
       right: 0;
       z-index: 1000;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+      background: var(--gradient-primary) !important;
       backdrop-filter: blur(20px);
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+      box-shadow: var(--shadow-lg);
       color: white;
     }
 
@@ -93,12 +93,14 @@ import { MatListModule } from '@angular/material/list';
       gap: 8px;
       font-size: 1.2rem;
       font-weight: 500;
+      color: white;
     }
 
     .title-icon {
       font-size: 1.5rem;
       width: 1.5rem;
       height: 1.5rem;
+      color: white;
     }
 
     .spacer {
@@ -112,10 +114,10 @@ import { MatListModule } from '@angular/material/list';
 
     .sidenav {
       width: 250px;
-      background: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(20px);
-      border-right: 1px solid rgba(102, 126, 234, 0.1);
-      box-shadow: 2px 0 20px rgba(0, 0, 0, 0.05);
+      border-right: 1px solid var(--border-color);
+      box-shadow: var(--shadow-lg);
     }
 
     .main-content {
@@ -128,11 +130,11 @@ import { MatListModule } from '@angular/material/list';
     }
 
     .active-link {
-      background: linear-gradient(135deg, #667eea, #764ba2) !important;
+      background: var(--gradient-primary) !important;
       color: white !important;
       border-radius: 12px !important;
       margin: 4px 8px !important;
-      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3) !important;
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3) !important;
     }
 
     .active-link mat-icon {
@@ -143,10 +145,15 @@ import { MatListModule } from '@angular/material/list';
       border-radius: 12px !important;
       margin: 4px 8px !important;
       transition: all 0.3s ease !important;
+      color: var(--text-primary) !important;
+    }
+    
+    .mat-mdc-list-item mat-icon {
+      color: var(--text-secondary) !important;
     }
 
     .mat-mdc-list-item:hover {
-      background: rgba(102, 126, 234, 0.1) !important;
+      background: rgba(59, 130, 246, 0.1) !important;
       transform: translateX(4px) !important;
     }
 

@@ -1,0 +1,88 @@
+.confirm-dialog {
+  min-width: 350px;
+  max-width: 500px;
+  
+  .dialog-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 16px 0;
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    
+    .title-icon {
+      color: var(--warn-color);
+      font-size: 1.5rem;
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+  
+  .dialog-content {
+    margin-bottom: 24px;
+    
+    p {
+      margin: 0;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      font-size: 1rem;
+    }
+  }
+  
+  .dialog-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin: 0;
+    
+    .cancel-btn {
+      color: var(--text-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 8px 16px;
+      
+      &:hover {
+        background-color: var(--surface-dark);
+        border-color: var(--text-secondary);
+      }
+    }
+    
+    .confirm-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-weight: 500;
+      
+      mat-icon {
+        font-size: 1.1rem;
+        width: 1.1rem;
+        height: 1.1rem;
+      }
+      
+      &:hover {
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-lg);
+      }
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 480px) {
+  .confirm-dialog {
+    min-width: 280px;
+    
+    .dialog-actions {
+      flex-direction: column-reverse;
+      gap: 8px;
+      
+      button {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  }
+}

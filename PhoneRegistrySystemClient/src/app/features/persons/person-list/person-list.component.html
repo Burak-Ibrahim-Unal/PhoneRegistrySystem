@@ -12,10 +12,8 @@
 
   <!-- Search Section -->
   <div class="search-section">
-    <mat-form-field appearance="outline" class="search-field">
-      <mat-label>Kişi Ara</mat-label>
-      <input matInput [(ngModel)]="searchTerm" (input)="onSearchChange()">
-      <mat-hint>Ad, soyad veya şirket adı ile arama yapın</mat-hint>
+    <mat-form-field appearance="fill" class="search-field">
+      <input matInput [(ngModel)]="searchTerm" (input)="onSearchChange()" placeholder="Kişi ara...">
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
   </div>

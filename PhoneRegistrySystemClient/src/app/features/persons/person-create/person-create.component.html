@@ -9,25 +9,22 @@
 
     <mat-card-content>
       <form [formGroup]="personForm" (ngSubmit)="onSubmit()" class="person-form">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Ad</mat-label>
-          <input matInput formControlName="firstName" required>
+        <mat-form-field appearance="fill" class="full-width">
+          <input matInput formControlName="firstName" required placeholder="Ad">
           <mat-error *ngIf="personForm.get('firstName')?.hasError('required')">
             Ad zorunludur
           </mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Soyad</mat-label>
-          <input matInput formControlName="lastName" required>
+        <mat-form-field appearance="fill" class="full-width">
+          <input matInput formControlName="lastName" required placeholder="Soyad">
           <mat-error *ngIf="personForm.get('lastName')?.hasError('required')">
             Soyad zorunludur
           </mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Şirket</mat-label>
-          <input matInput formControlName="company">
+        <mat-form-field appearance="fill" class="full-width">
+          <input matInput formControlName="company" placeholder="Şirket">
         </mat-form-field>
 
         <div class="form-actions">
