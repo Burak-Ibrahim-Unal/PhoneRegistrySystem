@@ -9,13 +9,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 
 import { PersonService } from '../../../core/services/person.service';
+import { NotificationService } from '../../../shared/services/notification.service';
 import { Person, ContactInfo, ContactType, ContactTypeLabels, ContactTypeIcons, AddContactInfoRequest } from '../../../core/models/person.model';
 import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
 
@@ -471,7 +472,7 @@ export class PersonDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private personService: PersonService,
-    private snackBar: MatSnackBar,
+    private notificationService: NotificationService,
     private dialog: MatDialog,
     private fb: FormBuilder
   ) {
@@ -510,10 +511,7 @@ export class PersonDetailComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error loading person:', error);
-        this.snackBar.open('Kişi bilgileri yüklenirken hata oluştu', 'Kapat', {
-          duration: 3000,
-          panelClass: ['error-snackbar']
-        });
+        this.notificationService.showError('Kişi bilgileri yüklenirken hata oluştu');
         this.router.navigate(['/persons']);
       }
     });
@@ -530,20 +528,14 @@ export class PersonDetailComponent implements OnInit {
 
       this.personService.addContactInfo(this.person.id, request).subscribe({
         next: () => {
-          this.snackBar.open('İletişim bilgisi başarıyla eklendi', 'Kapat', {
-            duration: 3000,
-            panelClass: ['success-snackbar']
-          });
+          this.notificationService.showSuccess('İletişim bilgisi başarıyla eklendi!');
           this.contactForm.reset({ type: ContactType.PhoneNumber });
           this.loadPerson(this.person!.id);
           this.addingContact = false;
         },
         error: (error) => {
           console.error('Error adding contact info:', error);
-          this.snackBar.open('İletişim bilgisi eklenirken hata oluştu', 'Kapat', {
-            duration: 3000,
-            panelClass: ['error-snackbar']
-          });
+          this.notificationService.showError('İletişim bilgisi eklenirken hata oluştu');
           this.addingContact = false;
         }
       });
@@ -565,18 +557,12 @@ export class PersonDetailComponent implements OnInit {
       if (result && this.person) {
         this.personService.removeContactInfo(this.person.id, contact.id).subscribe({
           next: () => {
-            this.snackBar.open('İletişim bilgisi başarıyla silindi', 'Kapat', {
-              duration: 3000,
-              panelClass: ['success-snackbar']
-            });
+            this.notificationService.showSuccess('İletişim bilgisi başarıyla silindi!');
             this.loadPerson(this.person!.id);
           },
           error: (error) => {
             console.error('Error removing contact info:', error);
-            this.snackBar.open('İletişim bilgisi silinirken hata oluştu', 'Kapat', {
-              duration: 3000,
-              panelClass: ['error-snackbar']
-            });
+            this.notificationService.showError('İletişim bilgisi silinirken hata oluştu');
           }
         });
       }
@@ -600,18 +586,12 @@ export class PersonDetailComponent implements OnInit {
       if (result && this.person) {
         this.personService.deletePerson(this.person.id).subscribe({
           next: () => {
-            this.snackBar.open('Kişi başarıyla silindi', 'Kapat', {
-              duration: 3000,
-              panelClass: ['success-snackbar']
-            });
+            this.notificationService.showSuccess('Kişi başarıyla silindi!');
             this.router.navigate(['/persons']);
           },
           error: (error) => {
             console.error('Error deleting person:', error);
-            this.snackBar.open('Kişi silinirken hata oluştu', 'Kapat', {
-              duration: 3000,
-              panelClass: ['error-snackbar']
-            });
+            this.notificationService.showError('Kişi silinirken hata oluştu');
           }
         });
       }

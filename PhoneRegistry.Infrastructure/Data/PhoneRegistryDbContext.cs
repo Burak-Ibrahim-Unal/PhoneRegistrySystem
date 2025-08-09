@@ -51,9 +51,10 @@ public class PhoneRegistryDbContext : DbContext
             entity.Property(e => e.Location).IsRequired().HasMaxLength(200);
         });
 
-        // Global query filters for soft delete
-        modelBuilder.Entity<Person>().HasQueryFilter(p => !p.IsDeleted);
-        modelBuilder.Entity<ContactInfo>().HasQueryFilter(c => !c.IsDeleted);
-        modelBuilder.Entity<Report>().HasQueryFilter(r => !r.IsDeleted);
+        // Global query filters for soft delete - geçici olarak kaldırıldı
+        // Navigation property sorunları nedeniyle manuel filtering yapacağız
+        // modelBuilder.Entity<Person>().HasQueryFilter(p => !p.IsDeleted);
+        // modelBuilder.Entity<ContactInfo>().HasQueryFilter(c => !c.IsDeleted);
+        // modelBuilder.Entity<Report>().HasQueryFilter(r => !r.IsDeleted);
     }
 }

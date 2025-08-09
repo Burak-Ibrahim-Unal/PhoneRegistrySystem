@@ -45,14 +45,16 @@ public class ContactInfo : BaseEntity
 
     private static void ValidatePhoneNumber(string phoneNumber)
     {
-        if (phoneNumber.Length < 10 || phoneNumber.Length > 15)
-            throw new ArgumentException("Phone number must be between 10 and 15 characters");
+        // Boşluk ve özel karakterleri temizle
+        var cleanPhone = phoneNumber.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "");
+        if (cleanPhone.Length < 7 || cleanPhone.Length > 20)
+            throw new ArgumentException("Telefon numarası 7-20 karakter arasında olmalıdır");
     }
 
     private static void ValidateEmail(string email)
     {
-        if (!email.Contains('@') || !email.Contains('.'))
-            throw new ArgumentException("Invalid email format");
+        if (string.IsNullOrWhiteSpace(email) || !email.Contains('@'))
+            throw new ArgumentException("Geçersiz email formatı");
     }
 
     private static void ValidateLocation(string location)

@@ -1,0 +1,58 @@
+<div class="create-person-container">
+  <mat-card class="create-person-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>person_add</mat-icon>
+        Yeni Kişi Ekle
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="personForm" (ngSubmit)="onSubmit()" class="person-form">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Ad</mat-label>
+          <input matInput formControlName="firstName" required>
+          <mat-error *ngIf="personForm.get('firstName')?.hasError('required')">
+            Ad zorunludur
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Soyad</mat-label>
+          <input matInput formControlName="lastName" required>
+          <mat-error *ngIf="personForm.get('lastName')?.hasError('required')">
+            Soyad zorunludur
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Şirket</mat-label>
+          <input matInput formControlName="company">
+        </mat-form-field>
+
+        <div class="form-actions">
+          <button 
+            mat-raised-button 
+            color="primary" 
+            type="submit" 
+            [disabled]="personForm.invalid || isLoading"
+            class="submit-btn">
+            <mat-icon *ngIf="!isLoading">save</mat-icon>
+            <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+            {{ isLoading ? 'Kaydediliyor...' : 'Kaydet' }}
+          </button>
+          
+          <button 
+            mat-stroked-button 
+            type="button" 
+            (click)="onCancel()"
+            [disabled]="isLoading"
+            class="cancel-btn">
+            <mat-icon>cancel</mat-icon>
+            İptal
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

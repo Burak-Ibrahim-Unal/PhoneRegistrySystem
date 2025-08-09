@@ -1,29 +1,25 @@
-using AutoMapper;
-using MediatR;
 using Microsoft.Extensions.Logging;
 using PhoneRegistry.Application.Common.Constants;
-using PhoneRegistry.Application.Common.DTOs;
+using PhoneRegistry.Application.Common.Interfaces;
+using PhoneRegistry.Domain.Entities;
 using PhoneRegistry.Domain.Repositories;
 
 namespace PhoneRegistry.Application.Features.ContactInfos.Commands.AddContactInfo;
 
-public class AddContactInfoCommandHandler : IRequestHandler<AddContactInfoCommand, ContactInfoDto>
+public class AddContactInfoCommandHandler : ICommandHandler<AddContactInfoCommand, ContactInfo>
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IMapper _mapper;
     private readonly ILogger<AddContactInfoCommandHandler> _logger;
 
     public AddContactInfoCommandHandler(
         IUnitOfWork unitOfWork,
-        IMapper mapper,
         ILogger<AddContactInfoCommandHandler> logger)
     {
         _unitOfWork = unitOfWork;
-        _mapper = mapper;
         _logger = logger;
     }
 
-    public async Task<ContactInfoDto> Handle(AddContactInfoCommand command, CancellationToken cancellationToken = default)
+    public async Task<ContactInfo> Handle(AddContactInfoCommand command, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation(Messages.ContactInfo.Adding, command.PersonId, command.Type);
 
@@ -39,6 +35,6 @@ public class AddContactInfoCommandHandler : IRequestHandler<AddContactInfoComman
 
         _logger.LogInformation(Messages.ContactInfo.AddedSuccessfully);
 
-        return _mapper.Map<ContactInfoDto>(contactInfo);
+        return contactInfo;
     }
 }

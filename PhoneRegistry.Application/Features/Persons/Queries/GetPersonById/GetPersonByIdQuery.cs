@@ -1,9 +1,9 @@
-using MediatR;
-using PhoneRegistry.Application.Common.DTOs;
+using PhoneRegistry.Application.Common.Interfaces;
+using PhoneRegistry.Domain.Entities;
 
 namespace PhoneRegistry.Application.Features.Persons.Queries.GetPersonById;
 
-public class GetPersonByIdQuery : IRequest<PersonDto?>
+public class GetPersonByIdQuery : IQuery<Person?>
 {
     public Guid PersonId { get; set; }
 }

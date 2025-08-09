@@ -49,8 +49,19 @@ public class PersonsController : ControllerBase
     [HttpPost("{id}/contact-infos")]
     public async Task<IActionResult> AddContactInfo(Guid id, [FromBody] AddContactInfoRequest request)
     {
-        var result = await _personService.AddContactInfoAsync(id, request.Type, request.Content);
-        return Ok(result);
+        try
+        {
+            var result = await _personService.AddContactInfoAsync(id, request.Type, request.Content);
+            return Ok(result);
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { message = ex.Message, details = ex.ToString() });
+        }
     }
 
     [HttpDelete("{personId}/contact-infos/{contactInfoId}")]

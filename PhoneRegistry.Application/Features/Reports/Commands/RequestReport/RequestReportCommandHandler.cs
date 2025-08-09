@@ -1,30 +1,25 @@
-using AutoMapper;
-using MediatR;
 using Microsoft.Extensions.Logging;
 using PhoneRegistry.Application.Common.Constants;
-using PhoneRegistry.Application.Common.DTOs;
+using PhoneRegistry.Application.Common.Interfaces;
 using PhoneRegistry.Domain.Entities;
 using PhoneRegistry.Domain.Repositories;
 
 namespace PhoneRegistry.Application.Features.Reports.Commands.RequestReport;
 
-public class RequestReportCommandHandler : IRequestHandler<RequestReportCommand, ReportDto>
+public class RequestReportCommandHandler : ICommandHandler<RequestReportCommand, Report>
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IMapper _mapper;
     private readonly ILogger<RequestReportCommandHandler> _logger;
 
     public RequestReportCommandHandler(
         IUnitOfWork unitOfWork,
-        IMapper mapper,
         ILogger<RequestReportCommandHandler> logger)
     {
         _unitOfWork = unitOfWork;
-        _mapper = mapper;
         _logger = logger;
     }
 
-    public async Task<ReportDto> Handle(RequestReportCommand command, CancellationToken cancellationToken = default)
+    public async Task<Report> Handle(RequestReportCommand command, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation(Messages.Report.Requesting);
 
@@ -37,6 +32,6 @@ public class RequestReportCommandHandler : IRequestHandler<RequestReportCommand,
 
         // TODO: Publish message to queue for async processing
 
-        return _mapper.Map<ReportDto>(report);
+        return report;
     }
 }

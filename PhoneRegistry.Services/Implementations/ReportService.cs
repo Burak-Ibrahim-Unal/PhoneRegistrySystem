@@ -1,7 +1,7 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using PhoneRegistry.Application.Common.Constants;
-using PhoneRegistry.Application.Common.DTOs;
+using PhoneRegistry.Domain.Entities;
 using PhoneRegistry.Application.Features.Reports.Commands.RequestReport;
 using PhoneRegistry.Application.Features.Reports.Queries.GetAllReports;
 using PhoneRegistry.Application.Features.Reports.Queries.GetReportById;
@@ -20,7 +20,7 @@ public class ReportService : IReportService
         _logger = logger;
     }
 
-    public async Task<ReportDto> RequestReportAsync(CancellationToken cancellationToken = default)
+    public async Task<Report> RequestReportAsync(CancellationToken cancellationToken = default)
     {
         _logger.LogInformation(Messages.Report.Requesting);
 
@@ -31,7 +31,7 @@ public class ReportService : IReportService
         return result;
     }
 
-    public async Task<List<ReportDto>> GetAllReportsAsync(CancellationToken cancellationToken = default)
+    public async Task<List<Report>> GetAllReportsAsync(CancellationToken cancellationToken = default)
     {
         _logger.LogInformation(Messages.Report.GettingAll);
 
@@ -42,7 +42,7 @@ public class ReportService : IReportService
         return result;
     }
 
-    public async Task<ReportDto?> GetReportByIdAsync(Guid reportId, CancellationToken cancellationToken = default)
+    public async Task<Report?> GetReportByIdAsync(Guid reportId, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation(Messages.Report.GettingById, reportId);
 

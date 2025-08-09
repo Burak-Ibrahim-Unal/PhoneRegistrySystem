@@ -1,29 +1,25 @@
-using AutoMapper;
-using MediatR;
 using Microsoft.Extensions.Logging;
 using PhoneRegistry.Application.Common.Constants;
-using PhoneRegistry.Application.Common.DTOs;
+using PhoneRegistry.Application.Common.Interfaces;
+using PhoneRegistry.Domain.Entities;
 using PhoneRegistry.Domain.Repositories;
 
 namespace PhoneRegistry.Application.Features.Persons.Queries.GetPersonById;
 
-public class GetPersonByIdQueryHandler : IRequestHandler<GetPersonByIdQuery, PersonDto?>
+public class GetPersonByIdQueryHandler : IQueryHandler<GetPersonByIdQuery, Person?>
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IMapper _mapper;
     private readonly ILogger<GetPersonByIdQueryHandler> _logger;
 
     public GetPersonByIdQueryHandler(
         IUnitOfWork unitOfWork,
-        IMapper mapper,
         ILogger<GetPersonByIdQueryHandler> logger)
     {
         _unitOfWork = unitOfWork;
-        _mapper = mapper;
         _logger = logger;
     }
 
-    public async Task<PersonDto?> Handle(GetPersonByIdQuery query, CancellationToken cancellationToken = default)
+    public async Task<Person?> Handle(GetPersonByIdQuery query, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation(Messages.Person.GettingById, query.PersonId);
 
@@ -35,6 +31,6 @@ public class GetPersonByIdQueryHandler : IRequestHandler<GetPersonByIdQuery, Per
             return null;
         }
 
-        return _mapper.Map<PersonDto>(person);
+        return person;
     }
 }

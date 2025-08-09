@@ -1,7 +1,8 @@
+using MediatR;
+
 namespace PhoneRegistry.Application.Common.Interfaces;
 
-public interface IQueryHandler<in TQuery, TResponse>
+public interface IQueryHandler<in TQuery, TResponse> : IRequestHandler<TQuery, TResponse>
     where TQuery : IQuery<TResponse>
 {
-    Task<TResponse> HandleAsync(TQuery query, CancellationToken cancellationToken = default);
 }

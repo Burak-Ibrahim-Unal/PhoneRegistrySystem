@@ -1,34 +1,29 @@
-using AutoMapper;
 using FluentValidation;
-using MediatR;
 using Microsoft.Extensions.Logging;
 using PhoneRegistry.Application.Common.Constants;
-using PhoneRegistry.Application.Common.DTOs;
+using PhoneRegistry.Application.Common.Interfaces;
 using PhoneRegistry.Domain.Entities;
 using PhoneRegistry.Domain.Repositories;
 
 namespace PhoneRegistry.Application.Features.Persons.Commands.CreatePerson;
 
-public class CreatePersonCommandHandler : IRequestHandler<CreatePersonCommand, PersonDto>
+public class CreatePersonCommandHandler : ICommandHandler<CreatePersonCommand, Person>
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IMapper _mapper;
     private readonly IValidator<CreatePersonCommand> _validator;
     private readonly ILogger<CreatePersonCommandHandler> _logger;
 
     public CreatePersonCommandHandler(
         IUnitOfWork unitOfWork,
-        IMapper mapper,
         IValidator<CreatePersonCommand> validator,
         ILogger<CreatePersonCommandHandler> logger)
     {
         _unitOfWork = unitOfWork;
-        _mapper = mapper;
         _validator = validator;
         _logger = logger;
     }
 
-    public async Task<PersonDto> Handle(CreatePersonCommand command, CancellationToken cancellationToken = default)
+    public async Task<Person> Handle(CreatePersonCommand command, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation(Messages.Person.Creating, command.FirstName, command.LastName);
 
@@ -45,6 +40,6 @@ public class CreatePersonCommandHandler : IRequestHandler<CreatePersonCommand, P
 
         _logger.LogInformation(Messages.Person.CreatedSuccessfully);
 
-        return _mapper.Map<PersonDto>(person);
+        return person;
     }
 }

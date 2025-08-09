@@ -1,7 +1,7 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using PhoneRegistry.Application.Common.Constants;
-using PhoneRegistry.Application.Common.DTOs;
+using PhoneRegistry.Domain.Entities;
 using PhoneRegistry.Application.Features.Persons.Commands.CreatePerson;
 using PhoneRegistry.Application.Features.Persons.Commands.DeletePerson;
 using PhoneRegistry.Application.Features.Persons.Queries.GetPersonById;
@@ -24,7 +24,7 @@ public class PersonService : IPersonService
         _logger = logger;
     }
 
-    public async Task<PersonDto> CreatePersonAsync(string firstName, string lastName, string? company = null, CancellationToken cancellationToken = default)
+    public async Task<Person> CreatePersonAsync(string firstName, string lastName, string? company = null, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation(Messages.Person.Creating, firstName, lastName);
 
@@ -41,7 +41,7 @@ public class PersonService : IPersonService
         return result;
     }
 
-    public async Task<PersonDto?> GetPersonByIdAsync(Guid personId, CancellationToken cancellationToken = default)
+    public async Task<Person?> GetPersonByIdAsync(Guid personId, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation(Messages.Person.GettingById, personId);
 
@@ -56,7 +56,7 @@ public class PersonService : IPersonService
         return result;
     }
 
-    public async Task<List<PersonSummaryDto>> GetAllPersonsAsync(int skip = 0, int take = 50, CancellationToken cancellationToken = default)
+    public async Task<List<Person>> GetAllPersonsAsync(int skip = 0, int take = 50, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation(Messages.Person.GettingAll, skip, take);
 
@@ -77,7 +77,7 @@ public class PersonService : IPersonService
         _logger.LogInformation(Messages.Person.DeletedSuccessfully, personId);
     }
 
-    public async Task<ContactInfoDto> AddContactInfoAsync(Guid personId, int contactType, string content, CancellationToken cancellationToken = default)
+    public async Task<ContactInfo> AddContactInfoAsync(Guid personId, int contactType, string content, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation(Messages.ContactInfo.Adding, personId, contactType);
 

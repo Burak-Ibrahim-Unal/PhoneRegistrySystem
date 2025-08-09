@@ -14,14 +14,16 @@ public class PersonRepository : Repository<Person>, IPersonRepository
     public async Task<Person?> GetByIdWithContactInfosAsync(Guid id, CancellationToken cancellationToken = default)
     {
         return await _dbSet
-            .Include(p => p.ContactInfos)
+            .Where(p => !p.IsDeleted)
+            .Include(p => p.ContactInfos.Where(c => !c.IsDeleted))
             .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
     }
 
     public async Task<IEnumerable<Person>> GetAllWithContactInfosAsync(int skip = 0, int take = 50, CancellationToken cancellationToken = default)
     {
         return await _dbSet
-            .Include(p => p.ContactInfos)
+            .Where(p => !p.IsDeleted)
+            .Include(p => p.ContactInfos.Where(c => !c.IsDeleted))
             .Skip(skip)
             .Take(take)
             .ToListAsync(cancellationToken);
@@ -30,12 +32,12 @@ public class PersonRepository : Repository<Person>, IPersonRepository
     public async Task<IEnumerable<Person>> SearchByNameAsync(string searchTerm, CancellationToken cancellationToken = default)
     {
         return await _dbSet
-            .Where(p => p.FirstName.Contains(searchTerm) || p.LastName.Contains(searchTerm))
+            .Where(p => !p.IsDeleted && (p.FirstName.Contains(searchTerm) || p.LastName.Contains(searchTerm)))
             .ToListAsync(cancellationToken);
     }
 
     public async Task<int> GetTotalCountAsync(CancellationToken cancellationToken = default)
     {
-        return await _dbSet.CountAsync(cancellationToken);
+        return await _dbSet.Where(p => !p.IsDeleted).CountAsync(cancellationToken);
     }
 }
