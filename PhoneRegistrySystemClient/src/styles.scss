@@ -175,11 +175,50 @@ html, body {
   background-color: #3b82f6 !important;
 }
 
-/* SELECT MIN LINE FONT SİYAH VE ORTA HİZALI */
+/* SELECT MIN LINE FONT SİYAH VE ORTA HİZALI - TÜM SAYFALARDA */
 span.mat-mdc-select-min-line {
   color: #000000 !important;
   text-align: center !important;
   display: block !important;
+}
+
+/* PERSON DETAIL SAYFASI - SELECT VE INPUT DÜZELTMELERİ */
+app-person-detail .mat-mdc-form-field .mdc-text-field {
+  background-color: #f8fafc !important;
+  border-radius: 8px 8px 0 0 !important;
+  border: none !important;
+  border-bottom: 2px solid #e2e8f0 !important;
+}
+
+app-person-detail .mat-mdc-form-field .mdc-text-field:hover {
+  background-color: #f1f5f9 !important;
+  border-bottom-color: #9ca3af !important;
+}
+
+app-person-detail .mat-mdc-form-field .mdc-text-field.mdc-text-field--focused {
+  background-color: #ffffff !important;
+  border-bottom-color: #3b82f6 !important;
+}
+
+app-person-detail .mat-mdc-form-field input,
+app-person-detail .mat-mdc-form-field textarea {
+  color: #000000 !important;
+  font-size: 16px !important;
+  padding: 16px !important;
+}
+
+app-person-detail .mat-mdc-form-field input::placeholder {
+  color: #6b7280 !important;
+  opacity: 1 !important;
+}
+
+app-person-detail .mat-mdc-form-field .mdc-floating-label {
+  display: none !important;
+}
+
+app-person-detail .mat-mdc-form-field .mdc-line-ripple,
+app-person-detail .mat-mdc-form-field .mdc-notched-outline {
+  display: none !important;
 }
 
 /* PAGINATION INPUT - ÖZEL TASARIM */
