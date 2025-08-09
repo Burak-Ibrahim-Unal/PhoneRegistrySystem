@@ -170,6 +170,51 @@ html, body {
   display: none !important;
 }
 
+/* PAGINATION CONTAINER MAVİ */
+.mat-mdc-paginator-container {
+  background-color: #3b82f6 !important;
+}
+
+/* SELECT MIN LINE FONT SİYAH VE ORTA HİZALI */
+span.mat-mdc-select-min-line {
+  color: #000000 !important;
+  text-align: center !important;
+  display: block !important;
+}
+
+/* PAGINATION INPUT - ÖZEL TASARIM */
+.mat-mdc-paginator .mat-mdc-form-field {
+  width: auto !important;
+  margin-bottom: 0 !important;
+}
+
+.mat-mdc-paginator .mat-mdc-form-field .mdc-text-field {
+  background-color: #ffffff !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 6px !important;
+  min-width: 60px !important;
+  height: 36px !important;
+}
+
+.mat-mdc-paginator .mat-mdc-form-field .mdc-text-field:hover {
+  border-color: #9ca3af !important;
+  background-color: #f9fafb !important;
+}
+
+.mat-mdc-paginator .mat-mdc-form-field .mdc-text-field.mdc-text-field--focused {
+  border-color: #3b82f6 !important;
+  background-color: #ffffff !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+}
+
+.mat-mdc-paginator .mat-mdc-form-field input {
+  color: #000000 !important;
+  font-size: 14px !important;
+  padding: 8px 12px !important;
+  text-align: center !important;
+  font-weight: 500 !important;
+}
+
 
 /* Modern Label Animation */
 .mat-mdc-form-field-appearance-outline {
