@@ -31,6 +31,9 @@ public class AddContactInfoCommandHandler : ICommandHandler<AddContactInfoComman
 
         var contactInfo = person.AddContactInfo(command.Type, command.Content);
         
+        // EF Core'a bu entity'nin yeni olduğunu söyle
+        await _unitOfWork.ContactInfos.AddAsync(contactInfo, cancellationToken);
+        
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         _logger.LogInformation(Messages.ContactInfo.AddedSuccessfully);
