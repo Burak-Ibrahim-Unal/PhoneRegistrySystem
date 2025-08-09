@@ -1,13 +1,13 @@
 using AutoMapper;
+using MediatR;
 using Microsoft.Extensions.Logging;
 using PhoneRegistry.Application.Common.DTOs;
-using PhoneRegistry.Application.Common.Interfaces;
 using PhoneRegistry.Domain.Entities;
 using PhoneRegistry.Domain.Repositories;
 
 namespace PhoneRegistry.Application.Features.Reports.Commands.RequestReport;
 
-public class RequestReportCommandHandler : ICommandHandler<RequestReportCommand, ReportDto>
+public class RequestReportCommandHandler : IRequestHandler<RequestReportCommand, ReportDto>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
@@ -23,7 +23,7 @@ public class RequestReportCommandHandler : ICommandHandler<RequestReportCommand,
         _logger = logger;
     }
 
-    public async Task<ReportDto> HandleAsync(RequestReportCommand command, CancellationToken cancellationToken = default)
+    public async Task<ReportDto> Handle(RequestReportCommand command, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Requesting new report");
 

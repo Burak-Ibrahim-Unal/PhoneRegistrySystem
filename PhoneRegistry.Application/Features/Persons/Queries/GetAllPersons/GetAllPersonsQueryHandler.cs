@@ -1,12 +1,12 @@
 using AutoMapper;
+using MediatR;
 using Microsoft.Extensions.Logging;
 using PhoneRegistry.Application.Common.DTOs;
-using PhoneRegistry.Application.Common.Interfaces;
 using PhoneRegistry.Domain.Repositories;
 
 namespace PhoneRegistry.Application.Features.Persons.Queries.GetAllPersons;
 
-public class GetAllPersonsQueryHandler : IQueryHandler<GetAllPersonsQuery, List<PersonSummaryDto>>
+public class GetAllPersonsQueryHandler : IRequestHandler<GetAllPersonsQuery, List<PersonSummaryDto>>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
@@ -22,7 +22,7 @@ public class GetAllPersonsQueryHandler : IQueryHandler<GetAllPersonsQuery, List<
         _logger = logger;
     }
 
-    public async Task<List<PersonSummaryDto>> HandleAsync(GetAllPersonsQuery query, CancellationToken cancellationToken = default)
+    public async Task<List<PersonSummaryDto>> Handle(GetAllPersonsQuery query, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Getting all persons with skip: {Skip}, take: {Take}", query.Skip, query.Take);
 

@@ -46,6 +46,20 @@ services:
       timeout: 10s
       retries: 5
 
+  migrator:
+    build:
+      context: .
+      dockerfile: PhoneRegistry.Migrator/Dockerfile
+    container_name: phoneregistry-migrator
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=postgres;Database=PhoneRegistryDb;Username=postgres;Password=postgres123
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./scripts:/app/scripts
+    restart: "no"  # Bir kez çalışır ve durur
+
   contact-api:
     build:
       context: .
@@ -63,6 +77,8 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+      migrator:
+        condition: service_completed_successfully
     restart: unless-stopped
 
   report-api:
@@ -84,6 +100,8 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
+      migrator:
+        condition: service_completed_successfully
     restart: unless-stopped
 
 volumes:

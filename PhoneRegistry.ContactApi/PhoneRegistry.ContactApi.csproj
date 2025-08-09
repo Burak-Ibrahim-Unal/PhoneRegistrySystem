@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PhoneRegistry.Application\PhoneRegistry.Application.csproj" />
+    <ProjectReference Include="..\PhoneRegistry.Services\PhoneRegistry.Services.csproj" />
     <ProjectReference Include="..\PhoneRegistry.Infrastructure\PhoneRegistry.Infrastructure.csproj" />
   </ItemGroup>
 

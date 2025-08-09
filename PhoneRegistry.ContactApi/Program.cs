@@ -1,4 +1,4 @@
-using PhoneRegistry.Application;
+using PhoneRegistry.Services;
 using PhoneRegistry.Infrastructure;
 using Serilog;
 
@@ -12,7 +12,7 @@ Log.Logger = new LoggerConfiguration()
 builder.Host.UseSerilog();
 
 // Add services to the container.
-builder.Services.AddApplication();
+builder.Services.AddServices(); // Bu Application + MediatR'ı da içerir
 builder.Services.AddInfrastructure(builder.Configuration);
 
 builder.Services.AddControllers();

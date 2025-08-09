@@ -1,12 +1,12 @@
 using AutoMapper;
+using MediatR;
 using Microsoft.Extensions.Logging;
 using PhoneRegistry.Application.Common.DTOs;
-using PhoneRegistry.Application.Common.Interfaces;
 using PhoneRegistry.Domain.Repositories;
 
 namespace PhoneRegistry.Application.Features.ContactInfos.Commands.AddContactInfo;
 
-public class AddContactInfoCommandHandler : ICommandHandler<AddContactInfoCommand, ContactInfoDto>
+public class AddContactInfoCommandHandler : IRequestHandler<AddContactInfoCommand, ContactInfoDto>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
@@ -22,7 +22,7 @@ public class AddContactInfoCommandHandler : ICommandHandler<AddContactInfoComman
         _logger = logger;
     }
 
-    public async Task<ContactInfoDto> HandleAsync(AddContactInfoCommand command, CancellationToken cancellationToken = default)
+    public async Task<ContactInfoDto> Handle(AddContactInfoCommand command, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Adding contact info for person: {PersonId}", command.PersonId);
 

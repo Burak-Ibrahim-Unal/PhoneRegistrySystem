@@ -1,10 +1,10 @@
+using MediatR;
 using Microsoft.Extensions.Logging;
-using PhoneRegistry.Application.Common.Interfaces;
 using PhoneRegistry.Domain.Repositories;
 
 namespace PhoneRegistry.Application.Features.Persons.Commands.DeletePerson;
 
-public class DeletePersonCommandHandler : ICommandHandler<DeletePersonCommand>
+public class DeletePersonCommandHandler : IRequestHandler<DeletePersonCommand>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<DeletePersonCommandHandler> _logger;
@@ -17,7 +17,7 @@ public class DeletePersonCommandHandler : ICommandHandler<DeletePersonCommand>
         _logger = logger;
     }
 
-    public async Task<Unit> HandleAsync(DeletePersonCommand command, CancellationToken cancellationToken = default)
+    public async Task Handle(DeletePersonCommand command, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Deleting person with ID: {PersonId}", command.PersonId);
 
@@ -28,10 +28,8 @@ public class DeletePersonCommandHandler : ICommandHandler<DeletePersonCommand>
         }
 
         await _unitOfWork.Persons.DeleteAsync(person, cancellationToken);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+                await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         _logger.LogInformation("Person deleted successfully: {PersonId}", command.PersonId);
-
-        return Unit.Value;
     }
 }
