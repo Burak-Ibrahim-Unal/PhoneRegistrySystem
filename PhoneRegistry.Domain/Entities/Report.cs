@@ -12,8 +12,6 @@ public class Report : BaseEntity
     private readonly List<LocationStatistic> _locationStatistics = new();
     public IReadOnlyList<LocationStatistic> LocationStatistics => _locationStatistics.AsReadOnly();
 
-    protected Report() { } // EF Core
-
     public Report()
     {
         RequestedAt = DateTime.UtcNow;
