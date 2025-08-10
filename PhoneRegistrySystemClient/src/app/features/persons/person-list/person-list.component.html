@@ -1,10 +1,14 @@
 <div class="person-list-container fade-in">
+  <!-- Header Section -->
   <div class="header-section">
-    <h1 class="page-title">
-      <mat-icon class="title-icon">people</mat-icon>
-      Kişiler
-    </h1>
-    <button mat-raised-button color="primary" routerLink="/persons/create" class="create-btn">
+    <div class="header-content">
+      <h1 class="page-title">
+        <mat-icon class="title-icon">people</mat-icon>
+        Kişiler
+      </h1>
+      <p class="page-subtitle">Kişi bilgilerini yönetin ve organize edin</p>
+    </div>
+    <button mat-raised-button color="primary" routerLink="/persons/create" class="btn-modern btn-modern-primary create-btn">
       <mat-icon>person_add</mat-icon>
       Yeni Kişi Ekle
     </button>
@@ -19,25 +23,25 @@
   </div>
 
   <!-- Loading State -->
-  <div *ngIf="loading" class="loading-container">
+  <div *ngIf="loading" class="loading-spinner">
     <mat-spinner diameter="50"></mat-spinner>
-    <p>Kişiler yükleniyor...</p>
+    <p class="loading-text">Kişiler yükleniyor...</p>
   </div>
 
   <!-- Empty State -->
   <div *ngIf="!loading && filteredPersons.length === 0" class="empty-state">
-    <mat-icon class="empty-icon">people_outline</mat-icon>
-    <h2>Henüz kişi bulunmuyor</h2>
-    <p>İlk kişinizi eklemek için "Yeni Kişi Ekle" butonuna tıklayın.</p>
-    <button mat-raised-button color="primary" routerLink="/persons/create">
+    <mat-icon class="empty-state-icon">people_outline</mat-icon>
+    <h2 class="empty-state-title">Henüz kişi bulunmuyor</h2>
+    <p class="empty-state-description">İlk kişinizi eklemek için "Yeni Kişi Ekle" butonuna tıklayın.</p>
+    <button mat-raised-button color="primary" routerLink="/persons/create" class="btn-modern btn-modern-primary">
       <mat-icon>person_add</mat-icon>
       Kişi Ekle
     </button>
   </div>
 
   <!-- Person Grid -->
-  <div *ngIf="!loading && filteredPersons.length > 0" class="persons-grid">
-    <mat-card *ngFor="let person of paginatedPersons" class="person-card custom-card">
+  <div *ngIf="!loading && filteredPersons.length > 0" class="grid-container grid-3">
+    <mat-card *ngFor="let person of paginatedPersons" class="modern-card person-card">
       <mat-card-header>
         <div mat-card-avatar class="person-avatar">
           <mat-icon>person</mat-icon>
@@ -54,11 +58,11 @@
       </mat-card-content>
 
       <mat-card-actions align="end">
-        <button mat-button color="primary" [routerLink]="['/persons', person.id]">
+        <button mat-button color="primary" [routerLink]="['/persons', person.id]" class="btn-modern btn-modern-secondary">
           <mat-icon>visibility</mat-icon>
           Görüntüle
         </button>
-        <button mat-button color="warn" (click)="deletePerson(person)">
+        <button mat-button color="warn" (click)="deletePerson(person)" class="btn-modern btn-modern-error">
           <mat-icon>delete</mat-icon>
           Sil
         </button>

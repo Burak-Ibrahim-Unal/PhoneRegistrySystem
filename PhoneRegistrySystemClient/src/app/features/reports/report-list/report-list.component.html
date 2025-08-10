@@ -1,0 +1,162 @@
+<div class="report-list-container fade-in">
+  <!-- Header Section -->
+  <div class="header-section">
+    <div class="header-content">
+      <h1 class="page-title">
+        <mat-icon class="title-icon">assessment</mat-icon>
+        Raporlar
+      </h1>
+      <p class="page-subtitle">Lokasyon bazlı istatistik raporlarını görüntüleyin</p>
+    </div>
+    <div class="header-actions">
+      <button mat-raised-button color="primary" (click)="requestNewReport()" [disabled]="requesting" class="btn-modern btn-modern-primary request-btn">
+        <mat-spinner diameter="20" *ngIf="requesting"></mat-spinner>
+        <mat-icon *ngIf="!requesting">add_chart</mat-icon>
+        {{ requesting ? 'Talep Ediliyor...' : 'Yeni Rapor Talep Et' }}
+      </button>
+      <button mat-icon-button (click)="loadReports()" [disabled]="loading" class="refresh-btn" matTooltip="Yenile">
+        <mat-icon [class.spinning]="loading">refresh</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- Stats Section -->
+  <div class="stats-section">
+    <div class="stat-card">
+      <div class="stat-icon preparing">
+        <mat-icon>hourglass_empty</mat-icon>
+      </div>
+      <div class="stat-content">
+        <span class="stat-number">{{getReportCountByStatus(ReportStatus.Preparing)}}</span>
+        <span class="stat-label">Hazırlanıyor</span>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon completed">
+        <mat-icon>check_circle</mat-icon>
+      </div>
+      <div class="stat-content">
+        <span class="stat-number">{{getReportCountByStatus(ReportStatus.Completed)}}</span>
+        <span class="stat-label">Tamamlandı</span>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon failed">
+        <mat-icon>error</mat-icon>
+      </div>
+      <div class="stat-content">
+        <span class="stat-number">{{getReportCountByStatus(ReportStatus.Failed)}}</span>
+        <span class="stat-label">Başarısız</span>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon total">
+        <mat-icon>assessment</mat-icon>
+      </div>
+      <div class="stat-content">
+        <span class="stat-number">{{reports.length}}</span>
+        <span class="stat-label">Toplam</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading && reports.length === 0" class="loading-spinner">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p class="loading-text">Raporlar yükleniyor...</p>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && reports.length === 0" class="empty-state">
+    <mat-icon class="empty-state-icon">assessment</mat-icon>
+    <h2 class="empty-state-title">Henüz rapor bulunmuyor</h2>
+    <p class="empty-state-description">İlk raporunuzu oluşturmak için "Yeni Rapor Talep Et" butonuna tıklayın.</p>
+    <button mat-raised-button color="primary" (click)="requestNewReport()" [disabled]="requesting" class="btn-modern btn-modern-primary">
+      <mat-icon>add_chart</mat-icon>
+      Rapor Talep Et
+    </button>
+  </div>
+
+  <!-- Reports Grid -->
+  <div *ngIf="!loading && reports.length > 0" class="grid-container grid-2">
+    <mat-card *ngFor="let report of reports; trackBy: trackByReportId" class="modern-card report-card">
+      <mat-card-header>
+        <div mat-card-avatar class="report-avatar" [ngClass]="getStatusClass(report.status)">
+          <mat-icon>{{getStatusIcon(report.status)}}</mat-icon>
+        </div>
+        <mat-card-title class="report-title">
+          Konum Raporu
+          <span class="status-badge" [ngClass]="getStatusChipClass(report.status)">
+            {{getStatusLabel(report.status)}}
+          </span>
+        </mat-card-title>
+        <mat-card-subtitle>
+          {{report.requestedAt | date:'dd.MM.yyyy HH:mm'}}
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <!-- Progress Bar for Preparing Reports -->
+        <div *ngIf="report.status === ReportStatus.Preparing" class="progress-section">
+          <mat-progress-bar mode="indeterminate" class="progress-bar"></mat-progress-bar>
+          <p class="progress-text">Rapor hazırlanıyor...</p>
+        </div>
+
+        <!-- Report Summary for Completed Reports -->
+        <div *ngIf="report.status === ReportStatus.Completed" class="report-summary">
+          <div class="summary-item">
+            <mat-icon class="summary-icon">location_on</mat-icon>
+            <span>{{report.locationStatistics?.length || 0}} konum</span>
+          </div>
+          <div class="summary-item">
+            <mat-icon class="summary-icon">people</mat-icon>
+            <span>{{getTotalPersonCount(report)}} kişi</span>
+          </div>
+          <div class="summary-item">
+            <mat-icon class="summary-icon">phone</mat-icon>
+            <span>{{getTotalPhoneCount(report)}} telefon</span>
+          </div>
+        </div>
+
+        <!-- Error Message for Failed Reports -->
+        <div *ngIf="report.status === ReportStatus.Failed" class="error-section">
+          <mat-icon class="error-icon">error_outline</mat-icon>
+          <p class="error-text">{{report.errorMessage || 'Rapor oluşturulurken bir hata oluştu.'}}</p>
+        </div>
+
+        <!-- Completion Time -->
+        <div *ngIf="report.completedAt" class="completion-info">
+          <mat-icon class="completion-icon">schedule</mat-icon>
+          <span>{{report.completedAt | date:'dd.MM.yyyy HH:mm'}} tarihinde tamamlandı</span>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions align="end">
+        <button 
+          mat-button 
+          color="primary" 
+          [routerLink]="['/reports', report.id]"
+          [disabled]="report.status === ReportStatus.Preparing"
+          class="btn-modern btn-modern-secondary">
+          <mat-icon>visibility</mat-icon>
+          {{ report.status === ReportStatus.Completed ? 'Görüntüle' : 'Detaylar' }}
+        </button>
+        <button 
+          *ngIf="report.status === ReportStatus.Failed" 
+          mat-button 
+          color="accent" 
+          (click)="retryReport(report)"
+          class="btn-modern btn-modern-warning">
+          <mat-icon>refresh</mat-icon>
+          Tekrar Dene
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <!-- Auto Refresh Indicator -->
+  <div *ngIf="hasPreparingReports()" class="auto-refresh-indicator">
+    <mat-icon class="refresh-icon">sync</mat-icon>
+    <span>Hazırlanan raporlar için otomatik yenileme aktif</span>
+  </div>
+</div>

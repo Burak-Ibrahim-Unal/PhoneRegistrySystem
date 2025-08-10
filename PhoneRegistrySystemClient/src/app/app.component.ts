@@ -157,6 +157,24 @@ import { MatListModule } from '@angular/material/list';
       transform: translateX(4px) !important;
     }
 
+    /* Menu button icon always visible */
+    .menu-button mat-icon {
+      color: white !important;
+    }
+
+    /* Ensure toolbar visible color */
+    .app-toolbar {
+      background: var(--primary-600) !important;
+    }
+
+    /* Smooth sidenav transition */
+    .sidenav {
+      transition: width 0.3s ease;
+    }
+    .sidenav:not(.mat-drawer-opened) {
+      width: 0 !important;
+    }
+
     @media (max-width: 768px) {
       .sidenav {
         width: 200px;
