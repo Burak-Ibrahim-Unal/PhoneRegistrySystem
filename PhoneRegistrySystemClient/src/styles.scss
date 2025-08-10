@@ -538,3 +538,17 @@ span.mat-mdc-select-min-line {
 .gap-5 { gap: var(--space-5); }
 .gap-6 { gap: var(--space-6); }
 
+/* === Report Detail Avatar Fix === */
+.status-avatar {
+  background: var(--success-500) !important; /* yeşil zemin */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+.status-avatar mat-icon {
+  font-size: 32px !important; /* küçült */
+  width: 32px !important;
+  height: 32px !important;
+  color: #fff !important; /* beyaz ikon */
+}
+

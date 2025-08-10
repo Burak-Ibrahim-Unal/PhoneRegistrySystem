@@ -42,18 +42,21 @@ import { MatListModule } from '@angular/material/list';
       <mat-sidenav-container class="sidenav-container">
         <mat-sidenav #sidenav mode="side" opened class="sidenav">
           <mat-nav-list>
-            <a mat-list-item routerLink="/persons" routerLinkActive="active-link">
-              <mat-icon matListItemIcon>people</mat-icon>
-              <span matListItemTitle>Kişiler</span>
+            <a mat-list-item routerLink="/persons" routerLinkActive="active-link" (click)="closeIfMobile(sidenav)">
+              <mat-icon>people</mat-icon>
+              <span>Kişiler</span>
             </a>
-            <a mat-list-item routerLink="/persons/create" routerLinkActive="active-link">
-              <mat-icon matListItemIcon>person_add</mat-icon>
-              <span matListItemTitle>Kişi Ekle</span>
+
+            <a mat-list-item routerLink="/persons/create" routerLinkActive="active-link" (click)="closeIfMobile(sidenav)">
+              <mat-icon>person_add</mat-icon>
+              <span>Kişi Ekle</span>
             </a>
+
             <mat-divider></mat-divider>
-            <a mat-list-item routerLink="/reports" routerLinkActive="active-link">
-              <mat-icon matListItemIcon>assessment</mat-icon>
-              <span matListItemTitle>Raporlar</span>
+
+            <a mat-list-item routerLink="/reports" routerLinkActive="active-link" (click)="closeIfMobile(sidenav)">
+              <mat-icon>assessment</mat-icon>
+              <span>Raporlar</span>
             </a>
           </mat-nav-list>
         </mat-sidenav>
@@ -153,5 +156,9 @@ import { MatListModule } from '@angular/material/list';
 })
 export class AppComponent {
   title = 'Phone Registry System';
+
+  closeIfMobile(sidenav:any){
+    if(window.innerWidth<769){sidenav.close();}
+  }
 }
 
