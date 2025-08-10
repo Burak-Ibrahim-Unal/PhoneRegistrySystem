@@ -75,33 +75,16 @@ import { MatListModule } from '@angular/material/list';
     }
 
     .app-toolbar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 1000;
-      background: var(--gradient-primary) !important;
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: var(--shadow-lg);
-      color: white;
+      position: sticky; top: 0; z-index: 1000;
+      background: var(--surface-0) !important;
+      color: var(--primary-700) !important;
+      border-bottom: 1px solid var(--neutral-200);
     }
 
-    .app-title {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 1.2rem;
-      font-weight: 500;
-      color: white;
-    }
+    .burger mat-icon { color: var(--primary-700) !important; }
 
-    .title-icon {
-      font-size: 1.5rem;
-      width: 1.5rem;
-      height: 1.5rem;
-      color: white;
-    }
+    .title { display:flex;align-items:center;gap:4px;font-weight:600; color: var(--primary-700) }
+    .title-icon { font-size:20px; color: var(--primary-700) }
 
     .spacer {
       flex: 1;
@@ -155,24 +138,6 @@ import { MatListModule } from '@angular/material/list';
     .mat-mdc-list-item:hover {
       background: rgba(59, 130, 246, 0.1) !important;
       transform: translateX(4px) !important;
-    }
-
-    /* Menu button icon always visible */
-    .menu-button mat-icon {
-      color: white !important;
-    }
-
-    /* Ensure toolbar visible color */
-    .app-toolbar {
-      background: var(--primary-600) !important;
-    }
-
-    /* Smooth sidenav transition */
-    .sidenav {
-      transition: width 0.3s ease;
-    }
-    .sidenav:not(.mat-drawer-opened) {
-      width: 0 !important;
     }
 
     @media (max-width: 768px) {
