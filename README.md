@@ -26,6 +26,20 @@ docker-compose up -d
 - **Infrastructure Layer**: EF Core, PostgreSQL, Redis, RabbitMQ
 - **Contact API**: Kişi ve iletişim bilgileri yönetimi
 - **Report API**: Asenkron rapor oluşturma
+- **Worker Service**: Background işlemler için RabbitMQ consumer
+
+### 🔄 Asenkron İşlem Mimarisi
+
+```mermaid
+graph TD
+    A[👤 User: Rapor İste] --> B[🌐 Report API]
+    B --> C[⚡ Hemen Döner: 'Preparing']
+    C --> D[📨 RabbitMQ Message]
+    D --> E[🔄 Worker Service]
+    E --> F[📊 Ağır İşlem: Location Stats]
+    F --> G[✅ DB Update: 'Completed']
+    G --> H[👤 User: Tamamlanan Raporu Görür]
+```
 
 ## 🚀 Teknolojiler
 
@@ -33,7 +47,8 @@ docker-compose up -d
 - **.NET 8.0** - Web API
 - **PostgreSQL** - Ana veritabanı
 - **Redis** - Cache
-- **RabbitMQ** - Message Queue
+- **RabbitMQ** - Message Queue (Persistent)
+- **Worker Service** - Background processing
 - **Entity Framework Core 8.0**
 - **AutoMapper** - Object mapping
 - **FluentValidation** - Input validation

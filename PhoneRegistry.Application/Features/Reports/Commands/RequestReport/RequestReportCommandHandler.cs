@@ -1,10 +1,9 @@
 using Microsoft.Extensions.Logging;
 using PhoneRegistry.Application.Common.Constants;
 using PhoneRegistry.Application.Common.Interfaces;
+using PhoneRegistry.Application.Common.Messaging;
 using PhoneRegistry.Domain.Entities;
 using PhoneRegistry.Domain.Repositories;
-using PhoneRegistry.Infrastructure.Messaging.Interfaces;
-using PhoneRegistry.Infrastructure.Messaging.Models;
 
 namespace PhoneRegistry.Application.Features.Reports.Commands.RequestReport;
 

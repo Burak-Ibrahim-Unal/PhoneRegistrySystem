@@ -1,5 +1,5 @@
 using Microsoft.Extensions.Logging;
-using PhoneRegistry.Infrastructure.Messaging.Interfaces;
+using PhoneRegistry.Application.Common.Messaging;
 using RabbitMQ.Client;
 using System.Text;
 using System.Text.Json;
