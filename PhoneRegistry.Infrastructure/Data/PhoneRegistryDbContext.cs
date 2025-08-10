@@ -22,6 +22,7 @@ public class PhoneRegistryDbContext : DbContext
         modelBuilder.Entity<Person>(entity =>
         {
             entity.HasKey(e => e.Id);
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.FirstName).IsRequired().HasMaxLength(50);
             entity.Property(e => e.LastName).IsRequired().HasMaxLength(50);
             entity.Property(e => e.Company).HasMaxLength(100);
@@ -32,6 +33,7 @@ public class PhoneRegistryDbContext : DbContext
         modelBuilder.Entity<ContactInfo>(entity =>
         {
             entity.HasKey(e => e.Id);
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.Content).IsRequired().HasMaxLength(200);
             entity.Property(e => e.Type).IsRequired();
         });
@@ -40,6 +42,7 @@ public class PhoneRegistryDbContext : DbContext
         modelBuilder.Entity<Report>(entity =>
         {
             entity.HasKey(e => e.Id);
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.Status).IsRequired();
             entity.HasMany(e => e.LocationStatistics).WithOne(e => e.Report).HasForeignKey(e => e.ReportId);
         });
@@ -48,6 +51,7 @@ public class PhoneRegistryDbContext : DbContext
         modelBuilder.Entity<LocationStatistic>(entity =>
         {
             entity.HasKey(e => e.Id);
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.Location).IsRequired().HasMaxLength(200);
         });
 

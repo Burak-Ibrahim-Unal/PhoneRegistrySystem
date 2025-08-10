@@ -1,5 +1,10 @@
 using PhoneRegistry.Services;
 using PhoneRegistry.Infrastructure;
+using PhoneRegistry.WorkerService;
+using PhoneRegistry.WorkerService.Services;
+using PhoneRegistry.Application.Common.Messaging;
+using PhoneRegistry.Infrastructure.Messaging.Interfaces;
+using PhoneRegistry.Infrastructure.Messaging.Services;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,6 +28,13 @@ builder.Services.AddControllers()
     });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Worker Service için gerekli servisleri ekle
+builder.Services.AddScoped<IMessageConsumer<ReportRequestMessage>, ReportProcessingService>();
+builder.Services.AddScoped<RabbitMQConsumer<ReportRequestMessage>>();
+
+// Worker Service'i de ekle
+builder.Services.AddHostedService<Worker>();
 
 // CORS - Daha kapsamlı ayar
 builder.Services.AddCors(options =>

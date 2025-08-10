@@ -23,7 +23,7 @@ public class GetAllPersonsQueryHandler : IQueryHandler<GetAllPersonsQuery, List<
     {
         _logger.LogInformation(Messages.Person.GettingAll, query.Skip, query.Take);
 
-        var persons = await _unitOfWork.Persons.GetAllWithContactInfosAsync(query.Skip, query.Take, cancellationToken);
+        var persons = await _unitOfWork.Persons.GetAllWithContactInfosPagedAsync(query.Skip, query.Take, cancellationToken);
         
         return persons.ToList();
     }

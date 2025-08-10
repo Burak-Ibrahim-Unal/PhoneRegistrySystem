@@ -19,13 +19,21 @@ public class PersonRepository : Repository<Person>, IPersonRepository
             .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
     }
 
-    public async Task<IEnumerable<Person>> GetAllWithContactInfosAsync(int skip = 0, int take = 50, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<Person>> GetAllWithContactInfosPagedAsync(int skip = 0, int take = 50, CancellationToken cancellationToken = default)
     {
         return await _dbSet
             .Where(p => !p.IsDeleted)
             .Include(p => p.ContactInfos.Where(c => !c.IsDeleted))
             .Skip(skip)
             .Take(take)
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<IEnumerable<Person>> GetAllWithContactInfosAsync(CancellationToken cancellationToken = default)
+    {
+        return await _dbSet
+            .Where(p => !p.IsDeleted)
+            .Include(p => p.ContactInfos.Where(c => !c.IsDeleted))
             .ToListAsync(cancellationToken);
     }
 

@@ -14,6 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\PhoneRegistry.Services\PhoneRegistry.Services.csproj" />
     <ProjectReference Include="..\PhoneRegistry.Infrastructure\PhoneRegistry.Infrastructure.csproj" />
+    <ProjectReference Include="..\PhoneRegistry.WorkerService\PhoneRegistry.WorkerService.csproj" />
   </ItemGroup>
 
 </Project>

@@ -23,8 +23,13 @@ public class Report : BaseEntity
         if (Status != ReportStatus.Preparing)
             throw new InvalidOperationException("Report is not in preparing status");
 
-        _locationStatistics.Clear();
-        _locationStatistics.AddRange(statistics);
+        // Her statistic için ReportId'yi set et
+        foreach (var stat in statistics)
+        {
+            stat.SetReportId(Id);
+            _locationStatistics.Add(stat);
+        }
+        
         Status = ReportStatus.Completed;
         CompletedAt = DateTime.UtcNow;
         UpdatedAt = DateTime.UtcNow;

@@ -1,5 +1,7 @@
 namespace PhoneRegistry.Domain.Entities;
 
+using System.Text.Json.Serialization;
+
 public class LocationStatistic : BaseEntity
 {
     public Guid ReportId { get; private set; }
@@ -8,6 +10,7 @@ public class LocationStatistic : BaseEntity
     public int PhoneNumberCount { get; private set; }
 
     // Navigation property
+    [JsonIgnore]
     public Report Report { get; private set; } = null!;
 
     protected LocationStatistic() { } // EF Core
@@ -27,5 +30,10 @@ public class LocationStatistic : BaseEntity
         Location = location.Trim();
         PersonCount = personCount;
         PhoneNumberCount = phoneNumberCount;
+    }
+
+    public void SetReportId(Guid reportId)
+    {
+        ReportId = reportId;
     }
 }

@@ -1,33 +1,5 @@
 services:
-  postgres:
-    image: postgres:15
-    container_name: phoneregistry-postgres
-    environment:
-      POSTGRES_DB: PhoneRegistryDb
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres123
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  redis:
-    image: redis:7-alpine
-    container_name: phoneregistry-redis
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 3s
-      retries: 5
+  # PostgreSQL ve Redis local kullanıldığı için kaldırıldı
 
   rabbitmq:
     image: rabbitmq:3-management
@@ -51,102 +23,9 @@ services:
       timeout: 10s
       retries: 5
 
-  migrator:
-    build:
-      context: .
-      dockerfile: PhoneRegistry.Migrator/Dockerfile
-    container_name: phoneregistry-migrator
-    environment:
-      - ConnectionStrings__DefaultConnection=Host=postgres;Database=PhoneRegistryDb;Username=postgres;Password=postgres123
-    depends_on:
-      postgres:
-        condition: service_healthy
-    volumes:
-      - ./scripts:/app/scripts
-    restart: "no"  # Bir kez çalışır ve durur
-
-  contact-api:
-    build:
-      context: .
-      dockerfile: PhoneRegistry.ContactApi/Dockerfile
-    container_name: phoneregistry-contact-api
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:80
-      - ConnectionStrings__DefaultConnection=Host=postgres;Database=PhoneRegistryDb;Username=postgres;Password=postgres123
-      - ConnectionStrings__Redis=redis:6379
-      - ConnectionStrings__RabbitMQ=amqp://admin:admin123@rabbitmq:5672/
-    ports:
-      - "5000:80"
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-      migrator:
-        condition: service_completed_successfully
-    restart: unless-stopped
-
-  report-api:
-    build:
-      context: .
-      dockerfile: PhoneRegistry.ReportApi/Dockerfile
-    container_name: phoneregistry-report-api
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:80
-      - ConnectionStrings__DefaultConnection=Host=postgres;Database=PhoneRegistryDb;Username=postgres;Password=postgres123
-      - ConnectionStrings__Redis=redis:6379
-      - ConnectionStrings__RabbitMQ=amqp://admin:admin123@rabbitmq:5672/
-    ports:
-      - "5001:80"
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-      rabbitmq:
-        condition: service_healthy
-      migrator:
-        condition: service_completed_successfully
-    restart: unless-stopped
-
-  # Report Processing Worker Service
-  worker-service:
-    build:
-      context: .
-      dockerfile: PhoneRegistry.WorkerService/Dockerfile
-    container_name: phoneregistry-worker
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Host=postgres;Database=PhoneRegistryDb;Username=postgres;Password=postgres123
-      - ConnectionStrings__Redis=redis:6379
-      - ConnectionStrings__RabbitMQ=amqp://admin:admin123@rabbitmq:5672/
-    depends_on:
-      postgres:
-        condition: service_healthy
-      rabbitmq:
-        condition: service_healthy
-      migrator:
-        condition: service_completed_successfully
-    restart: unless-stopped
-
-  # Angular Frontend
-  frontend:
-    build:
-      context: ./PhoneRegistrySystemClient
-      dockerfile: Dockerfile
-    container_name: phoneregistry-frontend
-    ports:
-      - "4200:80"
-    depends_on:
-      - contact-api
-      - report-api
-    restart: unless-stopped
+  # API'ler ve Worker Service local çalıştığı için Docker'dan kaldırıldı
 
 volumes:
-  postgres_data:
-  redis_data:
   rabbitmq_data:
 
 networks:

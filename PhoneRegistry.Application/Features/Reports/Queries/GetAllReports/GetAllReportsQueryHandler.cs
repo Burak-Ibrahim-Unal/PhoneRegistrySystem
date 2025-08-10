@@ -23,8 +23,15 @@ public class GetAllReportsQueryHandler : IQueryHandler<GetAllReportsQuery, List<
     {
         _logger.LogInformation(Messages.Report.GettingAll);
 
-        var reports = await _unitOfWork.Reports.GetAllAsync(query.Skip, query.Take, cancellationToken);
-        var result = reports.ToList();
+        // Konum/kişi/telefon özetlerinin doğru hesaplanabilmesi için istatistikleri include ederek çek
+        var reportsWithStats = await _unitOfWork.Reports.GetAllWithStatisticsAsync(cancellationToken);
+
+        // Tercihen RequestedAt'e göre sıralayıp sayfalandır
+        var result = reportsWithStats
+            .OrderByDescending(r => r.RequestedAt)
+            .Skip(query.Skip)
+            .Take(query.Take)
+            .ToList();
 
         _logger.LogInformation("Retrieved {Count} reports", result.Count);
         return result;
