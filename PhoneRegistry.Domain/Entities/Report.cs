@@ -32,7 +32,7 @@ public class Report : BaseEntity
         
         Status = ReportStatus.Completed;
         CompletedAt = DateTime.UtcNow;
-        UpdatedAt = DateTime.UtcNow;
+        UpdateTimestamp();
     }
 
     public void FailReport(string errorMessage)
@@ -43,6 +43,6 @@ public class Report : BaseEntity
         Status = ReportStatus.Failed;
         ErrorMessage = errorMessage;
         CompletedAt = DateTime.UtcNow;
-        UpdatedAt = DateTime.UtcNow;
+        UpdateTimestamp();
     }
 }

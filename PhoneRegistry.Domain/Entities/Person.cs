@@ -29,20 +29,20 @@ public class Person : BaseEntity
 
         FirstName = firstName.Trim();
         LastName = lastName.Trim();
-        UpdatedAt = DateTime.UtcNow;
+        UpdateTimestamp();
     }
 
     public void SetCompany(string? company)
     {
         Company = company?.Trim();
-        UpdatedAt = DateTime.UtcNow;
+        UpdateTimestamp();
     }
 
     public ContactInfo AddContactInfo(ContactType type, string content)
     {
         var contactInfo = new ContactInfo(Id, type, content);
         _contactInfos.Add(contactInfo);
-        UpdatedAt = DateTime.UtcNow;
+        UpdateTimestamp();
         return contactInfo;
     }
 
@@ -52,14 +52,13 @@ public class Person : BaseEntity
         if (contactInfo != null)
         {
             _contactInfos.Remove(contactInfo);
+            UpdateTimestamp();
         }
-        UpdatedAt = DateTime.UtcNow;
     }
 
     public void SoftDelete()
     {
-        IsDeleted = true;
-        UpdatedAt = DateTime.UtcNow;
+        MarkAsDeleted();
         
         // Contact info'ları da soft delete yap
         foreach (var contactInfo in _contactInfos)
@@ -67,7 +66,6 @@ public class Person : BaseEntity
             contactInfo.SoftDelete();
         }
     }
-
 
     public string GetFullName() => $"{FirstName} {LastName}";
 }

@@ -16,6 +16,7 @@ public class PersonRepository : Repository<Person>, IPersonRepository
         return await _dbSet
             .Where(p => !p.IsDeleted)
             .Include(p => p.ContactInfos.Where(c => !c.IsDeleted))
+                .ThenInclude(ci => ci.City)
             .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
     }
 
@@ -24,6 +25,7 @@ public class PersonRepository : Repository<Person>, IPersonRepository
         return await _dbSet
             .Where(p => !p.IsDeleted)
             .Include(p => p.ContactInfos.Where(c => !c.IsDeleted))
+                .ThenInclude(ci => ci.City)
             .Skip(skip)
             .Take(take)
             .ToListAsync(cancellationToken);
@@ -34,6 +36,7 @@ public class PersonRepository : Repository<Person>, IPersonRepository
         return await _dbSet
             .Where(p => !p.IsDeleted)
             .Include(p => p.ContactInfos.Where(c => !c.IsDeleted))
+                .ThenInclude(ci => ci.City)
             .ToListAsync(cancellationToken);
     }
 

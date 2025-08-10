@@ -15,7 +15,7 @@ public class LocationStatistic : BaseEntity
 
     protected LocationStatistic() { } // EF Core
 
-    public LocationStatistic(Guid reportId, string location, int personCount, int phoneNumberCount)
+    public LocationStatistic(string location, int personCount, int phoneNumberCount)
     {
         if (string.IsNullOrWhiteSpace(location))
             throw new ArgumentException("Location cannot be empty", nameof(location));
@@ -26,7 +26,6 @@ public class LocationStatistic : BaseEntity
         if (phoneNumberCount < 0)
             throw new ArgumentException("Phone number count cannot be negative", nameof(phoneNumberCount));
 
-        ReportId = reportId;
         Location = location.Trim();
         PersonCount = personCount;
         PhoneNumberCount = phoneNumberCount;
@@ -34,6 +33,9 @@ public class LocationStatistic : BaseEntity
 
     public void SetReportId(Guid reportId)
     {
+        if (reportId == Guid.Empty)
+            throw new ArgumentException("ReportId cannot be empty", nameof(reportId));
+            
         ReportId = reportId;
     }
 }

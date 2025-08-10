@@ -13,6 +13,7 @@ public class PhoneRegistryDbContext : DbContext
     public DbSet<ContactInfo> ContactInfos { get; set; }
     public DbSet<Report> Reports { get; set; }
     public DbSet<LocationStatistic> LocationStatistics { get; set; }
+    public DbSet<City> Cities { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -36,6 +37,11 @@ public class PhoneRegistryDbContext : DbContext
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.Content).IsRequired().HasMaxLength(200);
             entity.Property(e => e.Type).IsRequired();
+            // City ilişkisi (opsiyonel)
+            entity.HasOne(e => e.City)
+                .WithMany(c => c.ContactInfos)
+                .HasForeignKey(e => e.CityId)
+                .OnDelete(DeleteBehavior.Restrict);
         });
 
         // Report Configuration
@@ -53,6 +59,14 @@ public class PhoneRegistryDbContext : DbContext
             entity.HasKey(e => e.Id);
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.Location).IsRequired().HasMaxLength(200);
+        });
+
+        // City Configuration
+        modelBuilder.Entity<City>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
+            entity.Property(e => e.Name).IsRequired().HasMaxLength(120);
         });
 
         // Global query filters for soft delete - geçici olarak kaldırıldı

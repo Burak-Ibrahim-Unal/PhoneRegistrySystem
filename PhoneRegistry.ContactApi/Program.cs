@@ -5,6 +5,7 @@ using PhoneRegistry.WorkerService.Services;
 using PhoneRegistry.Application.Common.Messaging;
 using PhoneRegistry.Infrastructure.Messaging.Interfaces;
 using PhoneRegistry.Infrastructure.Messaging.Services;
+using PhoneRegistry.Infrastructure.Data;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -68,5 +69,16 @@ app.UseCors(); // Default policy kullan
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+
+// Seed default cities on startup
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<PhoneRegistryDbContext>();
+    var logger = services.GetService<ILoggerFactory>()?.CreateLogger("DbSeeder");
+    await DbSeeder.SeedCitiesAsync(context, logger);
+    await DbSeeder.SeedDemoDataAsync(context, logger);
+    await DbSeeder.SeedFixedReportAsync(context, logger);
+}
 
 app.Run();

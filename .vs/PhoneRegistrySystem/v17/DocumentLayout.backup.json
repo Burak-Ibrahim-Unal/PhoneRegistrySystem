@@ -3,6 +3,18 @@
   "WorkspaceRootPath": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{CB043722-71CC-46AA-9E9D-DA7DA621C979}|PhoneRegistry.Domain\\PhoneRegistry.Domain.csproj|c:\\users\\burak\\desktop\\github\\phoneregistrysystem\\phoneregistry.domain\\entities\\locationstatistic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CB043722-71CC-46AA-9E9D-DA7DA621C979}|PhoneRegistry.Domain\\PhoneRegistry.Domain.csproj|solutionrelative:phoneregistry.domain\\entities\\locationstatistic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{29985E9E-85C4-432A-A877-9B1BA76B0F19}|PhoneRegistry.Infrastructure\\PhoneRegistry.Infrastructure.csproj|c:\\users\\burak\\desktop\\github\\phoneregistrysystem\\phoneregistry.infrastructure\\data\\dbseeder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{29985E9E-85C4-432A-A877-9B1BA76B0F19}|PhoneRegistry.Infrastructure\\PhoneRegistry.Infrastructure.csproj|solutionrelative:phoneregistry.infrastructure\\data\\dbseeder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AC11C610-F884-4016-85E4-85DD98AAE002}|PhoneRegistry.ReportApi\\PhoneRegistry.ReportApi.csproj|c:\\users\\burak\\desktop\\github\\phoneregistrysystem\\phoneregistry.reportapi\\controllers\\reportscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AC11C610-F884-4016-85E4-85DD98AAE002}|PhoneRegistry.ReportApi\\PhoneRegistry.ReportApi.csproj|solutionrelative:phoneregistry.reportapi\\controllers\\reportscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{BB5D9886-9E2E-4A56-A1AF-BF16DE44D7AF}|PhoneRegistry.Application\\PhoneRegistry.Application.csproj|c:\\users\\burak\\desktop\\github\\phoneregistrysystem\\phoneregistry.application\\features\\reports\\commands\\requestreport\\requestreportcommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{BB5D9886-9E2E-4A56-A1AF-BF16DE44D7AF}|PhoneRegistry.Application\\PhoneRegistry.Application.csproj|solutionrelative:phoneregistry.application\\features\\reports\\commands\\requestreport\\requestreportcommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -19,20 +31,12 @@
       "RelativeMoniker": "D:0:0:{BB5D9886-9E2E-4A56-A1AF-BF16DE44D7AF}|PhoneRegistry.Application\\PhoneRegistry.Application.csproj|solutionrelative:phoneregistry.application\\features\\reports\\queries\\getreportbyid\\getreportbyidqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AC11C610-F884-4016-85E4-85DD98AAE002}|PhoneRegistry.ReportApi\\PhoneRegistry.ReportApi.csproj|c:\\users\\burak\\desktop\\github\\phoneregistrysystem\\phoneregistry.reportapi\\controllers\\reportscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AC11C610-F884-4016-85E4-85DD98AAE002}|PhoneRegistry.ReportApi\\PhoneRegistry.ReportApi.csproj|solutionrelative:phoneregistry.reportapi\\controllers\\reportscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{CB043722-71CC-46AA-9E9D-DA7DA621C979}|PhoneRegistry.Domain\\PhoneRegistry.Domain.csproj|c:\\users\\burak\\desktop\\github\\phoneregistrysystem\\phoneregistry.domain\\entities\\report.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{CB043722-71CC-46AA-9E9D-DA7DA621C979}|PhoneRegistry.Domain\\PhoneRegistry.Domain.csproj|solutionrelative:phoneregistry.domain\\entities\\report.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.WorkerService\\Worker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:PhoneRegistry.WorkerService\\Worker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CB043722-71CC-46AA-9E9D-DA7DA621C979}|PhoneRegistry.Domain\\PhoneRegistry.Domain.csproj|c:\\users\\burak\\desktop\\github\\phoneregistrysystem\\phoneregistry.domain\\entities\\locationstatistic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CB043722-71CC-46AA-9E9D-DA7DA621C979}|PhoneRegistry.Domain\\PhoneRegistry.Domain.csproj|solutionrelative:phoneregistry.domain\\entities\\locationstatistic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{BB5D9886-9E2E-4A56-A1AF-BF16DE44D7AF}|PhoneRegistry.Application\\PhoneRegistry.Application.csproj|c:\\users\\burak\\desktop\\github\\phoneregistrysystem\\phoneregistry.application\\dependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -190,32 +194,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "ReportService.cs",
-              "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Services\\Implementations\\ReportService.cs",
-              "RelativeDocumentMoniker": "PhoneRegistry.Services\\Implementations\\ReportService.cs",
-              "ToolTip": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Services\\Implementations\\ReportService.cs",
-              "RelativeToolTip": "PhoneRegistry.Services\\Implementations\\ReportService.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAEwBgAAAAIAAAAAAAAAA==",
+              "Title": "DbSeeder.cs",
+              "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Infrastructure\\Data\\DbSeeder.cs",
+              "RelativeDocumentMoniker": "PhoneRegistry.Infrastructure\\Data\\DbSeeder.cs",
+              "ToolTip": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Infrastructure\\Data\\DbSeeder.cs",
+              "RelativeToolTip": "PhoneRegistry.Infrastructure\\Data\\DbSeeder.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-10T08:44:46.6Z",
+              "WhenOpened": "2025-08-10T21:59:43.785Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "ReportsController.cs",
-              "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.ReportApi\\Controllers\\ReportsController.cs",
-              "RelativeDocumentMoniker": "PhoneRegistry.ReportApi\\Controllers\\ReportsController.cs",
-              "ToolTip": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.ReportApi\\Controllers\\ReportsController.cs",
-              "RelativeToolTip": "PhoneRegistry.ReportApi\\Controllers\\ReportsController.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAABoAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-10T08:28:43.335Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "PersonService.cs",
               "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Services\\Implementations\\PersonService.cs",
               "RelativeDocumentMoniker": "PhoneRegistry.Services\\Implementations\\PersonService.cs",
@@ -227,7 +218,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "GetAllPersonsQueryHandler.cs",
               "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Application\\Features\\Persons\\Queries\\GetAllPersons\\GetAllPersonsQueryHandler.cs",
               "RelativeDocumentMoniker": "PhoneRegistry.Application\\Features\\Persons\\Queries\\GetAllPersons\\GetAllPersonsQueryHandler.cs",
@@ -239,7 +230,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 19,
               "Title": "GetPersonByIdQueryHandler.cs",
               "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Application\\Features\\Persons\\Queries\\GetPersonById\\GetPersonByIdQueryHandler.cs",
               "RelativeDocumentMoniker": "PhoneRegistry.Application\\Features\\Persons\\Queries\\GetPersonById\\GetPersonByIdQueryHandler.cs",
@@ -251,7 +242,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 21,
               "Title": "DeletePersonCommand.cs",
               "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Application\\Features\\Persons\\Commands\\DeletePerson\\DeletePersonCommand.cs",
               "RelativeDocumentMoniker": "PhoneRegistry.Application\\Features\\Persons\\Commands\\DeletePerson\\DeletePersonCommand.cs",
@@ -263,7 +254,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 24,
               "Title": "CreatePersonCommand.cs",
               "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Application\\Features\\Persons\\Commands\\CreatePerson\\CreatePersonCommand.cs",
               "RelativeDocumentMoniker": "PhoneRegistry.Application\\Features\\Persons\\Commands\\CreatePerson\\CreatePersonCommand.cs",
@@ -275,7 +266,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 22,
               "Title": "CreatePersonCommandHandler.cs",
               "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Application\\Features\\Persons\\Commands\\CreatePerson\\CreatePersonCommandHandler.cs",
               "RelativeDocumentMoniker": "PhoneRegistry.Application\\Features\\Persons\\Commands\\CreatePerson\\CreatePersonCommandHandler.cs",
@@ -287,7 +278,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "Report.cs",
               "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Domain\\Entities\\Report.cs",
               "RelativeDocumentMoniker": "PhoneRegistry.Domain\\Entities\\Report.cs",
@@ -300,7 +291,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "Worker.cs",
               "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.WorkerService\\Worker.cs",
               "RelativeDocumentMoniker": "PhoneRegistry.WorkerService\\Worker.cs",
@@ -313,7 +304,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "DependencyInjection.cs",
               "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Application\\DependencyInjection.cs",
               "RelativeDocumentMoniker": "PhoneRegistry.Application\\DependencyInjection.cs",
@@ -325,20 +316,59 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "RequestReportCommandHandler.cs",
               "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Application\\Features\\Reports\\Commands\\RequestReport\\RequestReportCommandHandler.cs",
               "RelativeDocumentMoniker": "PhoneRegistry.Application\\Features\\Reports\\Commands\\RequestReport\\RequestReportCommandHandler.cs",
               "ToolTip": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Application\\Features\\Reports\\Commands\\RequestReport\\RequestReportCommandHandler.cs",
               "RelativeToolTip": "PhoneRegistry.Application\\Features\\Reports\\Commands\\RequestReport\\RequestReportCommandHandler.cs",
-              "ViewState": "AgIAAB8AAAAAAAAAAAAQwBgAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABEAAAAAAAAAAAAAwBgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-08-09T10:06:12.856Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
+              "Title": "LocationStatistic.cs",
+              "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Domain\\Entities\\LocationStatistic.cs",
+              "RelativeDocumentMoniker": "PhoneRegistry.Domain\\Entities\\LocationStatistic.cs",
+              "ToolTip": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Domain\\Entities\\LocationStatistic.cs",
+              "RelativeToolTip": "PhoneRegistry.Domain\\Entities\\LocationStatistic.cs",
+              "ViewState": "AgIAABQAAAAAAAAAAAAEwCEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-09T19:15:25.521Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ReportsController.cs",
+              "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.ReportApi\\Controllers\\ReportsController.cs",
+              "RelativeDocumentMoniker": "PhoneRegistry.ReportApi\\Controllers\\ReportsController.cs",
+              "ToolTip": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.ReportApi\\Controllers\\ReportsController.cs",
+              "RelativeToolTip": "PhoneRegistry.ReportApi\\Controllers\\ReportsController.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABoAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-10T08:28:43.335Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ReportService.cs",
+              "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Services\\Implementations\\ReportService.cs",
+              "RelativeDocumentMoniker": "PhoneRegistry.Services\\Implementations\\ReportService.cs",
+              "ToolTip": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Services\\Implementations\\ReportService.cs",
+              "RelativeToolTip": "PhoneRegistry.Services\\Implementations\\ReportService.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAEwBgAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-10T08:44:46.6Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "GetReportByIdQueryHandler.cs",
               "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Application\\Features\\Reports\\Queries\\GetReportById\\GetReportByIdQueryHandler.cs",
               "RelativeDocumentMoniker": "PhoneRegistry.Application\\Features\\Reports\\Queries\\GetReportById\\GetReportByIdQueryHandler.cs",
@@ -351,7 +381,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "ReportRepository.cs",
               "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Infrastructure\\Repositories\\ReportRepository.cs",
               "RelativeDocumentMoniker": "PhoneRegistry.Infrastructure\\Repositories\\ReportRepository.cs",
@@ -364,7 +394,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 18,
               "Title": "PhoneRegistry.ContactApi",
               "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.ContactApi\\PhoneRegistry.ContactApi.csproj",
               "RelativeDocumentMoniker": "PhoneRegistry.ContactApi\\PhoneRegistry.ContactApi.csproj",
@@ -375,7 +405,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "ReportRequestMessage.cs",
               "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Infrastructure\\Messaging\\Models\\ReportRequestMessage.cs",
               "RelativeDocumentMoniker": "PhoneRegistry.Infrastructure\\Messaging\\Models\\ReportRequestMessage.cs",
@@ -387,19 +417,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "LocationStatistic.cs",
-              "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Domain\\Entities\\LocationStatistic.cs",
-              "RelativeDocumentMoniker": "PhoneRegistry.Domain\\Entities\\LocationStatistic.cs",
-              "ToolTip": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Domain\\Entities\\LocationStatistic.cs",
-              "RelativeToolTip": "PhoneRegistry.Domain\\Entities\\LocationStatistic.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-09T19:15:25.521Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 16,
               "Title": "GetAllPersonsQuery.cs",
               "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Application\\Features\\Persons\\Queries\\GetAllPersons\\GetAllPersonsQuery.cs",
               "RelativeDocumentMoniker": "PhoneRegistry.Application\\Features\\Persons\\Queries\\GetAllPersons\\GetAllPersonsQuery.cs",
@@ -411,7 +429,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 27,
               "Title": "ICommand.cs",
               "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Application\\Common\\Interfaces\\ICommand.cs",
               "RelativeDocumentMoniker": "PhoneRegistry.Application\\Common\\Interfaces\\ICommand.cs",
@@ -423,7 +441,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "PersonsController.cs",
               "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.ContactApi\\Controllers\\PersonsController.cs",
               "RelativeDocumentMoniker": "PhoneRegistry.ContactApi\\Controllers\\PersonsController.cs",
@@ -435,7 +453,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "Person.cs",
               "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Domain\\Entities\\Person.cs",
               "RelativeDocumentMoniker": "PhoneRegistry.Domain\\Entities\\Person.cs",
@@ -447,7 +465,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "AddContactInfoCommandHandler.cs",
               "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Application\\Features\\ContactInfos\\Commands\\AddContactInfo\\AddContactInfoCommandHandler.cs",
               "RelativeDocumentMoniker": "PhoneRegistry.Application\\Features\\ContactInfos\\Commands\\AddContactInfo\\AddContactInfoCommandHandler.cs",
@@ -459,7 +477,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 17,
               "Title": "launchSettings.json",
               "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.ContactApi\\Properties\\launchSettings.json",
               "RelativeDocumentMoniker": "PhoneRegistry.ContactApi\\Properties\\launchSettings.json",
@@ -471,7 +489,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 25,
               "Title": "contact-api-20250809.log",
               "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.ContactApi\\logs\\contact-api-20250809.log",
               "RelativeDocumentMoniker": "PhoneRegistry.ContactApi\\logs\\contact-api-20250809.log",
@@ -482,7 +500,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 35,
               "Title": "GetAllReportsQueryHandler.cs",
               "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Application\\Features\\Reports\\Queries\\GetAllReports\\GetAllReportsQueryHandler.cs",
               "RelativeDocumentMoniker": "PhoneRegistry.Application\\Features\\Reports\\Queries\\GetAllReports\\GetAllReportsQueryHandler.cs",
@@ -494,7 +512,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 35,
+              "DocumentIndex": 36,
               "Title": "appsettings.Development.json",
               "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.ContactApi\\appsettings.Development.json",
               "RelativeDocumentMoniker": "PhoneRegistry.ContactApi\\appsettings.Development.json",
@@ -506,7 +524,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 31,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.ContactApi\\appsettings.json",
               "RelativeDocumentMoniker": "PhoneRegistry.ContactApi\\appsettings.json",
@@ -518,7 +536,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 28,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.ContactApi\\Program.cs",
               "RelativeDocumentMoniker": "PhoneRegistry.ContactApi\\Program.cs",
@@ -530,7 +548,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 20,
               "Title": "DeletePersonCommandHandler.cs",
               "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Application\\Features\\Persons\\Commands\\DeletePerson\\DeletePersonCommandHandler.cs",
               "RelativeDocumentMoniker": "PhoneRegistry.Application\\Features\\Persons\\Commands\\DeletePerson\\DeletePersonCommandHandler.cs",
@@ -542,7 +560,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 34,
               "Title": "BasicTests.cs",
               "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Tests\\BasicTests.cs",
               "RelativeDocumentMoniker": "PhoneRegistry.Tests\\BasicTests.cs",
@@ -554,7 +572,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 23,
               "Title": "ICommandHandler.cs",
               "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Application\\Common\\Interfaces\\ICommandHandler.cs",
               "RelativeDocumentMoniker": "PhoneRegistry.Application\\Common\\Interfaces\\ICommandHandler.cs",
@@ -566,7 +584,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 33,
               "Title": "SimpleTest.cs",
               "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Tests\\SimpleTest.cs",
               "RelativeDocumentMoniker": "PhoneRegistry.Tests\\SimpleTest.cs",
@@ -578,7 +596,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 32,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.ReportApi\\Program.cs",
               "RelativeDocumentMoniker": "PhoneRegistry.ReportApi\\Program.cs",
@@ -590,7 +608,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 26,
               "Title": "IQueryHandler.cs",
               "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Application\\Common\\Interfaces\\IQueryHandler.cs",
               "RelativeDocumentMoniker": "PhoneRegistry.Application\\Common\\Interfaces\\IQueryHandler.cs",
@@ -602,7 +620,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 30,
               "Title": "Dockerfile",
               "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.ContactApi\\Dockerfile",
               "RelativeDocumentMoniker": "PhoneRegistry.ContactApi\\Dockerfile",
@@ -614,7 +632,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 29,
               "Title": "IQuery.cs",
               "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Application\\Common\\Interfaces\\IQuery.cs",
               "RelativeDocumentMoniker": "PhoneRegistry.Application\\Common\\Interfaces\\IQuery.cs",
@@ -626,7 +644,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 37,
               "Title": "DependencyInjection.cs",
               "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Services\\DependencyInjection.cs",
               "RelativeDocumentMoniker": "PhoneRegistry.Services\\DependencyInjection.cs",
@@ -638,7 +656,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 37,
+              "DocumentIndex": 38,
               "Title": "IUnitOfWork.cs",
               "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Domain\\Repositories\\IUnitOfWork.cs",
               "RelativeDocumentMoniker": "PhoneRegistry.Domain\\Repositories\\IUnitOfWork.cs",
@@ -650,7 +668,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 38,
+              "DocumentIndex": 39,
               "Title": "ReportStatus.cs",
               "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Domain\\ValueObjects\\ReportStatus.cs",
               "RelativeDocumentMoniker": "PhoneRegistry.Domain\\ValueObjects\\ReportStatus.cs",
@@ -662,7 +680,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 39,
+              "DocumentIndex": 40,
               "Title": "ContactType.cs",
               "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Domain\\ValueObjects\\ContactType.cs",
               "RelativeDocumentMoniker": "PhoneRegistry.Domain\\ValueObjects\\ContactType.cs",
@@ -674,7 +692,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 40,
+              "DocumentIndex": 41,
               "Title": "Microsoft.Common.CurrentVersion.targets",
               "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",

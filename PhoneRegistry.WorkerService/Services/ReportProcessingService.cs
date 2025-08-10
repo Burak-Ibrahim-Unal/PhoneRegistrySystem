@@ -15,76 +15,90 @@ public class ReportProcessingService : IMessageConsumer<ReportRequestMessage>
     private readonly PhoneRegistryDbContext _context;
     private readonly ILogger<ReportProcessingService> _logger;
 
-    public ReportProcessingService(IUnitOfWork unitOfWork, PhoneRegistryDbContext context, ILogger<ReportProcessingService> logger)
+    public ReportProcessingService(
+        IUnitOfWork unitOfWork, 
+        PhoneRegistryDbContext context, 
+        ILogger<ReportProcessingService> logger)
     {
-        _unitOfWork = unitOfWork;
-        _context = context;
-        _logger = logger;
+        _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+        _context = context ?? throw new ArgumentNullException(nameof(context));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     public async Task ConsumeAsync(ReportRequestMessage message, CancellationToken cancellationToken = default)
     {
+        if (message == null)
+            throw new ArgumentNullException(nameof(message));
+
         _logger.LogInformation("Processing report request for Report ID: {ReportId}", message.ReportId);
 
         try
         {
-            // Her bir mesaj işlenirken önce takip edilen state'i temizle (stale tracking önlenir)
-            _context.ChangeTracker.Clear();
-            // Report'u getir
-            var report = await _unitOfWork.Reports.GetByIdAsync(message.ReportId, cancellationToken);
-            if (report == null)
-            {
-                _logger.LogError("Report not found: {ReportId}", message.ReportId);
-                return;
-            }
-
-            // Lokasyon istatistiklerini hesapla
-            var locationStatistics = await CalculateLocationStatisticsAsync(cancellationToken);
-
-            // Domain yöntemi ile raporu tamamla (durum geçişi + ilişkiler tek yerden yönetilir)
-            report.CompleteReport(locationStatistics);
-
-            // ÖNEMLİ: Yeni oluşturulan LocationStatistic nesnelerini açıkça Added olarak işaretle
-            // Aksi halde client-generated key (Guid) nedeniyle EF bunları UPDATE etmeye çalışabilir
-            _context.LocationStatistics.AddRange(locationStatistics);
-            // Explicit: EF durumunu Added olarak zorla (UPDATE üretilmesini engeller)
-            foreach (var stat in locationStatistics)
-            {
-                _context.Entry(stat).State = EntityState.Added;
-            }
-
-            // Veritabanını güncelle
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-            _logger.LogInformation("Report {ReportId} completed successfully with {LocationCount} locations", 
-                message.ReportId, locationStatistics.Count);
+            await ProcessReportAsync(message.ReportId, cancellationToken);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to process report {ReportId}", message.ReportId);
+            await HandleProcessingErrorAsync(message.ReportId, ex, cancellationToken);
+        }
+    }
 
-            try
+    private async Task ProcessReportAsync(Guid reportId, CancellationToken cancellationToken)
+    {
+        // Her bir mesaj işlenirken önce takip edilen state'i temizle (stale tracking önlenir)
+        _context.ChangeTracker.Clear();
+        
+        // Report'u getir
+        var report = await _unitOfWork.Reports.GetByIdAsync(reportId, cancellationToken);
+        if (report == null)
+        {
+            _logger.LogError("Report not found: {ReportId}", reportId);
+            return;
+        }
+
+        // Lokasyon istatistiklerini hesapla
+        var locationStatistics = await CalculateLocationStatisticsAsync(cancellationToken);
+
+        // Domain yöntemi ile raporu tamamla (durum geçişi + ilişkiler tek yerden yönetilir)
+        report.CompleteReport(locationStatistics);
+
+        // Yeni oluşturulan LocationStatistic nesnelerini açıkça Added olarak işaretle
+        _context.LocationStatistics.AddRange(locationStatistics);
+        
+        // Explicit: EF durumunu Added olarak zorla (UPDATE üretilmesini engeller)
+        foreach (var stat in locationStatistics)
+        {
+            _context.Entry(stat).State = EntityState.Added;
+        }
+
+        // Veritabanını güncelle
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        _logger.LogInformation("Report {ReportId} completed successfully with {LocationCount} locations", 
+            reportId, locationStatistics.Count);
+    }
+
+    private async Task HandleProcessingErrorAsync(Guid reportId, Exception ex, CancellationToken cancellationToken)
+    {
+        try
+        {
+            // Stale tracking'i temizle ve raporu tekrar yükleyip sadece hala Preparing ise fail'e çek
+            _context.ChangeTracker.Clear();
+            var report = await _unitOfWork.Reports.GetByIdAsync(reportId, cancellationToken);
+            if (report != null && report.Status == ReportStatus.Preparing)
             {
-                // Stale tracking'i temizle ve raporu tekrar yükleyip sadece hala Preparing ise fail'e çek
-                _context.ChangeTracker.Clear();
-                var report = await _unitOfWork.Reports.GetByIdAsync(message.ReportId, cancellationToken);
-                if (report != null)
-                {
-                    if (report.Status == ReportStatus.Preparing)
-                    {
-                        report.FailReport(ex.Message);
-                        await _unitOfWork.SaveChangesAsync(cancellationToken);
-                    }
-                    else
-                    {
-                        _logger.LogWarning("Report {ReportId} is in status {Status} after failure; skipping fail transition.", message.ReportId, report.Status);
-                    }
-                }
+                report.FailReport(ex.Message);
+                await _unitOfWork.SaveChangesAsync(cancellationToken);
             }
-            catch (Exception failEx)
+            else if (report != null)
             {
-                _logger.LogError(failEx, "Failed to mark report {ReportId} as failed", message.ReportId);
+                _logger.LogWarning("Report {ReportId} is in status {Status} after failure; skipping fail transition.", 
+                    reportId, report.Status);
             }
+        }
+        catch (Exception failEx)
+        {
+            _logger.LogError(failEx, "Failed to mark report {ReportId} as failed", reportId);
         }
     }
 
@@ -92,7 +106,7 @@ public class ReportProcessingService : IMessageConsumer<ReportRequestMessage>
     {
         _logger.LogInformation("Calculating location statistics...");
 
-        // Tüm kişileri contact info'larıyla birlikte getir (parametresiz overload)
+        // Tüm kişileri contact info'larıyla birlikte getir
         var persons = await _unitOfWork.Persons.GetAllWithContactInfosAsync(cancellationToken);
         
         _logger.LogInformation("Found {PersonCount} persons in database", persons.Count());
@@ -101,7 +115,12 @@ public class ReportProcessingService : IMessageConsumer<ReportRequestMessage>
         var locationContacts = persons
             .SelectMany(p => p.ContactInfos
                 .Where(ci => ci.Type == ContactType.Location && !ci.IsDeleted)
-                .Select(ci => new { Person = p, Location = ci.Content }))
+                .Select(ci => new { 
+                    Person = p, 
+                    Location = ci.City != null && !string.IsNullOrWhiteSpace(ci.City.Name)
+                        ? ci.City.Name
+                        : ci.Content
+                }))
             .ToList();
             
         _logger.LogInformation("Found {LocationContactCount} location contacts", locationContacts.Count);
@@ -126,7 +145,7 @@ public class ReportProcessingService : IMessageConsumer<ReportRequestMessage>
                 .Where(ci => ci.Type == ContactType.PhoneNumber && !ci.IsDeleted)
                 .Count();
 
-            var stat = new LocationStatistic(Guid.Empty, location, personCount, phoneNumberCount);
+            var stat = new LocationStatistic(location, personCount, phoneNumberCount);
             statistics.Add(stat);
 
             _logger.LogDebug("Location: {Location}, Persons: {PersonCount}, Phone Numbers: {PhoneCount}",

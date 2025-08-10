@@ -1,33 +1,35 @@
-services:
-  # PostgreSQL ve Redis local kullanıldığı için kaldırıldı
+version: '3.8'
 
+services:
   rabbitmq:
-    image: rabbitmq:3-management
+    image: rabbitmq:3.12-management
     container_name: phoneregistry-rabbitmq
-    environment:
-      RABBITMQ_DEFAULT_USER: admin
-      RABBITMQ_DEFAULT_PASS: admin123
-      # Persistence ayarları
-      RABBITMQ_DEFAULT_VHOST: /
-      RABBITMQ_DISK_FREE_LIMIT: 1GB
-      RABBITMQ_VM_MEMORY_HIGH_WATERMARK: 0.8
+    hostname: rabbitmq
     ports:
-      - "5672:5672"
-      - "15672:15672"
+      - "5672:5672"   # AMQP port
+      - "15672:15672" # Management UI port
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin123
+      - RABBITMQ_DEFAULT_VHOST=/
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
-      - ./rabbitmq-config:/etc/rabbitmq
+      - ./rabbitmq-config/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+    networks:
+      - phoneregistry-network
+    restart: unless-stopped
     healthcheck:
       test: ["CMD", "rabbitmq-diagnostics", "ping"]
       interval: 30s
       timeout: 10s
-      retries: 5
-
-  # API'ler ve Worker Service local çalıştığı için Docker'dan kaldırıldı
+      retries: 3
+      start_period: 40s
 
 volumes:
   rabbitmq_data:
+    driver: local
 
 networks:
-  default:
-    name: phone-registry-network
+  phoneregistry-network:
+    driver: bridge
+    name: phoneregistry-network
