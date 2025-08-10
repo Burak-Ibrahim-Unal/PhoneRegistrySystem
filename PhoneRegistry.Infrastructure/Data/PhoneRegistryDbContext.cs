@@ -22,6 +22,7 @@ public class PhoneRegistryDbContext : DbContext
         // Person Configuration
         modelBuilder.Entity<Person>(entity =>
         {
+            entity.ToTable("Persons", schema: "contact");
             entity.HasKey(e => e.Id);
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.FirstName).IsRequired().HasMaxLength(50);
@@ -33,6 +34,7 @@ public class PhoneRegistryDbContext : DbContext
         // ContactInfo Configuration
         modelBuilder.Entity<ContactInfo>(entity =>
         {
+            entity.ToTable("ContactInfos", schema: "contact");
             entity.HasKey(e => e.Id);
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.Content).IsRequired().HasMaxLength(200);
@@ -47,6 +49,7 @@ public class PhoneRegistryDbContext : DbContext
         // Report Configuration
         modelBuilder.Entity<Report>(entity =>
         {
+            entity.ToTable("Reports", schema: "report");
             entity.HasKey(e => e.Id);
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.Status).IsRequired();
@@ -56,6 +59,7 @@ public class PhoneRegistryDbContext : DbContext
         // LocationStatistic Configuration
         modelBuilder.Entity<LocationStatistic>(entity =>
         {
+            entity.ToTable("LocationStatistics", schema: "report");
             entity.HasKey(e => e.Id);
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.Location).IsRequired().HasMaxLength(200);
@@ -64,6 +68,7 @@ public class PhoneRegistryDbContext : DbContext
         // City Configuration
         modelBuilder.Entity<City>(entity =>
         {
+            entity.ToTable("Cities", schema: "contact");
             entity.HasKey(e => e.Id);
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.Name).IsRequired().HasMaxLength(120);

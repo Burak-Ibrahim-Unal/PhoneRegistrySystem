@@ -18,6 +18,7 @@ builder.Services.AddSerilog();
 
 // Infrastructure services (Database, RabbitMQ, etc.)
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddHttpClient("contact-api");
 
 // Message processing services
 builder.Services.AddScoped<IMessageConsumer<ReportRequestMessage>, ReportProcessingService>();

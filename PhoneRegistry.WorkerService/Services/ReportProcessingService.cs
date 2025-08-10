@@ -1,5 +1,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System.Net.Http.Json;
 using PhoneRegistry.Messaging.Interfaces;
 using PhoneRegistry.Messaging.Models;
 using PhoneRegistry.Domain.Entities;
@@ -13,15 +15,21 @@ public class ReportProcessingService : IMessageConsumer<ReportRequestMessage>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly PhoneRegistryDbContext _context;
+    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly IConfiguration _configuration;
     private readonly ILogger<ReportProcessingService> _logger;
 
     public ReportProcessingService(
-        IUnitOfWork unitOfWork, 
-        PhoneRegistryDbContext context, 
+        IUnitOfWork unitOfWork,
+        PhoneRegistryDbContext context,
+        IHttpClientFactory httpClientFactory,
+        IConfiguration configuration,
         ILogger<ReportProcessingService> logger)
     {
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         _context = context ?? throw new ArgumentNullException(nameof(context));
+        _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
+        _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
@@ -56,8 +64,8 @@ public class ReportProcessingService : IMessageConsumer<ReportRequestMessage>
             return;
         }
 
-        // Lokasyon istatistiklerini hesapla
-        var locationStatistics = await CalculateLocationStatisticsAsync(cancellationToken);
+        // Lokasyon istatistiklerini hesapla (Contact API üzerinden)
+        var locationStatistics = await CalculateLocationStatisticsViaHttpAsync(cancellationToken);
 
         // Domain yöntemi ile raporu tamamla (durum geçişi + ilişkiler tek yerden yönetilir)
         report.CompleteReport(locationStatistics);
@@ -102,57 +110,60 @@ public class ReportProcessingService : IMessageConsumer<ReportRequestMessage>
         }
     }
 
-    private async Task<List<LocationStatistic>> CalculateLocationStatisticsAsync(CancellationToken cancellationToken)
+    private async Task<List<LocationStatistic>> CalculateLocationStatisticsViaHttpAsync(CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Calculating location statistics...");
+        _logger.LogInformation("Calculating location statistics via Contact API...");
 
-        // Tüm kişileri contact info'larıyla birlikte getir
-        var persons = await _unitOfWork.Persons.GetAllWithContactInfosAsync(cancellationToken);
-        
-        _logger.LogInformation("Found {PersonCount} persons in database", persons.Count());
+        var baseUrl = _configuration["ContactApi:BaseUrl"] ?? "http://localhost:5000";
+        var client = _httpClientFactory.CreateClient("contact-api");
+        client.BaseAddress = new Uri(baseUrl);
 
-        // Lokasyon bilgilerini grupla
-        var locationContacts = persons
-            .SelectMany(p => p.ContactInfos
-                .Where(ci => ci.Type == ContactType.Location && !ci.IsDeleted)
-                .Select(ci => new { 
-                    Person = p, 
-                    Location = ci.City != null && !string.IsNullOrWhiteSpace(ci.City.Name)
-                        ? ci.City.Name
-                        : ci.Content
+        var allPersons = new List<PersonDto>();
+        int skip = 0;
+        const int take = 200;
+        while (true)
+        {
+            var page = await client.GetFromJsonAsync<List<PersonDto>>($"/api/persons?skip={skip}&take={take}", cancellationToken);
+            if (page == null || page.Count == 0) break;
+            allPersons.AddRange(page);
+            skip += take;
+            if (page.Count < take) break;
+        }
+
+        _logger.LogInformation("Fetched {Count} persons from Contact API", allPersons.Count);
+
+        var locationContacts = allPersons
+            .SelectMany(p => p.contactInfos
+                .Where(ci => ci.type == (int)ContactType.Location && !ci.isDeleted)
+                .Select(ci => new {
+                    PersonId = p.id,
+                    Location = !string.IsNullOrWhiteSpace(ci.cityName) ? ci.cityName : ci.content
                 }))
             .ToList();
-            
-        _logger.LogInformation("Found {LocationContactCount} location contacts", locationContacts.Count);
-        
+
         var locationGroups = locationContacts
             .GroupBy(x => x.Location, StringComparer.OrdinalIgnoreCase)
             .ToList();
 
         var statistics = new List<LocationStatistic>();
-
-        foreach (var locationGroup in locationGroups)
+        foreach (var group in locationGroups)
         {
-            var location = locationGroup.Key;
-            var personsInLocation = locationGroup.Select(x => x.Person).Distinct().ToList();
-            
-            // O lokasyondaki kişi sayısı
-            var personCount = personsInLocation.Count;
-            
-            // O lokasyondaki telefon numarası sayısı
-            var phoneNumberCount = personsInLocation
-                .SelectMany(p => p.ContactInfos)
-                .Where(ci => ci.Type == ContactType.PhoneNumber && !ci.IsDeleted)
-                .Count();
+            var location = group.Key;
+            var personIdsInLocation = group.Select(x => x.PersonId).Distinct().ToList();
 
-            var stat = new LocationStatistic(location, personCount, phoneNumberCount);
-            statistics.Add(stat);
+            var personCount = personIdsInLocation.Count;
+            var phoneNumberCount = allPersons
+                .Where(p => personIdsInLocation.Contains(p.id))
+                .SelectMany(p => p.contactInfos)
+                .Count(ci => ci.type == (int)ContactType.PhoneNumber && !ci.isDeleted);
 
-            _logger.LogDebug("Location: {Location}, Persons: {PersonCount}, Phone Numbers: {PhoneCount}",
-                location, personCount, phoneNumberCount);
+            statistics.Add(new LocationStatistic(location, personCount, phoneNumberCount));
         }
 
         _logger.LogInformation("Calculated statistics for {LocationCount} locations", statistics.Count);
         return statistics;
     }
+
+    private record PersonDto(Guid id, string firstName, string lastName, string? company, List<ContactInfoDto> contactInfos);
+    private record ContactInfoDto(Guid id, int type, string content, bool isDeleted, string? cityName);
 }
