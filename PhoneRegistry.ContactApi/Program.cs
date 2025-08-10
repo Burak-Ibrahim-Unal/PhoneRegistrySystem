@@ -2,9 +2,9 @@ using PhoneRegistry.Services;
 using PhoneRegistry.Infrastructure;
 using PhoneRegistry.WorkerService;
 using PhoneRegistry.WorkerService.Services;
-using PhoneRegistry.Application.Common.Messaging;
-using PhoneRegistry.Infrastructure.Messaging.Interfaces;
-using PhoneRegistry.Infrastructure.Messaging.Services;
+using PhoneRegistry.Messaging.Interfaces;
+using PhoneRegistry.Messaging.Models;
+using PhoneRegistry.Messaging.Services;
 using PhoneRegistry.Infrastructure.Data;
 using Serilog;
 

@@ -20,5 +20,6 @@
     <ProjectReference Include="..\PhoneRegistry.Domain\PhoneRegistry.Domain.csproj" />
     <ProjectReference Include="..\PhoneRegistry.Infrastructure\PhoneRegistry.Infrastructure.csproj" />
     <ProjectReference Include="..\PhoneRegistry.Application\PhoneRegistry.Application.csproj" />
+    <ProjectReference Include="..\PhoneRegistry.Messaging\PhoneRegistry.Messaging.csproj" />
   </ItemGroup>
 </Project>

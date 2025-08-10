@@ -1,10 +1,10 @@
 using Microsoft.Extensions.Logging;
-using PhoneRegistry.Application.Common.Messaging;
+using PhoneRegistry.Messaging.Interfaces;
 using RabbitMQ.Client;
 using System.Text;
 using System.Text.Json;
 
-namespace PhoneRegistry.Infrastructure.Messaging.Services;
+namespace PhoneRegistry.Messaging.Services;
 
 public class RabbitMQPublisher : IMessagePublisher
 {
@@ -23,35 +23,18 @@ public class RabbitMQPublisher : IMessagePublisher
         {
             var channel = _connectionService.GetChannel();
 
-            // Queue'yu declare et (yoksa oluştur)
-            channel.QueueDeclare(
-                queue: queueName,
-                durable: true,
-                exclusive: false,
-                autoDelete: false,
-                arguments: null
-            );
+            channel.QueueDeclare(queue: queueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
 
-            // Message'ı JSON'a serialize et
             var jsonMessage = JsonSerializer.Serialize(message);
             var body = Encoding.UTF8.GetBytes(jsonMessage);
 
-            // Message properties
             var properties = channel.CreateBasicProperties();
             properties.Persistent = true;
             properties.ContentType = "application/json";
             properties.Timestamp = new AmqpTimestamp(DateTimeOffset.UtcNow.ToUnixTimeSeconds());
 
-            // Message'ı publish et
-            channel.BasicPublish(
-                exchange: "",
-                routingKey: queueName,
-                basicProperties: properties,
-                body: body
-            );
-
+            channel.BasicPublish(exchange: "", routingKey: queueName, basicProperties: properties, body: body);
             _logger.LogInformation("Message published to queue {QueueName}: {MessageType}", queueName, typeof(T).Name);
-            
             await Task.CompletedTask;
         }
         catch (Exception ex)
@@ -61,3 +44,5 @@ public class RabbitMQPublisher : IMessagePublisher
         }
     }
 }
+
+

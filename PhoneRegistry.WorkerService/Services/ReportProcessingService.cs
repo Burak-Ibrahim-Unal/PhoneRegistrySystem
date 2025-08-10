@@ -1,10 +1,10 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
-using PhoneRegistry.Application.Common.Messaging;
+using PhoneRegistry.Messaging.Interfaces;
+using PhoneRegistry.Messaging.Models;
 using PhoneRegistry.Domain.Entities;
 using PhoneRegistry.Domain.Repositories;
 using PhoneRegistry.Domain.ValueObjects;
-using PhoneRegistry.Infrastructure.Messaging.Interfaces;
 using PhoneRegistry.Infrastructure.Data;
 
 namespace PhoneRegistry.WorkerService.Services;

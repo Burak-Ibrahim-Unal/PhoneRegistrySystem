@@ -2,7 +2,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 
-namespace PhoneRegistry.Infrastructure.Messaging.Services;
+namespace PhoneRegistry.Messaging.Services;
 
 public class RabbitMQConnectionService : IDisposable
 {
@@ -71,3 +71,5 @@ public class RabbitMQConnectionService : IDisposable
         }
     }
 }
+
+

@@ -1,5 +1,5 @@
-using PhoneRegistry.Application.Common.Messaging;
-using PhoneRegistry.Infrastructure.Messaging.Services;
+using PhoneRegistry.Messaging.Models;
+using PhoneRegistry.Messaging.Services;
 using PhoneRegistry.WorkerService.Services;
 
 namespace PhoneRegistry.WorkerService;

@@ -1,11 +1,11 @@
 using Microsoft.Extensions.Logging;
-using PhoneRegistry.Infrastructure.Messaging.Interfaces;
+using PhoneRegistry.Messaging.Interfaces;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
 using System.Text.Json;
 
-namespace PhoneRegistry.Infrastructure.Messaging.Services;
+namespace PhoneRegistry.Messaging.Services;
 
 public class RabbitMQConsumer<T> : IDisposable where T : class
 {
@@ -30,39 +30,22 @@ public class RabbitMQConsumer<T> : IDisposable where T : class
         try
         {
             _channel = _connectionService.GetChannel();
+            _channel.QueueDeclare(queue: queueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
 
-            // Queue'yu declare et
-            _channel.QueueDeclare(
-                queue: queueName,
-                durable: true,
-                exclusive: false,
-                autoDelete: false,
-                arguments: null
-            );
-
-            // Consumer oluştur
             var consumer = new EventingBasicConsumer(_channel);
-            
             consumer.Received += async (model, ea) =>
             {
                 try
                 {
                     var body = ea.Body.ToArray();
                     var jsonMessage = Encoding.UTF8.GetString(body);
-                    
                     _logger.LogInformation("Received message from queue {QueueName}: {Message}", queueName, jsonMessage);
 
-                    // JSON'ı deserialize et
                     var message = JsonSerializer.Deserialize<T>(jsonMessage);
-                    
                     if (message != null)
                     {
-                        // Message'ı işle
                         await _messageHandler.ConsumeAsync(message);
-                        
-                        // ACK gönder
                         _channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
-                        
                         _logger.LogInformation("Message processed successfully from queue {QueueName}", queueName);
                     }
                     else
@@ -78,13 +61,7 @@ public class RabbitMQConsumer<T> : IDisposable where T : class
                 }
             };
 
-            // Consumer'ı başlat
-            _consumerTag = _channel.BasicConsume(
-                queue: queueName,
-                autoAck: false,
-                consumer: consumer
-            );
-
+            _consumerTag = _channel.BasicConsume(queue: queueName, autoAck: false, consumer: consumer);
             _logger.LogInformation("Started consuming messages from queue {QueueName}", queueName);
         }
         catch (Exception ex)
@@ -109,3 +86,5 @@ public class RabbitMQConsumer<T> : IDisposable where T : class
         _channel?.Dispose();
     }
 }
+
+

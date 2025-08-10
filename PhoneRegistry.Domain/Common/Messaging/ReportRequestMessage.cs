@@ -1,4 +1,4 @@
-namespace PhoneRegistry.Application.Common.Messaging;
+namespace PhoneRegistry.Domain.Common.Messaging;
 
 public class ReportRequestMessage
 {
@@ -11,3 +11,5 @@ public class ReportRequestMessage
         RequestedAt = requestedAt;
     }
 }
+
+

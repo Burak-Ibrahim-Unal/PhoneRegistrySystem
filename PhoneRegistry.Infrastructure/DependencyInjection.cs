@@ -1,11 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using PhoneRegistry.Application.Common.Messaging;
+using PhoneRegistry.Messaging.Interfaces;
 using PhoneRegistry.Domain.Repositories;
 using PhoneRegistry.Infrastructure.Data;
 using PhoneRegistry.Infrastructure.Repositories;
-using PhoneRegistry.Infrastructure.Messaging.Services;
+using PhoneRegistry.Messaging.Interfaces;
+using PhoneRegistry.Messaging.Services;
 using StackExchange.Redis;
 
 namespace PhoneRegistry.Infrastructure;
