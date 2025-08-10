@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{5E1F2F7E-4D0C-4F61-9E6D-52B9444F2CF7}|PhoneRegistry.Messaging\\PhoneRegistry.Messaging.csproj|c:\\users\\burak\\desktop\\github\\phoneregistrysystem\\phoneregistry.messaging\\services\\rabbitmqpublisher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5E1F2F7E-4D0C-4F61-9E6D-52B9444F2CF7}|PhoneRegistry.Messaging\\PhoneRegistry.Messaging.csproj|solutionrelative:phoneregistry.messaging\\services\\rabbitmqpublisher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{29985E9E-85C4-432A-A877-9B1BA76B0F19}|PhoneRegistry.Infrastructure\\PhoneRegistry.Infrastructure.csproj|c:\\users\\burak\\desktop\\github\\phoneregistrysystem\\phoneregistry.infrastructure\\phoneregistry.infrastructure.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
       "RelativeMoniker": "D:0:0:{29985E9E-85C4-432A-A877-9B1BA76B0F19}|PhoneRegistry.Infrastructure\\PhoneRegistry.Infrastructure.csproj|solutionrelative:phoneregistry.infrastructure\\phoneregistry.infrastructure.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5E1F2F7E-4D0C-4F61-9E6D-52B9444F2CF7}|PhoneRegistry.Messaging\\PhoneRegistry.Messaging.csproj|c:\\users\\burak\\desktop\\github\\phoneregistrysystem\\phoneregistry.messaging\\services\\rabbitmqpublisher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5E1F2F7E-4D0C-4F61-9E6D-52B9444F2CF7}|PhoneRegistry.Messaging\\PhoneRegistry.Messaging.csproj|solutionrelative:phoneregistry.messaging\\services\\rabbitmqpublisher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A33B3083-C160-4E20-A857-34C3A1BE7A68}|PhoneRegistry.ContactApi\\PhoneRegistry.ContactApi.csproj|c:\\users\\burak\\desktop\\github\\phoneregistrysystem\\phoneregistry.contactapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -181,16 +181,16 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "PhoneRegistry.Infrastructure",
               "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Infrastructure\\PhoneRegistry.Infrastructure.csproj",
               "RelativeDocumentMoniker": "PhoneRegistry.Infrastructure\\PhoneRegistry.Infrastructure.csproj",
-              "ToolTip": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Infrastructure\\PhoneRegistry.Infrastructure.csproj*",
-              "RelativeToolTip": "PhoneRegistry.Infrastructure\\PhoneRegistry.Infrastructure.csproj*",
+              "ToolTip": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Infrastructure\\PhoneRegistry.Infrastructure.csproj",
+              "RelativeToolTip": "PhoneRegistry.Infrastructure\\PhoneRegistry.Infrastructure.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
               "WhenOpened": "2025-08-10T22:43:39.165Z",
@@ -210,7 +210,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "RabbitMQPublisher.cs",
               "DocumentMoniker": "C:\\Users\\Burak\\Desktop\\Github\\PhoneRegistrySystem\\PhoneRegistry.Messaging\\Services\\RabbitMQPublisher.cs",
               "RelativeDocumentMoniker": "PhoneRegistry.Messaging\\Services\\RabbitMQPublisher.cs",

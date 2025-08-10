@@ -1,10 +1,7 @@
 using PhoneRegistry.Services;
 using PhoneRegistry.Infrastructure;
 using PhoneRegistry.WorkerService;
-using PhoneRegistry.WorkerService.Services;
-using PhoneRegistry.Messaging.Interfaces;
-using PhoneRegistry.Messaging.Models;
-using PhoneRegistry.Messaging.Services;
+// Worker ve RabbitMQ kayıtları bu API'den kaldırıldı (microservice ayrımı)
 using PhoneRegistry.Infrastructure.Data;
 using Serilog;
 
@@ -30,12 +27,7 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Worker Service için gerekli servisleri ekle
-builder.Services.AddScoped<IMessageConsumer<ReportRequestMessage>, ReportProcessingService>();
-builder.Services.AddScoped<RabbitMQConsumer<ReportRequestMessage>>();
-
-// Worker Service'i de ekle
-builder.Services.AddHostedService<Worker>();
+// Not: Worker ayrı süreçte çalışır (PhoneRegistry.WorkerService)
 
 // CORS - Daha kapsamlı ayar
 builder.Services.AddCors(options =>
