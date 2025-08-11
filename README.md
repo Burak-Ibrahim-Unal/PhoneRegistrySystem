@@ -66,8 +66,8 @@ Phone Registry System, modern mikroservis mimarisi prensiplerine uygun olarak ge
 - ✅ **Event Sourcing**: Domain event'leri ile audit trail
 - ✅ **CQRS Pattern**: Okuma ve yazma işlemlerinin ayrılması
 - ✅ **Outbox Pattern**: Güvenilir mesajlaşma garantisi
-- ✅ **Circuit Breaker**: Hata yönetimi ve sistem dayanıklılığı
-- ✅ **Redis Cache**: Yüksek performanslı önbellekleme
+- ✅ **Circuit Breaker**: Hata yönetimi ve sistem dayanıklılığı (Polly)
+- ✅ **Redis Cache**: Yüksek performanslı önbellekleme (Aktif kullanımda)
 - ✅ **Health Checks**: Servis sağlık durumu izleme
 - ✅ **OpenTelemetry**: Distributed tracing ve monitoring
 
@@ -147,10 +147,10 @@ PhoneRegistrySystem/
 ### Infrastructure
 | Teknoloji | Versiyon | Açıklama |
 |-----------|----------|----------|
-| PostgreSQL | 15.0 | Ana veritabanı |
-| RabbitMQ | 3.12 | Message broker |
-| Redis | 7.2 | Caching layer |
-| Docker | 24.0 | Containerization |
+| PostgreSQL | 15.0 | Ana veritabanı (Local kurulum) |
+| RabbitMQ | 3.12 | Message broker (Docker) |
+| Redis | 7.2 | Caching layer (Docker) |
+| Docker | 24.0 | RabbitMQ ve Redis için |
 
 ## 📦 Kurulum
 
@@ -173,15 +173,18 @@ cd PhoneRegistrySystem
 
 #### 2️⃣ Infrastructure Servislerini Başlatın
 
-```bash
-# PostgreSQL
-docker run -d --name postgres \
-  -e POSTGRES_USER=postgres \
-  -e POSTGRES_PASSWORD=1876 \
-  -e POSTGRES_DB=PhoneRegistryDb \
-  -p 5432:5432 \
-  postgres:15
+**PostgreSQL:** Local kurulumunuzu kullanın (localhost:5432)
+- Kullanıcı: postgres
+- Şifre: 1876
+- Database: PhoneRegistryDb
 
+**RabbitMQ ve Redis için Docker Compose kullanın:**
+
+```bash
+# Docker Compose ile RabbitMQ ve Redis'i başlatın
+docker-compose up -d
+
+# Veya tek tek başlatmak isterseniz:
 # RabbitMQ
 docker run -d --name rabbitmq \
   -e RABBITMQ_DEFAULT_USER=admin \
@@ -244,9 +247,9 @@ ng serve
 | Angular App | http://localhost:4300 | Web arayüzü |
 | Contact API | https://localhost:7065/swagger | Contact servisi |
 | Report API | https://localhost:7239/swagger | Report servisi |
-| RabbitMQ Management | http://localhost:15672 | admin/admin123 |
-| PostgreSQL | localhost:5432 | postgres/1876 |
-| Redis | localhost:6379 | Cache server |
+| RabbitMQ Management | http://localhost:15672 | admin/admin123 (Docker) |
+| PostgreSQL | localhost:5432 | postgres/1876 (Local) |
+| Redis | localhost:6379 | Cache server (Docker) |
 
 ## 📊 Veritabanı Şeması
 
@@ -339,10 +342,14 @@ dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
 
 ### Optimizasyonlar
 
-1. **Redis Cache Layer**: Sık kullanılan verilerin önbelleklenmesi
+1. **Redis Cache Layer**: 
+   - Person ve Report verileri için aktif cache
+   - Otomatik cache invalidation
+   - TTL: 5 dakika (detay), 2 dakika (liste)
 2. **Database Indexing**: Kritik sorgular için composite index'ler
 3. **Asenkron İşlemler**: RabbitMQ ile non-blocking operations
 4. **Connection Pooling**: Database connection pooling
+5. **Circuit Breaker**: Polly ile hata yönetimi
 
 ### Benchmark Sonuçları
 
