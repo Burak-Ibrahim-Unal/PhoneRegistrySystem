@@ -7,7 +7,7 @@ namespace PhoneRegistry.Infrastructure.Repositories;
 
 public class ReportRepository : Repository<Report>, IReportRepository
 {
-    public ReportRepository(PhoneRegistryDbContext context) : base(context)
+    public ReportRepository(ReportDbContext context) : base(context)
     {
     }
 

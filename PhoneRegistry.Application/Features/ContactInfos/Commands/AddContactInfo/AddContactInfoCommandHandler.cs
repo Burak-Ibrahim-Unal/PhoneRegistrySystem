@@ -3,27 +3,33 @@ using PhoneRegistry.Application.Common.Constants;
 using PhoneRegistry.Application.Common.Interfaces;
 using PhoneRegistry.Domain.Entities;
 using PhoneRegistry.Domain.Repositories;
+using PhoneRegistry.Application.Common.Messaging;
+using PhoneRegistry.Application.Common.Interfaces;
+using System.Text.Json;
 
 namespace PhoneRegistry.Application.Features.ContactInfos.Commands.AddContactInfo;
 
 public class AddContactInfoCommandHandler : ICommandHandler<AddContactInfoCommand, ContactInfo>
 {
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly IContactUnitOfWork _contactUnitOfWork;
     private readonly ILogger<AddContactInfoCommandHandler> _logger;
+    private readonly IOutboxWriter _outbox;
 
     public AddContactInfoCommandHandler(
-        IUnitOfWork unitOfWork,
-        ILogger<AddContactInfoCommandHandler> logger)
+        IContactUnitOfWork contactUnitOfWork,
+        ILogger<AddContactInfoCommandHandler> logger,
+        IOutboxWriter outbox)
     {
-        _unitOfWork = unitOfWork;
+        _contactUnitOfWork = contactUnitOfWork;
         _logger = logger;
+        _outbox = outbox;
     }
 
     public async Task<ContactInfo> Handle(AddContactInfoCommand command, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation(Messages.ContactInfo.Adding, command.PersonId, command.Type);
 
-        var person = await _unitOfWork.Persons.GetByIdAsync(command.PersonId, cancellationToken);
+        var person = await _contactUnitOfWork.Persons.GetByIdAsync(command.PersonId, cancellationToken);
         if (person == null)
         {
             throw new ArgumentException(Messages.ContactInfo.PersonNotFound.Replace("{PersonId}", command.PersonId.ToString()));
@@ -32,9 +38,11 @@ public class AddContactInfoCommandHandler : ICommandHandler<AddContactInfoComman
         var contactInfo = person.AddContactInfo(command.Type, command.Content);
         
         // EF Core'a bu entity'nin yeni olduğunu söyle
-        await _unitOfWork.ContactInfos.AddAsync(contactInfo, cancellationToken);
+        await _contactUnitOfWork.ContactInfos.AddAsync(contactInfo, cancellationToken);
+        var evt = new ContactInfoUpserted(person.Id, contactInfo.Id, (int)command.Type, command.Content, null);
+        await _outbox.EnqueueAsync("ContactInfoUpserted", evt, cancellationToken);
         
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        await _contactUnitOfWork.SaveChangesAsync(cancellationToken);
 
         _logger.LogInformation(Messages.ContactInfo.AddedSuccessfully);
 

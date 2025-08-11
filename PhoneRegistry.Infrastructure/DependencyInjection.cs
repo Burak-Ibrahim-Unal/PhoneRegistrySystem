@@ -8,6 +8,9 @@ using PhoneRegistry.Infrastructure.Repositories;
 using PhoneRegistry.Messaging.Interfaces;
 using PhoneRegistry.Messaging.Services;
 using StackExchange.Redis;
+using PhoneRegistry.Infrastructure.Services;
+using PhoneRegistry.Application.Common.Interfaces;
+using PhoneRegistry.Caching;
 
 namespace PhoneRegistry.Infrastructure;
 
@@ -15,26 +18,29 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        // Database
-        services.AddDbContext<PhoneRegistryDbContext>(options =>
+        // Databases: split Contact and Report contexts (same DB, different schemas)
+        services.AddDbContext<ContactDbContext>(options =>
+            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+        services.AddDbContext<ReportDbContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
         // Repositories
         services.AddScoped<IPersonRepository, PersonRepository>();
         services.AddScoped<IContactInfoRepository, ContactInfoRepository>();
         services.AddScoped<IReportRepository, ReportRepository>();
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        // Per-bounded-context UnitOfWork
+        services.AddScoped<IContactUnitOfWork, ContactUnitOfWork>();
+        services.AddScoped<IReportUnitOfWork, ReportUnitOfWork>();
 
-        // Redis
-        services.AddSingleton<IConnectionMultiplexer>(provider =>
-        {
-            var connectionString = configuration.GetConnectionString("Redis");
-            return ConnectionMultiplexer.Connect(connectionString!);
-        });
+        // Caching (Redis)
+        services.AddCaching(configuration);
 
         // RabbitMQ
         services.AddSingleton<RabbitMQConnectionService>();
         services.AddScoped<IMessagePublisher, RabbitMQPublisher>();
+
+        // Outbox services
+        services.AddScoped<IOutboxWriter, OutboxWriter>();
 
         return services;
     }

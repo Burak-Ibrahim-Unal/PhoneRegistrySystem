@@ -4,6 +4,11 @@ using PhoneRegistry.WorkerService;
 // Worker ve RabbitMQ kayıtları bu API'den kaldırıldı (microservice ayrımı)
 using PhoneRegistry.Infrastructure.Data;
 using Serilog;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using PhoneRegistry.Infrastructure.Repositories;
+using PhoneRegistry.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +31,13 @@ builder.Services.AddControllers()
     });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHealthChecks();
+builder.Services.AddOpenTelemetry()
+    .WithTracing(tp => tp
+        .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("PhoneRegistry.ContactApi"))
+        .AddAspNetCoreInstrumentation()
+        .AddHttpClientInstrumentation()
+        .AddConsoleExporter());
 
 // Not: Worker ayrı süreçte çalışır (PhoneRegistry.WorkerService)
 
@@ -61,6 +73,11 @@ app.UseCors(); // Default policy kullan
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+app.MapHealthChecks("/health");
+
+// Register Outbox publisher background service
+builder.Services.AddScoped<OutboxRepository>();
+builder.Services.AddHostedService<OutboxPublisher>();
 
 // Seed default cities on startup
 using (var scope = app.Services.CreateScope())

@@ -8,14 +8,14 @@ namespace PhoneRegistry.Application.Features.Reports.Queries.GetAllReports;
 
 public class GetAllReportsQueryHandler : IQueryHandler<GetAllReportsQuery, List<Report>>
 {
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly IReportUnitOfWork _reportUnitOfWork;
     private readonly ILogger<GetAllReportsQueryHandler> _logger;
 
     public GetAllReportsQueryHandler(
-        IUnitOfWork unitOfWork,
+        IReportUnitOfWork reportUnitOfWork,
         ILogger<GetAllReportsQueryHandler> logger)
     {
-        _unitOfWork = unitOfWork;
+        _reportUnitOfWork = reportUnitOfWork;
         _logger = logger;
     }
 
@@ -24,7 +24,7 @@ public class GetAllReportsQueryHandler : IQueryHandler<GetAllReportsQuery, List<
         _logger.LogInformation(Messages.Report.GettingAll);
 
         // Konum/kişi/telefon özetlerinin doğru hesaplanabilmesi için istatistikleri include ederek çek
-        var reportsWithStats = await _unitOfWork.Reports.GetAllWithStatisticsAsync(cancellationToken);
+        var reportsWithStats = await _reportUnitOfWork.Reports.GetAllWithStatisticsAsync(cancellationToken);
 
         // Tercihen RequestedAt'e göre sıralayıp sayfalandır
         var result = reportsWithStats

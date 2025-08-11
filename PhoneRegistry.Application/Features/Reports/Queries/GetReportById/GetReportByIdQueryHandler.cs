@@ -8,14 +8,14 @@ namespace PhoneRegistry.Application.Features.Reports.Queries.GetReportById;
 
 public class GetReportByIdQueryHandler : IQueryHandler<GetReportByIdQuery, Report?>
 {
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly IReportUnitOfWork _reportUnitOfWork;
     private readonly ILogger<GetReportByIdQueryHandler> _logger;
 
     public GetReportByIdQueryHandler(
-        IUnitOfWork unitOfWork,
+        IReportUnitOfWork reportUnitOfWork,
         ILogger<GetReportByIdQueryHandler> logger)
     {
-        _unitOfWork = unitOfWork;
+        _reportUnitOfWork = reportUnitOfWork;
         _logger = logger;
     }
 
@@ -23,7 +23,7 @@ public class GetReportByIdQueryHandler : IQueryHandler<GetReportByIdQuery, Repor
     {
         _logger.LogInformation(Messages.Report.GettingById, query.ReportId);
 
-        var report = await _unitOfWork.Reports.GetByIdWithStatisticsAsync(query.ReportId, cancellationToken);
+        var report = await _reportUnitOfWork.Reports.GetByIdWithStatisticsAsync(query.ReportId, cancellationToken);
         if (report == null)
         {
             _logger.LogWarning("Report not found: {ReportId}", query.ReportId);

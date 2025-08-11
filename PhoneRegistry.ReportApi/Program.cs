@@ -1,6 +1,9 @@
 using PhoneRegistry.Services;
 using PhoneRegistry.Infrastructure;
 using Serilog;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +21,13 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHealthChecks();
+builder.Services.AddOpenTelemetry()
+    .WithTracing(tp => tp
+        .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("PhoneRegistry.ReportApi"))
+        .AddAspNetCoreInstrumentation()
+        .AddHttpClientInstrumentation()
+        .AddConsoleExporter());
 
 // CORS - Daha kapsamlı ayar
 builder.Services.AddCors(options =>
@@ -51,5 +61,6 @@ app.UseCors(); // Default policy kullan
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+app.MapHealthChecks("/health");
 
 app.Run();

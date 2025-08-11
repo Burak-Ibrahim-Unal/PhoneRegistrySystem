@@ -8,10 +8,10 @@ namespace PhoneRegistry.Infrastructure.Repositories;
 
 public class Repository<T> : IRepository<T> where T : BaseEntity
 {
-    protected readonly PhoneRegistryDbContext _context;
+    protected readonly DbContext _context;
     protected readonly DbSet<T> _dbSet;
 
-    public Repository(PhoneRegistryDbContext context)
+    public Repository(DbContext context)
     {
         _context = context ?? throw new ArgumentNullException(nameof(context));
         _dbSet = context.Set<T>();

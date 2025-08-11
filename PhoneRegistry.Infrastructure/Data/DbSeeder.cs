@@ -167,7 +167,7 @@ public static class DbSeeder
             return;
         }
 
-        var sql = @"INSERT INTO public.""Reports""
+        var sql = @"INSERT INTO report.""Reports""
         (""Id"", ""RequestedAt"", ""Status"", ""CompletedAt"", ""ErrorMessage"", ""CreatedAt"", ""UpdatedAt"", ""IsDeleted"")
         VALUES('0656072a-6b3f-4073-a26d-5b49f6f1e690'::uuid, TIMESTAMP '2025-08-11 01:12:37.247', 2, TIMESTAMP '2025-08-11 01:12:37.582', NULL, TIMESTAMP '2025-08-11 01:12:37.247', TIMESTAMP '2025-08-11 01:12:37.582', FALSE);";
 

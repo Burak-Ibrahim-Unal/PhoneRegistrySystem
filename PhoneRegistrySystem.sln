@@ -5,6 +5,20 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneRegistry.Domain", "PhoneRegistry.Domain\PhoneRegistry.Domain.csproj", "{CB043722-71CC-46AA-9E9D-DA7DA621C979}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneRegistry.Caching", "PhoneRegistry.Caching\PhoneRegistry.Caching.csproj", "{3B2C0A40-2D9D-4C29-9F7C-5B3A6D3D6E21}"
+EndProject
+        {3B2C0A40-2D9D-4C29-9F7C-5B3A6D3D6E21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+        {3B2C0A40-2D9D-4C29-9F7C-5B3A6D3D6E21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+        {3B2C0A40-2D9D-4C29-9F7C-5B3A6D3D6E21}.Debug|x64.ActiveCfg = Debug|Any CPU
+        {3B2C0A40-2D9D-4C29-9F7C-5B3A6D3D6E21}.Debug|x64.Build.0 = Debug|Any CPU
+        {3B2C0A40-2D9D-4C29-9F7C-5B3A6D3D6E21}.Debug|x86.ActiveCfg = Debug|Any CPU
+        {3B2C0A40-2D9D-4C29-9F7C-5B3A6D3D6E21}.Debug|x86.Build.0 = Debug|Any CPU
+        {3B2C0A40-2D9D-4C29-9F7C-5B3A6D3D6E21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+        {3B2C0A40-2D9D-4C29-9F7C-5B3A6D3D6E21}.Release|Any CPU.Build.0 = Release|Any CPU
+        {3B2C0A40-2D9D-4C29-9F7C-5B3A6D3D6E21}.Release|x64.ActiveCfg = Release|Any CPU
+        {3B2C0A40-2D9D-4C29-9F7C-5B3A6D3D6E21}.Release|x64.Build.0 = Release|Any CPU
+        {3B2C0A40-2D9D-4C29-9F7C-5B3A6D3D6E21}.Release|x86.ActiveCfg = Release|Any CPU
+        {3B2C0A40-2D9D-4C29-9F7C-5B3A6D3D6E21}.Release|x86.Build.0 = Release|Any CPU
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneRegistry.Messaging", "PhoneRegistry.Messaging\PhoneRegistry.Messaging.csproj", "{5E1F2F7E-4D0C-4F61-9E6D-52B9444F2CF7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneRegistry.Application", "PhoneRegistry.Application\PhoneRegistry.Application.csproj", "{BB5D9886-9E2E-4A56-A1AF-BF16DE44D7AF}"

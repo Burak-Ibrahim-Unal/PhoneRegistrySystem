@@ -8,14 +8,14 @@ namespace PhoneRegistry.Application.Features.Persons.Queries.GetPersonById;
 
 public class GetPersonByIdQueryHandler : IQueryHandler<GetPersonByIdQuery, Person?>
 {
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly IContactUnitOfWork _contactUnitOfWork;
     private readonly ILogger<GetPersonByIdQueryHandler> _logger;
 
     public GetPersonByIdQueryHandler(
-        IUnitOfWork unitOfWork,
+        IContactUnitOfWork contactUnitOfWork,
         ILogger<GetPersonByIdQueryHandler> logger)
     {
-        _unitOfWork = unitOfWork;
+        _contactUnitOfWork = contactUnitOfWork;
         _logger = logger;
     }
 
@@ -23,7 +23,7 @@ public class GetPersonByIdQueryHandler : IQueryHandler<GetPersonByIdQuery, Perso
     {
         _logger.LogInformation(Messages.Person.GettingById, query.PersonId);
 
-        var person = await _unitOfWork.Persons.GetByIdWithContactInfosAsync(query.PersonId, cancellationToken);
+        var person = await _contactUnitOfWork.Persons.GetByIdWithContactInfosAsync(query.PersonId, cancellationToken);
         
         if (person == null)
         {

@@ -6,15 +6,17 @@ namespace PhoneRegistry.Infrastructure.Repositories;
 
 public class UnitOfWork : IUnitOfWork
 {
-    private readonly PhoneRegistryDbContext _context;
+    private readonly ContactDbContext _contactContext;
+    private readonly ReportDbContext _reportContext;
     private IDbContextTransaction? _transaction;
 
-    public UnitOfWork(PhoneRegistryDbContext context)
+    public UnitOfWork(ContactDbContext contactContext, ReportDbContext reportContext)
     {
-        _context = context;
-        Persons = new PersonRepository(_context);
-        ContactInfos = new ContactInfoRepository(_context);
-        Reports = new ReportRepository(_context);
+        _contactContext = contactContext;
+        _reportContext = reportContext;
+        Persons = new PersonRepository(_contactContext);
+        ContactInfos = new ContactInfoRepository(_contactContext);
+        Reports = new ReportRepository(_reportContext);
     }
 
     public IPersonRepository Persons { get; }
@@ -23,12 +25,16 @@ public class UnitOfWork : IUnitOfWork
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        return await _context.SaveChangesAsync(cancellationToken);
+        var changes = 0;
+        changes += await _contactContext.SaveChangesAsync(cancellationToken);
+        changes += await _reportContext.SaveChangesAsync(cancellationToken);
+        return changes;
     }
 
     public async Task BeginTransactionAsync(CancellationToken cancellationToken = default)
     {
-        _transaction = await _context.Database.BeginTransactionAsync(cancellationToken);
+        // Not: İki ayrı DbContext aynı DB'yi işaret ediyor; tek transaction elde etmek için Connection paylaşımı gerekebilir.
+        _transaction = await _contactContext.Database.BeginTransactionAsync(cancellationToken);
     }
 
     public async Task CommitTransactionAsync(CancellationToken cancellationToken = default)
@@ -54,6 +60,7 @@ public class UnitOfWork : IUnitOfWork
     public void Dispose()
     {
         _transaction?.Dispose();
-        _context.Dispose();
+        _contactContext.Dispose();
+        _reportContext.Dispose();
     }
 }

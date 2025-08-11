@@ -8,7 +8,7 @@ namespace PhoneRegistry.Infrastructure.Repositories;
 
 public class ContactInfoRepository : Repository<ContactInfo>, IContactInfoRepository
 {
-    public ContactInfoRepository(PhoneRegistryDbContext context) : base(context)
+    public ContactInfoRepository(ContactDbContext context) : base(context)
     {
     }
 

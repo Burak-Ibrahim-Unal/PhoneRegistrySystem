@@ -24,10 +24,12 @@ public class Worker : BackgroundService
         try
         {
             using var scope = _serviceProvider.CreateScope();
-            var consumer = scope.ServiceProvider.GetRequiredService<RabbitMQConsumer<ReportRequestMessage>>();
+            var reportConsumer = scope.ServiceProvider.GetRequiredService<RabbitMQConsumer<ReportRequestMessage>>();
+            var contactEventsConsumer = scope.ServiceProvider.GetRequiredService<RabbitMQConsumer<IntegrationEventEnvelope>>();
             
             // RabbitMQ consumer'ı başlat
-            consumer.StartConsuming("report-processing-queue");
+            reportConsumer.StartConsuming("report-processing-queue");
+            contactEventsConsumer.StartConsuming("contact-events");
 
             // Worker çalışmaya devam etsin
             while (!stoppingToken.IsCancellationRequested)
@@ -36,7 +38,8 @@ public class Worker : BackgroundService
             }
             
             // Temizlik
-            consumer.StopConsuming();
+            reportConsumer.StopConsuming();
+            contactEventsConsumer.StopConsuming();
         }
         catch (Exception ex)
         {

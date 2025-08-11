@@ -10,16 +10,16 @@ namespace PhoneRegistry.Application.Features.Reports.Commands.RequestReport;
 
 public class RequestReportCommandHandler : ICommandHandler<RequestReportCommand, Report>
 {
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly IReportUnitOfWork _reportUnitOfWork;
     private readonly ILogger<RequestReportCommandHandler> _logger;
     private readonly IMessagePublisher _messagePublisher;
 
     public RequestReportCommandHandler(
-        IUnitOfWork unitOfWork,
+        IReportUnitOfWork reportUnitOfWork,
         ILogger<RequestReportCommandHandler> logger,
         IMessagePublisher messagePublisher)
     {
-        _unitOfWork = unitOfWork;
+        _reportUnitOfWork = reportUnitOfWork;
         _logger = logger;
         _messagePublisher = messagePublisher;
     }
@@ -30,8 +30,8 @@ public class RequestReportCommandHandler : ICommandHandler<RequestReportCommand,
 
         var report = new Report();
         
-        await _unitOfWork.Reports.AddAsync(report, cancellationToken);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        await _reportUnitOfWork.Reports.AddAsync(report, cancellationToken);
+        await _reportUnitOfWork.SaveChangesAsync(cancellationToken);
 
         _logger.LogInformation(Messages.Report.Created, report.Id);
 

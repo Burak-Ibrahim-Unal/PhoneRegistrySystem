@@ -7,7 +7,7 @@ namespace PhoneRegistry.Infrastructure.Repositories;
 
 public class PersonRepository : Repository<Person>, IPersonRepository
 {
-    public PersonRepository(PhoneRegistryDbContext context) : base(context)
+    public PersonRepository(ContactDbContext context) : base(context)
     {
     }
 
