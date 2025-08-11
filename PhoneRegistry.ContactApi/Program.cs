@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using PhoneRegistry.Infrastructure.Repositories;
 using PhoneRegistry.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
+using PhoneRegistry.Caching;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,7 @@ builder.Host.UseSerilog();
 // Add services to the container.
 builder.Services.AddServices(); // Bu Application + MediatR'ı da içerir
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddCaching(builder.Configuration); // Redis cache
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>

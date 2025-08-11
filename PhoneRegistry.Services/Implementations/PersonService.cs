@@ -10,6 +10,7 @@ using PhoneRegistry.Application.Features.ContactInfos.Commands.AddContactInfo;
 using PhoneRegistry.Application.Features.ContactInfos.Commands.RemoveContactInfo;
 using PhoneRegistry.Domain.ValueObjects;
 using PhoneRegistry.Services.Interfaces;
+using PhoneRegistry.Caching.Interfaces;
 
 namespace PhoneRegistry.Services.Implementations;
 
@@ -17,11 +18,16 @@ public class PersonService : IPersonService
 {
     private readonly IMediator _mediator;
     private readonly ILogger<PersonService> _logger;
+    private readonly ICacheService _cacheService;
+    private const string PERSON_CACHE_KEY = "person:{0}";
+    private const string ALL_PERSONS_CACHE_KEY = "all_persons";
+    private readonly TimeSpan _cacheExpiration = TimeSpan.FromMinutes(5);
 
-    public PersonService(IMediator mediator, ILogger<PersonService> logger)
+    public PersonService(IMediator mediator, ILogger<PersonService> logger, ICacheService cacheService)
     {
         _mediator = mediator;
         _logger = logger;
+        _cacheService = cacheService;
     }
 
     public async Task<Person> CreatePersonAsync(string firstName, string lastName, string? company = null, CancellationToken cancellationToken = default)
@@ -37,6 +43,9 @@ public class PersonService : IPersonService
 
         var result = await _mediator.Send(command, cancellationToken);
         
+        // Invalidate all persons cache when a new person is created
+        await InvalidateAllPersonsCache();
+        
         _logger.LogInformation(Messages.Person.CreatedSuccessfully);
         return result;
     }
@@ -45,8 +54,25 @@ public class PersonService : IPersonService
     {
         _logger.LogInformation(Messages.Person.GettingById, personId);
 
+        // Try to get from cache first
+        var cacheKey = string.Format(PERSON_CACHE_KEY, personId);
+        var cachedPerson = await _cacheService.GetAsync<Person>(cacheKey);
+        
+        if (cachedPerson != null)
+        {
+            _logger.LogDebug("Person {PersonId} found in cache", personId);
+            return cachedPerson;
+        }
+
         var query = new GetPersonByIdQuery { PersonId = personId };
         var result = await _mediator.Send(query, cancellationToken);
+        
+        // Cache the result if found
+        if (result != null)
+        {
+            await _cacheService.SetAsync(cacheKey, result, _cacheExpiration);
+            _logger.LogDebug("Person {PersonId} cached", personId);
+        }
 
         if (result == null)
         {
@@ -60,8 +86,21 @@ public class PersonService : IPersonService
     {
         _logger.LogInformation(Messages.Person.GettingAll, skip, take);
 
+        // Create cache key with pagination parameters
+        var cacheKey = $"{ALL_PERSONS_CACHE_KEY}:{skip}:{take}";
+        var cachedPersons = await _cacheService.GetAsync<List<Person>>(cacheKey);
+        
+        if (cachedPersons != null)
+        {
+            _logger.LogDebug("Persons list found in cache (skip: {Skip}, take: {Take})", skip, take);
+            return cachedPersons;
+        }
+
         var query = new GetAllPersonsQuery { Skip = skip, Take = take };
         var result = await _mediator.Send(query, cancellationToken);
+        
+        // Cache the result
+        await _cacheService.SetAsync(cacheKey, result, TimeSpan.FromMinutes(2)); // Shorter expiration for lists
 
         _logger.LogInformation(Messages.Person.RetrievedSuccessfully);
         return result;
@@ -73,6 +112,11 @@ public class PersonService : IPersonService
 
         var command = new DeletePersonCommand { PersonId = personId };
         await _mediator.Send(command, cancellationToken);
+        
+        // Invalidate caches
+        var cacheKey = string.Format(PERSON_CACHE_KEY, personId);
+        await _cacheService.RemoveAsync(cacheKey);
+        await InvalidateAllPersonsCache();
 
         _logger.LogInformation(Messages.Person.DeletedSuccessfully, personId);
     }
@@ -91,6 +135,10 @@ public class PersonService : IPersonService
 
         var result = await _mediator.Send(command, cancellationToken);
         
+        // Invalidate person cache when contact info is modified
+        var cacheKey = string.Format(PERSON_CACHE_KEY, personId);
+        await _cacheService.RemoveAsync(cacheKey);
+        
         _logger.LogInformation(Messages.ContactInfo.AddedSuccessfully);
         return result;
     }
@@ -107,6 +155,31 @@ public class PersonService : IPersonService
 
         await _mediator.Send(command, cancellationToken);
         
+        // Invalidate person cache when contact info is modified
+        var cacheKey = string.Format(PERSON_CACHE_KEY, personId);
+        await _cacheService.RemoveAsync(cacheKey);
+        
         _logger.LogInformation(Messages.ContactInfo.RemovedSuccessfully, contactInfoId);
+    }
+    
+    private async Task InvalidateAllPersonsCache()
+    {
+        // Remove all cached person lists with different pagination
+        // In production, you might want to use Redis pattern matching to delete all keys with prefix
+        var commonPaginationKeys = new[]
+        {
+            $"{ALL_PERSONS_CACHE_KEY}:0:50",
+            $"{ALL_PERSONS_CACHE_KEY}:0:100",
+            $"{ALL_PERSONS_CACHE_KEY}:0:200",
+            $"{ALL_PERSONS_CACHE_KEY}:50:50",
+            $"{ALL_PERSONS_CACHE_KEY}:100:50"
+        };
+        
+        foreach (var key in commonPaginationKeys)
+        {
+            await _cacheService.RemoveAsync(key);
+        }
+        
+        _logger.LogDebug("All persons cache invalidated");
     }
 }

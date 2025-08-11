@@ -4,6 +4,7 @@ using Serilog;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using PhoneRegistry.Caching;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,7 @@ builder.Host.UseSerilog();
 // Add services to the container.
 builder.Services.AddServices(); // Bu Application + MediatR'ı da içerir
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddCaching(builder.Configuration); // Redis cache
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PhoneRegistry.Application\PhoneRegistry.Application.csproj" />
+    <ProjectReference Include="..\PhoneRegistry.Caching\PhoneRegistry.Caching.csproj" />
   </ItemGroup>
 
 </Project>
