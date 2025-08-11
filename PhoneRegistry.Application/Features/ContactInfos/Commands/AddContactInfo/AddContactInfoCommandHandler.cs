@@ -35,7 +35,14 @@ public class AddContactInfoCommandHandler : ICommandHandler<AddContactInfoComman
             throw new ArgumentException(Messages.ContactInfo.PersonNotFound.Replace("{PersonId}", command.PersonId.ToString()));
         }
 
-        var contactInfo = person.AddContactInfo(command.Type, command.Content);
+        var normalizedContent = command.Content;
+        if (command.Type == Domain.ValueObjects.ContactType.Location && string.IsNullOrWhiteSpace(normalizedContent))
+        {
+            // Location için CityId gönderiliyorsa içerik zorunlu olmasın (geriye dönük alan)
+            normalizedContent = "Location"; // minimal placeholder
+        }
+
+        var contactInfo = person.AddContactInfo(command.Type, normalizedContent);
         if (command.Type == Domain.ValueObjects.ContactType.Location)
         {
             if (command.CityId.HasValue && command.CityId.Value != Guid.Empty)
