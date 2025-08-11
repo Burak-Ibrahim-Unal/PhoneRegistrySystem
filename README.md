@@ -95,7 +95,8 @@ Phone Registry System, modern mikroservis mimarisi prensiplerine uygun olarak ge
           │       │       │
     ┌─────▼───┐ ┌─▼───┐ ┌▼──────────┐
     │PostgreSQL│ │Redis│ │RabbitMQ   │
-    │  :5432   │ │:6379│ │:5672/15672│
+    │  (Local) │ │:6379│ │:5672/15672│
+    │  :5432   │ │(Docker)│(Docker)  │
     └──────────┘ └─────┘ └───────┬───┘
                                   │
                            ┌──────▼──────┐
@@ -353,11 +354,14 @@ dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
 
 ### Benchmark Sonuçları
 
-| Operation | Avg Response Time | Throughput |
-|-----------|------------------|------------|
-| GET /persons | 45ms | 2000 req/s |
-| POST /persons | 120ms | 800 req/s |
-| Report Generation | 2-5s | Async |
+| Operation | Response Time (No Cache) | Response Time (With Cache) | Throughput |
+|-----------|-------------------------|---------------------------|------------|
+| GET /persons/{id} | 45ms | **5ms** | 2000 req/s |
+| GET /persons | 50ms | **10ms** | 1800 req/s |
+| POST /persons | 120ms | - | 800 req/s |
+| GET /reports | 40ms | **8ms** | 2200 req/s |
+| Report Generation | 2-5s | - | Async |
+| Cache Hit Rate | - | **85%** | - |
 
 ## 🔒 Güvenlik
 
