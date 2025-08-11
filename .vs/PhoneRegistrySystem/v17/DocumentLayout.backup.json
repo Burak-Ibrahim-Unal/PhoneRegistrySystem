@@ -221,8 +221,7 @@
               "RelativeToolTip": "PhoneRegistry.ReportApi\\Properties\\launchSettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-08-11T14:58:32.131Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-11T14:58:32.131Z"
             },
             {
               "$type": "Document",
@@ -355,8 +354,7 @@
               "RelativeToolTip": "PhoneRegistry.Services\\Implementations\\ReportService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAASwBAAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-10T08:44:46.6Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-10T08:44:46.6Z"
             },
             {
               "$type": "Document",
@@ -452,8 +450,7 @@
               "RelativeToolTip": "PhoneRegistry.Application\\Features\\Reports\\Commands\\RequestReport\\RequestReportCommandHandler.cs",
               "ViewState": "AgIAABEAAAAAAAAAAAAAwBgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-09T10:06:12.856Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-09T10:06:12.856Z"
             },
             {
               "$type": "Document",
@@ -501,8 +498,7 @@
               "RelativeToolTip": "PhoneRegistry.Application\\Features\\Reports\\Queries\\GetReportById\\GetReportByIdQueryHandler.cs",
               "ViewState": "AgIAAAgAAAAAAAAAAAAxwBkAAAA8AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-10T08:35:38.455Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-10T08:35:38.455Z"
             },
             {
               "$type": "Document",

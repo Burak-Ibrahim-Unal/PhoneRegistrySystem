@@ -4,6 +4,7 @@ using PhoneRegistry.Application.Common.Constants;
 using PhoneRegistry.Domain.Repositories;
 using PhoneRegistry.Application.Common.Interfaces;
 using PhoneRegistry.Application.Common.Messaging;
+using PhoneRegistry.Domain.Common.Constants;
 
 namespace PhoneRegistry.Application.Features.ContactInfos.Commands.RemoveContactInfo;
 
@@ -42,7 +43,7 @@ public class RemoveContactInfoCommandHandler : IRequestHandler<RemoveContactInfo
         // Soft delete the contact info
         contactInfo.SoftDelete();
         var evt = new ContactInfoDeleted(person.Id, contactInfo.Id);
-        await _outbox.EnqueueAsync("ContactInfoDeleted", evt, cancellationToken);
+        await _outbox.EnqueueAsync(MessagingConstants.EventTypes.ContactInfoDeleted, evt, cancellationToken);
         await _contactUnitOfWork.SaveChangesAsync(cancellationToken);
 
         _logger.LogInformation(Messages.ContactInfo.RemovedSuccessfully, command.ContactInfoId);

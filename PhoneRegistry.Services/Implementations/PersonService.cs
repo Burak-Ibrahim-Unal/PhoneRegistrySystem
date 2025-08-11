@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using PhoneRegistry.Application.Common.Constants;
+using PhoneRegistry.Application.Common.Helpers;
 using PhoneRegistry.Domain.Entities;
 using PhoneRegistry.Application.Features.Persons.Commands.CreatePerson;
 using PhoneRegistry.Application.Features.Persons.Commands.DeletePerson;
@@ -19,9 +20,8 @@ public class PersonService : IPersonService
     private readonly IMediator _mediator;
     private readonly ILogger<PersonService> _logger;
     private readonly ICacheService _cacheService;
-    private const string PERSON_CACHE_KEY = "person:{0}";
-    private const string ALL_PERSONS_CACHE_KEY = "all_persons";
     private readonly TimeSpan _cacheExpiration = TimeSpan.FromMinutes(5);
+    private readonly TimeSpan _listCacheExpiration = TimeSpan.FromMinutes(2);
 
     public PersonService(IMediator mediator, ILogger<PersonService> logger, ICacheService cacheService)
     {
@@ -55,7 +55,7 @@ public class PersonService : IPersonService
         _logger.LogInformation(Messages.Person.GettingById, personId);
 
         // Try to get from cache first
-        var cacheKey = string.Format(PERSON_CACHE_KEY, personId);
+        var cacheKey = CacheKeyHelper.GetPersonByIdKey(personId);
         var cachedPerson = await _cacheService.GetAsync<Person>(cacheKey);
         
         if (cachedPerson != null)
@@ -87,7 +87,7 @@ public class PersonService : IPersonService
         _logger.LogInformation(Messages.Person.GettingAll, skip, take);
 
         // Create cache key with pagination parameters
-        var cacheKey = $"{ALL_PERSONS_CACHE_KEY}:{skip}:{take}";
+        var cacheKey = CacheKeyHelper.GetAllPersonsKey(skip, take);
         var cachedPersons = await _cacheService.GetAsync<List<Person>>(cacheKey);
         
         if (cachedPersons != null)
@@ -100,7 +100,7 @@ public class PersonService : IPersonService
         var result = await _mediator.Send(query, cancellationToken);
         
         // Cache the result
-        await _cacheService.SetAsync(cacheKey, result, TimeSpan.FromMinutes(2)); // Shorter expiration for lists
+        await _cacheService.SetAsync(cacheKey, result, _listCacheExpiration);
 
         _logger.LogInformation(Messages.Person.RetrievedSuccessfully);
         return result;
@@ -114,7 +114,7 @@ public class PersonService : IPersonService
         await _mediator.Send(command, cancellationToken);
         
         // Invalidate caches
-        var cacheKey = string.Format(PERSON_CACHE_KEY, personId);
+        var cacheKey = CacheKeyHelper.GetPersonByIdKey(personId);
         await _cacheService.RemoveAsync(cacheKey);
         await InvalidateAllPersonsCache();
 
@@ -136,7 +136,7 @@ public class PersonService : IPersonService
         var result = await _mediator.Send(command, cancellationToken);
         
         // Invalidate person cache when contact info is modified
-        var cacheKey = string.Format(PERSON_CACHE_KEY, personId);
+        var cacheKey = CacheKeyHelper.GetPersonByIdKey(personId);
         await _cacheService.RemoveAsync(cacheKey);
         
         _logger.LogInformation(Messages.ContactInfo.AddedSuccessfully);
@@ -156,7 +156,7 @@ public class PersonService : IPersonService
         await _mediator.Send(command, cancellationToken);
         
         // Invalidate person cache when contact info is modified
-        var cacheKey = string.Format(PERSON_CACHE_KEY, personId);
+        var cacheKey = CacheKeyHelper.GetPersonByIdKey(personId);
         await _cacheService.RemoveAsync(cacheKey);
         
         _logger.LogInformation(Messages.ContactInfo.RemovedSuccessfully, contactInfoId);
@@ -168,11 +168,11 @@ public class PersonService : IPersonService
         // In production, you might want to use Redis pattern matching to delete all keys with prefix
         var commonPaginationKeys = new[]
         {
-            $"{ALL_PERSONS_CACHE_KEY}:0:50",
-            $"{ALL_PERSONS_CACHE_KEY}:0:100",
-            $"{ALL_PERSONS_CACHE_KEY}:0:200",
-            $"{ALL_PERSONS_CACHE_KEY}:50:50",
-            $"{ALL_PERSONS_CACHE_KEY}:100:50"
+            CacheKeyHelper.GetAllPersonsKey(0, 50),
+            CacheKeyHelper.GetAllPersonsKey(0, 100),
+            CacheKeyHelper.GetAllPersonsKey(0, 200),
+            CacheKeyHelper.GetAllPersonsKey(50, 50),
+            CacheKeyHelper.GetAllPersonsKey(100, 50)
         };
         
         foreach (var key in commonPaginationKeys)

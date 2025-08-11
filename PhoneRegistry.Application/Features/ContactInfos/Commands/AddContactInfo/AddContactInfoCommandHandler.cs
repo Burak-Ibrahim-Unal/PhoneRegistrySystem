@@ -4,7 +4,7 @@ using PhoneRegistry.Application.Common.Interfaces;
 using PhoneRegistry.Domain.Entities;
 using PhoneRegistry.Domain.Repositories;
 using PhoneRegistry.Application.Common.Messaging;
-using PhoneRegistry.Application.Common.Interfaces;
+using PhoneRegistry.Domain.Common.Constants;
 using System.Text.Json;
 
 namespace PhoneRegistry.Application.Features.ContactInfos.Commands.AddContactInfo;
@@ -60,7 +60,7 @@ public class AddContactInfoCommandHandler : ICommandHandler<AddContactInfoComman
             (int)command.Type,
             command.Content,
             command.CityId?.ToString());
-        await _outbox.EnqueueAsync("ContactInfoUpserted", evt, cancellationToken);
+        await _outbox.EnqueueAsync(MessagingConstants.EventTypes.ContactInfoUpserted, evt, cancellationToken);
         
         await _contactUnitOfWork.SaveChangesAsync(cancellationToken);
 

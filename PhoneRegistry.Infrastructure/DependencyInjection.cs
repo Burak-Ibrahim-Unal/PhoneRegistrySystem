@@ -5,7 +5,6 @@ using PhoneRegistry.Messaging.Interfaces;
 using PhoneRegistry.Domain.Repositories;
 using PhoneRegistry.Infrastructure.Data;
 using PhoneRegistry.Infrastructure.Repositories;
-using PhoneRegistry.Messaging.Interfaces;
 using PhoneRegistry.Messaging.Services;
 using StackExchange.Redis;
 using PhoneRegistry.Infrastructure.Services;

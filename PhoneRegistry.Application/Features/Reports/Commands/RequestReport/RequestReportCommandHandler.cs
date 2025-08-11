@@ -5,6 +5,7 @@ using PhoneRegistry.Messaging.Interfaces;
 using PhoneRegistry.Messaging.Models;
 using PhoneRegistry.Domain.Entities;
 using PhoneRegistry.Domain.Repositories;
+using PhoneRegistry.Domain.Common.Constants;
 
 namespace PhoneRegistry.Application.Features.Reports.Commands.RequestReport;
 
@@ -37,7 +38,7 @@ public class RequestReportCommandHandler : ICommandHandler<RequestReportCommand,
 
         // Publish message to RabbitMQ for async processing
         var message = new ReportRequestMessage(report.Id, report.RequestedAt);
-        await _messagePublisher.PublishAsync(message, "report-processing-queue", cancellationToken);
+        await _messagePublisher.PublishAsync(message, MessagingConstants.Queues.ReportProcessing, cancellationToken);
         
         _logger.LogInformation("Report request message published to queue for Report {ReportId}", report.Id);
 

@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using PhoneRegistry.Application.Common.Constants;
+using PhoneRegistry.Application.Common.Helpers;
 using PhoneRegistry.Domain.Entities;
 using PhoneRegistry.Application.Features.Reports.Commands.RequestReport;
 using PhoneRegistry.Application.Features.Reports.Queries.GetAllReports;
@@ -15,9 +16,8 @@ public class ReportService : IReportService
     private readonly IMediator _mediator;
     private readonly ILogger<ReportService> _logger;
     private readonly ICacheService _cacheService;
-    private const string REPORT_CACHE_KEY = "report:{0}";
-    private const string ALL_REPORTS_CACHE_KEY = "all_reports";
     private readonly TimeSpan _cacheExpiration = TimeSpan.FromMinutes(5);
+    private readonly TimeSpan _listCacheExpiration = TimeSpan.FromMinutes(2);
 
     public ReportService(IMediator mediator, ILogger<ReportService> logger, ICacheService cacheService)
     {
@@ -34,7 +34,7 @@ public class ReportService : IReportService
         var result = await _mediator.Send(command, cancellationToken);
         
         // Invalidate all reports cache when a new report is requested
-        await _cacheService.RemoveAsync(ALL_REPORTS_CACHE_KEY);
+        await _cacheService.RemoveAsync(CacheKeyHelper.GetAllReportsKey());
 
         _logger.LogInformation(Messages.Report.RequestedSuccessfully);
         return result;
@@ -45,7 +45,7 @@ public class ReportService : IReportService
         _logger.LogInformation(Messages.Report.GettingAll);
         
         // Try to get from cache first
-        var cachedReports = await _cacheService.GetAsync<List<Report>>(ALL_REPORTS_CACHE_KEY);
+        var cachedReports = await _cacheService.GetAsync<List<Report>>(CacheKeyHelper.GetAllReportsKey());
         
         if (cachedReports != null)
         {
@@ -57,7 +57,7 @@ public class ReportService : IReportService
         var result = await _mediator.Send(query, cancellationToken);
         
         // Cache the result
-        await _cacheService.SetAsync(ALL_REPORTS_CACHE_KEY, result, TimeSpan.FromMinutes(2));
+        await _cacheService.SetAsync(CacheKeyHelper.GetAllReportsKey(), result, _listCacheExpiration);
         
         _logger.LogInformation("Retrieved {Count} reports", result.Count);
         return result;
@@ -68,7 +68,7 @@ public class ReportService : IReportService
         _logger.LogInformation(Messages.Report.GettingById, reportId);
         
         // Try to get from cache first
-        var cacheKey = string.Format(REPORT_CACHE_KEY, reportId);
+        var cacheKey = CacheKeyHelper.GetReportByIdKey(reportId);
         var cachedReport = await _cacheService.GetAsync<Report>(cacheKey);
         
         if (cachedReport != null)
