@@ -13,20 +13,20 @@ namespace PhoneRegistry.WorkerService.Services;
 
 public class ReportProcessingService : IMessageConsumer<ReportRequestMessage>
 {
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly PhoneRegistryDbContext _context;
+    private readonly IReportUnitOfWork _reportUnitOfWork;
+    private readonly ReportDbContext _context;
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly IConfiguration _configuration;
     private readonly ILogger<ReportProcessingService> _logger;
 
     public ReportProcessingService(
-        IUnitOfWork unitOfWork,
-        PhoneRegistryDbContext context,
+        IReportUnitOfWork reportUnitOfWork,
+        ReportDbContext context,
         IHttpClientFactory httpClientFactory,
         IConfiguration configuration,
         ILogger<ReportProcessingService> logger)
     {
-        _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+        _reportUnitOfWork = reportUnitOfWork ?? throw new ArgumentNullException(nameof(reportUnitOfWork));
         _context = context ?? throw new ArgumentNullException(nameof(context));
         _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
         _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
@@ -57,7 +57,7 @@ public class ReportProcessingService : IMessageConsumer<ReportRequestMessage>
         _context.ChangeTracker.Clear();
         
         // Report'u getir
-        var report = await _unitOfWork.Reports.GetByIdAsync(reportId, cancellationToken);
+        var report = await _reportUnitOfWork.Reports.GetByIdAsync(reportId, cancellationToken);
         if (report == null)
         {
             _logger.LogError("Report not found: {ReportId}", reportId);
@@ -80,7 +80,7 @@ public class ReportProcessingService : IMessageConsumer<ReportRequestMessage>
         }
 
         // Veritabanını güncelle
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        await _reportUnitOfWork.SaveChangesAsync(cancellationToken);
 
         _logger.LogInformation("Report {ReportId} completed successfully with {LocationCount} locations", 
             reportId, locationStatistics.Count);
@@ -92,11 +92,11 @@ public class ReportProcessingService : IMessageConsumer<ReportRequestMessage>
         {
             // Stale tracking'i temizle ve raporu tekrar yükleyip sadece hala Preparing ise fail'e çek
             _context.ChangeTracker.Clear();
-            var report = await _unitOfWork.Reports.GetByIdAsync(reportId, cancellationToken);
+            var report = await _reportUnitOfWork.Reports.GetByIdAsync(reportId, cancellationToken);
             if (report != null && report.Status == ReportStatus.Preparing)
             {
                 report.FailReport(ex.Message);
-                await _unitOfWork.SaveChangesAsync(cancellationToken);
+                await _reportUnitOfWork.SaveChangesAsync(cancellationToken);
             }
             else if (report != null)
             {
@@ -114,9 +114,7 @@ public class ReportProcessingService : IMessageConsumer<ReportRequestMessage>
     {
         _logger.LogInformation("Calculating location statistics via Contact API...");
 
-        var baseUrl = _configuration["ContactApi:BaseUrl"] ?? "http://localhost:5000";
         var client = _httpClientFactory.CreateClient("contact-api");
-        client.BaseAddress = new Uri(baseUrl);
 
         var allPersons = new List<PersonDto>();
         int skip = 0;

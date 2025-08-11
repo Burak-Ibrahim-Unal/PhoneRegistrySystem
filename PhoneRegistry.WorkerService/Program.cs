@@ -42,7 +42,12 @@ static IAsyncPolicy<HttpResponseMessage> GetCircuitBreakerPolicy() => HttpPolicy
     .HandleTransientHttpError()
     .CircuitBreakerAsync(5, TimeSpan.FromSeconds(30));
 
-builder.Services.AddHttpClient("contact-api")
+builder.Services.AddHttpClient("contact-api", client =>
+    {
+        var baseUrl = builder.Configuration["ContactApi:BaseUrl"] ?? "http://localhost:5297";
+        client.BaseAddress = new Uri(baseUrl);
+        client.DefaultRequestHeaders.Add("Accept", "application/json");
+    })
     .AddPolicyHandler(GetRetryPolicy())
     .AddPolicyHandler(GetCircuitBreakerPolicy());
 
