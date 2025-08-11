@@ -5,6 +5,7 @@ using PhoneRegistry.Domain.Entities;
 using PhoneRegistry.Messaging.Services;
 using System.Text.Json;
 using PhoneRegistry.Infrastructure.Repositories;
+using PhoneRegistry.Messaging.Interfaces;
 
 namespace PhoneRegistry.Infrastructure.Services;
 
@@ -12,13 +13,11 @@ public class OutboxPublisher : BackgroundService
 {
     private readonly IServiceProvider _services;
     private readonly ILogger<OutboxPublisher> _logger;
-    private readonly RabbitMQPublisher _publisher;
 
-    public OutboxPublisher(IServiceProvider services, ILogger<OutboxPublisher> logger, RabbitMQPublisher publisher)
+    public OutboxPublisher(IServiceProvider services, ILogger<OutboxPublisher> logger)
     {
         _services = services;
         _logger = logger;
-        _publisher = publisher;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -29,6 +28,7 @@ public class OutboxPublisher : BackgroundService
             {
                 using var scope = _services.CreateScope();
                 var repo = scope.ServiceProvider.GetRequiredService<OutboxRepository>();
+                var publisher = scope.ServiceProvider.GetRequiredService<IMessagePublisher>();
                 var pending = await repo.GetPendingBatchAsync(100, stoppingToken);
                 foreach (var msg in pending)
                 {
@@ -36,7 +36,7 @@ public class OutboxPublisher : BackgroundService
                     {
                         msg.MarkProcessing();
                         var queue = ResolveQueueName(msg.EventType);
-                        await _publisher.PublishAsync(JsonSerializer.Deserialize<object>(msg.Payload)!, queue, stoppingToken);
+                        await publisher.PublishAsync(JsonSerializer.Deserialize<object>(msg.Payload)!, queue, stoppingToken);
                         msg.MarkPublished();
                     }
                     catch (Exception ex)

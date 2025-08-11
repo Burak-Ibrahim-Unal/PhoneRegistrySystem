@@ -54,6 +54,7 @@ public class ContactDbContext : DbContext
         {
             entity.ToTable("Outbox");
             entity.HasKey(e => e.Id);
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.EventType).IsRequired().HasMaxLength(200);
             entity.Property(e => e.Payload).IsRequired();
         });

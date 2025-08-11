@@ -77,7 +77,7 @@ public class PersonService : IPersonService
         _logger.LogInformation(Messages.Person.DeletedSuccessfully, personId);
     }
 
-    public async Task<ContactInfo> AddContactInfoAsync(Guid personId, int contactType, string content, CancellationToken cancellationToken = default)
+    public async Task<ContactInfo> AddContactInfoAsync(Guid personId, int contactType, string content, Guid? cityId = null, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation(Messages.ContactInfo.Adding, personId, contactType);
 
@@ -85,7 +85,8 @@ public class PersonService : IPersonService
         {
             PersonId = personId,
             Type = (ContactType)contactType,
-            Content = content
+            Content = content,
+            CityId = cityId
         };
 
         var result = await _mediator.Send(command, cancellationToken);

@@ -9,4 +9,5 @@ public class AddContactInfoCommand : ICommand<ContactInfo>
     public Guid PersonId { get; set; }
     public ContactType Type { get; set; }
     public string Content { get; set; } = string.Empty;
+    public Guid? CityId { get; set; }
 }

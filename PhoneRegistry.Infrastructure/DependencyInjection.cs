@@ -23,6 +23,9 @@ public static class DependencyInjection
             options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
         services.AddDbContext<ReportDbContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+        // Composite context (for migrations/seeding across both schemas)
+        services.AddDbContext<PhoneRegistryDbContext>(options =>
+            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
         // Repositories
         services.AddScoped<IPersonRepository, PersonRepository>();

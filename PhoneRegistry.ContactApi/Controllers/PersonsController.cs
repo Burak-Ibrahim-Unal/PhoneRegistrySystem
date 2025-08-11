@@ -69,7 +69,7 @@ public class PersonsController : ControllerBase
     {
         try
         {
-            var result = await _personService.AddContactInfoAsync(id, request.Type, request.Content);
+            var result = await _personService.AddContactInfoAsync(id, request.Type, request.Content, request.CityId);
             return Ok(result);
         }
         catch (ArgumentException ex)
@@ -102,6 +102,7 @@ public class AddContactInfoRequest
 {
     public int Type { get; set; }
     public string Content { get; set; } = string.Empty;
+    public Guid? CityId { get; set; }
 }
 
 public class PersonDto

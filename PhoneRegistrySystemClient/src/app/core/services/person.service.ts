@@ -39,5 +39,11 @@ export class PersonService {
   removeContactInfo(personId: string, contactInfoId: string): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${personId}/contact-infos/${contactInfoId}`);
   }
+
+  // Cities
+  getCities(): Observable<{ id: string; name: string }[]> {
+    const url = `${environment.contactApiUrl}/api/cities`;
+    return this.http.get<{ id: string; name: string }[]>(url);
+  }
 }
 

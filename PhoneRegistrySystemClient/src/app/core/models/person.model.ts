@@ -38,6 +38,7 @@ export interface CreatePersonRequest {
 export interface AddContactInfoRequest {
   type: ContactType;
   content: string;
+  cityId?: string | null;
 }
 
 export const ContactTypeLabels = {

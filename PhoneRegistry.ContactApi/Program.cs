@@ -9,6 +9,7 @@ using OpenTelemetry.Trace;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using PhoneRegistry.Infrastructure.Repositories;
 using PhoneRegistry.Infrastructure.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -52,13 +53,17 @@ builder.Services.AddCors(options =>
     });
     
     options.AddPolicy("AllowAngular", policy =>
-{
-    policy.WithOrigins("http://localhost:4300", "http://127.0.0.1:4300", "https://localhost:4300", "https://127.0.0.1:4300")
-          .AllowAnyHeader()
-          .AllowAnyMethod()
-          .AllowCredentials();
+    {
+        policy.WithOrigins("http://localhost:4300", "http://127.0.0.1:4300", "https://localhost:4300", "https://127.0.0.1:4300")
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
+    });
 });
-});
+
+// Register Outbox publisher background service (Build'ten ÖNCE)
+builder.Services.AddScoped<OutboxRepository>();
+builder.Services.AddHostedService<OutboxPublisher>();
 
 var app = builder.Build();
 
@@ -75,14 +80,18 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapHealthChecks("/health");
 
-// Register Outbox publisher background service
-builder.Services.AddScoped<OutboxRepository>();
-builder.Services.AddHostedService<OutboxPublisher>();
-
-// Seed default cities on startup
+// Auto-migrate and Seed default data on startup
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
+
+    // Apply migrations for both contexts
+    var contactDb = services.GetRequiredService<ContactDbContext>();
+    await contactDb.Database.MigrateAsync();
+    var reportDb = services.GetRequiredService<ReportDbContext>();
+    await reportDb.Database.MigrateAsync();
+
+    // Seed combined context data
     var context = services.GetRequiredService<PhoneRegistryDbContext>();
     var logger = services.GetService<ILoggerFactory>()?.CreateLogger("DbSeeder");
     await DbSeeder.SeedCitiesAsync(context, logger);

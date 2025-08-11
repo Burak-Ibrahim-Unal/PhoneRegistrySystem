@@ -167,7 +167,7 @@ import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialo
                     </mat-select>
                   </mat-form-field>
 
-                  <mat-form-field appearance="fill" class="content-field">
+                  <mat-form-field appearance="fill" class="content-field" *ngIf="contactForm.get('type')?.value !== ContactType.Location">
                     <mat-label>İçerik</mat-label>
                     <input matInput formControlName="content" [placeholder]="getPlaceholder()">
                     <mat-error *ngIf="contactForm.get('content')?.hasError('required')">
@@ -176,6 +176,13 @@ import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialo
                     <mat-error *ngIf="contactForm.get('content')?.hasError('email')">
                       Geçerli bir e-posta adresi girin
                     </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="fill" class="content-field" *ngIf="contactForm.get('type')?.value === ContactType.Location">
+                    <mat-label>Şehir</mat-label>
+                    <mat-select formControlName="cityId">
+                      <mat-option *ngFor="let c of cities" [value]="c.id">{{c.name}}</mat-option>
+                    </mat-select>
                   </mat-form-field>
 
                   <button 
@@ -461,6 +468,7 @@ export class PersonDetailComponent implements OnInit {
   loading = false;
   addingContact = false;
   contactForm: FormGroup;
+  cities: { id: string, name: string }[] = [];
   
   // Expose enums and constants to template
   ContactType = ContactType;
@@ -477,18 +485,29 @@ export class PersonDetailComponent implements OnInit {
   ) {
     this.contactForm = this.fb.group({
       type: [ContactType.PhoneNumber, Validators.required],
-      content: ['', Validators.required]
+      content: ['', Validators.required],
+      cityId: [null]
     });
 
     // Update validators based on contact type
     this.contactForm.get('type')?.valueChanges.subscribe(type => {
       const contentControl = this.contactForm.get('content');
+      const cityControl = this.contactForm.get('cityId');
       if (type === ContactType.EmailAddress) {
         contentControl?.setValidators([Validators.required, Validators.email]);
+        cityControl?.clearValidators();
+        cityControl?.setValue(null);
+      } else if (type === ContactType.Location) {
+        contentControl?.clearValidators();
+        contentControl?.setValue('');
+        cityControl?.setValidators([Validators.required]);
       } else {
         contentControl?.setValidators([Validators.required]);
+        cityControl?.clearValidators();
+        cityControl?.setValue(null);
       }
       contentControl?.updateValueAndValidity();
+      cityControl?.updateValueAndValidity();
     });
   }
 
@@ -496,9 +515,17 @@ export class PersonDetailComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.loadPerson(id);
+      this.loadCities();
     } else {
       this.router.navigate(['/persons']);
     }
+  }
+
+  loadCities(): void {
+    this.personService.getCities().subscribe({
+      next: list => this.cities = list,
+      error: _ => this.cities = []
+    });
   }
 
   loadPerson(id: string): void {
@@ -522,7 +549,8 @@ export class PersonDetailComponent implements OnInit {
       
       const request: AddContactInfoRequest = {
         type: this.contactForm.value.type,
-        content: this.contactForm.value.content.trim()
+        content: (this.contactForm.value.content || '').trim(),
+        cityId: this.contactForm.value.type === ContactType.Location ? this.contactForm.value.cityId : null
       };
 
       this.personService.addContactInfo(this.person.id, request).subscribe({

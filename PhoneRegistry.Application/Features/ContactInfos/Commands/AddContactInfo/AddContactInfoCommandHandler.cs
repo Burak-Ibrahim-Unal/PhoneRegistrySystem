@@ -36,10 +36,23 @@ public class AddContactInfoCommandHandler : ICommandHandler<AddContactInfoComman
         }
 
         var contactInfo = person.AddContactInfo(command.Type, command.Content);
+        if (command.Type == Domain.ValueObjects.ContactType.Location)
+        {
+            if (command.CityId.HasValue && command.CityId.Value != Guid.Empty)
+            {
+                contactInfo.SetCity(command.CityId.Value);
+            }
+        }
         
         // EF Core'a bu entity'nin yeni olduğunu söyle
         await _contactUnitOfWork.ContactInfos.AddAsync(contactInfo, cancellationToken);
-        var evt = new ContactInfoUpserted(person.Id, contactInfo.Id, (int)command.Type, command.Content, null);
+        // CityId Guid? → event payload beklenen alan string? ise uygun forma dönüştür
+        var evt = new ContactInfoUpserted(
+            person.Id,
+            contactInfo.Id,
+            (int)command.Type,
+            command.Content,
+            command.CityId?.ToString());
         await _outbox.EnqueueAsync("ContactInfoUpserted", evt, cancellationToken);
         
         await _contactUnitOfWork.SaveChangesAsync(cancellationToken);

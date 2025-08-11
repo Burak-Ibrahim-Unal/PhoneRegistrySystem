@@ -14,15 +14,18 @@ public class CreatePersonCommandHandler : ICommandHandler<CreatePersonCommand, P
     private readonly IContactUnitOfWork _contactUnitOfWork;
     private readonly IValidator<CreatePersonCommand> _validator;
     private readonly ILogger<CreatePersonCommandHandler> _logger;
+    private readonly IOutboxWriter _outbox;
 
     public CreatePersonCommandHandler(
         IContactUnitOfWork contactUnitOfWork,
         IValidator<CreatePersonCommand> validator,
-        ILogger<CreatePersonCommandHandler> logger)
+        ILogger<CreatePersonCommandHandler> logger,
+        IOutboxWriter outbox)
     {
         _contactUnitOfWork = contactUnitOfWork;
         _validator = validator;
         _logger = logger;
+        _outbox = outbox;
     }
 
     public async Task<Person> Handle(CreatePersonCommand command, CancellationToken cancellationToken = default)
@@ -40,8 +43,7 @@ public class CreatePersonCommandHandler : ICommandHandler<CreatePersonCommand, P
         await _contactUnitOfWork.Persons.AddAsync(person, cancellationToken);
         // Outbox write (same transaction boundary)
         var evt = new PersonUpserted(person.Id, person.FirstName, person.LastName, person.Company);
-        var outbox = new OutboxMessage("PersonUpserted", JsonSerializer.Serialize(evt));
-        await (_contactUnitOfWork as dynamic)._context.OutboxMessages.AddAsync(outbox, cancellationToken);
+        await _outbox.EnqueueAsync("PersonUpserted", evt, cancellationToken);
         await _contactUnitOfWork.SaveChangesAsync(cancellationToken);
 
         _logger.LogInformation(Messages.Person.CreatedSuccessfully);
