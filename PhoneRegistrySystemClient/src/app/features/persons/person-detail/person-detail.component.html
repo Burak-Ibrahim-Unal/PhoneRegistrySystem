@@ -1,0 +1,155 @@
+<div class="person-detail-container fade-in">
+  <div class="header-section">
+    <button mat-icon-button routerLink="/persons" class="back-btn">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div class="title-section" *ngIf="person">
+      <h1 class="page-title">
+        <mat-icon class="title-icon">person</mat-icon>
+        {{person.firstName}} {{person.lastName}}
+      </h1>
+      <p class="subtitle" *ngIf="person.company">{{person.company}}</p>
+    </div>
+    <div class="actions">
+      <button mat-button color="warn" (click)="deletePerson()" [disabled]="loading">
+        <mat-icon>delete</mat-icon>
+        Sil
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading && !person" class="loading-container">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Kişi bilgileri yükleniyor...</p>
+  </div>
+
+  <!-- Person Details -->
+  <div *ngIf="person" class="content-grid">
+    <!-- Person Info Card -->
+    <mat-card class="person-info-card custom-card">
+      <mat-card-header>
+        <div mat-card-avatar class="person-avatar">
+          <mat-icon>person</mat-icon>
+        </div>
+        <mat-card-title>Kişi Bilgileri</mat-card-title>
+        <mat-card-subtitle>Temel bilgiler</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="info-item">
+          <mat-icon class="info-icon">badge</mat-icon>
+          <div class="info-content">
+            <span class="info-label">Ad Soyad</span>
+            <span class="info-value">{{person.firstName}} {{person.lastName}}</span>
+          </div>
+        </div>
+        <div class="info-item" *ngIf="person.company">
+          <mat-icon class="info-icon">business</mat-icon>
+          <div class="info-content">
+            <span class="info-label">Şirket</span>
+            <span class="info-value">{{person.company}}</span>
+          </div>
+        </div>
+        <div class="info-item">
+          <mat-icon class="info-icon">schedule</mat-icon>
+          <div class="info-content">
+            <span class="info-label">Oluşturma Tarihi</span>
+            <span class="info-value">{{person.createdAt | date:'dd.MM.yyyy HH:mm'}}</span>
+          </div>
+        </div>
+        <div class="info-item">
+          <mat-icon class="info-icon">update</mat-icon>
+          <div class="info-content">
+            <span class="info-label">Son Güncelleme</span>
+            <span class="info-value">{{person.updatedAt | date:'dd.MM.yyyy HH:mm'}}</span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Contact Info Card -->
+    <mat-card class="contact-info-card custom-card">
+      <mat-card-header>
+        <div mat-card-avatar class="contact-avatar">
+          <mat-icon>contact_phone</mat-icon>
+        </div>
+        <mat-card-title>İletişim Bilgileri</mat-card-title>
+        <mat-card-subtitle>{{person.contactInfos.length}} iletişim bilgisi</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <!-- Contact List -->
+        <div *ngIf="person.contactInfos.length > 0" class="contact-list">
+          <div *ngFor="let contact of person.contactInfos" class="contact-item">
+            <div class="contact-main">
+              <mat-icon class="contact-type-icon">{{getContactTypeIcon(contact.type)}}</mat-icon>
+              <div class="contact-details">
+                <span class="contact-type">{{getContactTypeLabel(contact.type)}}</span>
+                <span class="contact-content">{{contact.content}}</span>
+              </div>
+            </div>
+            <button mat-icon-button color="warn" (click)="removeContactInfo(contact)" class="remove-btn">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <!-- Empty State -->
+        <div *ngIf="person.contactInfos.length === 0" class="empty-contacts">
+          <mat-icon class="empty-icon">contact_phone</mat-icon>
+          <p>Henüz iletişim bilgisi eklenmemiş</p>
+        </div>
+
+        <mat-divider class="divider"></mat-divider>
+
+        <!-- Add Contact Form (Telefon + Lokasyon birlikte eklenebilir) -->
+        <div class="add-contact-section">
+          <h3 class="section-title">Yeni İletişim Bilgisi Ekle</h3>
+          <form [formGroup]="contactForm" (ngSubmit)="addContactInfo()" class="contact-form">
+            <div class="form-row">
+              <mat-form-field appearance="fill" class="type-field">
+                <mat-label>Tür</mat-label>
+                <mat-select formControlName="type">
+                  <mat-option [value]="ContactType.PhoneNumber">Telefon</mat-option>
+                  <mat-option [value]="ContactType.EmailAddress">E‑posta</mat-option>
+                  <mat-option [value]="ContactType.Location">Konum</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <!-- İçerik (Telefon/E‑posta) -->
+              <mat-form-field appearance="fill" class="content-field" *ngIf="contactForm.get('type')?.value !== ContactType.Location">
+                <mat-label>İçerik</mat-label>
+                <input matInput formControlName="content" [placeholder]="getPlaceholder()">
+              </mat-form-field>
+
+              <!-- Aynı anda Telefon ekleme alanı -->
+              <mat-form-field appearance="fill" class="content-field">
+                <mat-label>Telefon (opsiyonel)</mat-label>
+                <input matInput formControlName="phone" placeholder="Örn: +90 555 123 45 67">
+              </mat-form-field>
+
+              <!-- Konum için Şehir seçimi -->
+              <mat-form-field appearance="fill" class="content-field">
+                <mat-label>Şehir (opsiyonel)</mat-label>
+                <mat-select formControlName="cityId">
+                  <mat-option [value]="null">Seçiniz…</mat-option>
+                  <mat-option *ngFor="let c of cities" [value]="c.id">{{c.name}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <button 
+                type="submit" 
+                mat-raised-button 
+                color="primary" 
+                class="add-btn"
+                [disabled]="addingContact">
+                <mat-spinner diameter="20" *ngIf="addingContact"></mat-spinner>
+                <mat-icon *ngIf="!addingContact">add</mat-icon>
+                {{ addingContact ? 'Ekleniyor...' : 'Ekle' }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
